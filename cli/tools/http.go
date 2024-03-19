@@ -1,30 +1,5 @@
+// package tools
 package tools
-
-// import (
-// 	"io"
-// 	"net/http"
-// )
-
-// // Client is an interface for making HTTP requests
-// type Client interface {
-// 	Get(url string) (*http.Response, error)
-// 	Post(url, contentType string, body io.Reader) (*http.Response, error)
-// 	// Add other HTTP methods as needed
-// }
-
-// // DefaultClient implements the Client interface using net/http
-// type DefaultClient struct{}
-
-// func (c *DefaultClient) Get(url string) (*http.Response, error) {
-// 	return http.Get(url)
-// }
-
-// func (c *DefaultClient) Post(url, contentType string, body io.Reader) (*http.Response, error) {
-// 	return http.Post(url, contentType, body)
-// }
-
-// // package httpclient is a wrapper for http.Client
-// package httpclient
 
 import (
 	"io"
