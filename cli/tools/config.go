@@ -10,25 +10,22 @@ import (
 	"github.com/spf13/viper"
 )
 
-
-
 type Config struct {
 	OpenAIKey string `mapstructure:"OpenAIKey"`
-	Username string `mapstructire:"Username"`
+	Username  string `mapstructire:"Username"`
 }
-
 
 var defaultConfig = Config{
 	OpenAIKey: "",
-	Username: "",
+	Username:  "",
 }
 
 const (
 	configDir = ".vx"
-	pathFile = "%s/%s"
+	pathFile  = "%s/%s"
 )
 
-// CheckConfigPath checks if the config directory exists 
+// CheckConfigPath checks if the config directory exists
 func CheckConfigPath() bool {
 	home, err := os.UserHomeDir()
 	if err != nil {
@@ -40,7 +37,6 @@ func CheckConfigPath() bool {
 	}
 	return true
 }
-
 
 // InitConfig reads in config file and ENV variables if set.
 func InitConfig() {
@@ -70,8 +66,7 @@ func InitConfig() {
 	}
 }
 
-
 // createConfigPath creates the .vx config path in the users $HOME directory
-func createConfigPath(){
+func createConfigPath() {
 
 }
