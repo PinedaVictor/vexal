@@ -1,12 +1,12 @@
 "use client";
 import { useState } from "react";
 import { Menu } from "@headlessui/react";
-import {
-  Bars3Icon,
-  BellIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/24/outline";
-import { UserButton } from "@clerk/nextjs";
+// import {
+//   Bars3Icon,
+//   BellIcon,
+//   MagnifyingGlassIcon,
+// } from "@heroicons/react/24/outline";
+// import { UserButton } from "@clerk/nextjs";
 import { MobileDrawer, Sidebar } from "../atomic/organisms";
 
 type props = {

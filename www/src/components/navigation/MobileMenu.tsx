@@ -18,7 +18,7 @@ export const MobileMenu: React.FC<props> = (props) => {
                   key={item.name}
                   name={item.name}
                   href={item.href}
-                  icon={item.icon}
+                  // icon={item.icon}
                 />
               ))}
             </ul>
@@ -29,7 +29,7 @@ export const MobileMenu: React.FC<props> = (props) => {
             </div>
             <ul role="list" className="-mx-2 mt-2 space-y-1">
               {[].map((item) => (
-                <NavItem key={""} name={""} href={""} icon="" />
+                <NavItem key={""} name={""} href={""} />
               ))}
             </ul>
           </li>
