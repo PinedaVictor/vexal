@@ -7,7 +7,7 @@ type props = {};
 export const MobileMenu: React.FC<props> = (props) => {
   const nav = useNavContext();
   return (
-    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4 ring-1 ring-white/10">
+    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-slate-100 px-6 pb-4 ring-1 ring-white/10">
       <div className="flex h-16 shrink-0 items-center">item</div>
       <nav className="flex flex-1 flex-col">
         <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -23,7 +23,7 @@ export const MobileMenu: React.FC<props> = (props) => {
               ))}
             </ul>
           </li>
-          <li>
+          {/* <li>
             <div className="text-xs font-semibold leading-6 text-gray-400">
               Menu
             </div>
@@ -32,10 +32,10 @@ export const MobileMenu: React.FC<props> = (props) => {
                 <NavItem key={""} name={""} href={""} />
               ))}
             </ul>
-          </li>
-          <li className="mt-auto">
+          </li> */}
+          {/* <li className="mt-auto">
             <SettingsBtn />
-          </li>
+          </li> */}
         </ul>
       </nav>
     </div>

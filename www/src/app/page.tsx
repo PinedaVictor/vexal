@@ -1,7 +1,12 @@
-import Image from "next/image";
+import type { ReactNode } from "react";
+import { DocsUI } from "@/components/atomic/templates/DocsUI";
 
-export default function Home() {
+export default function Home(props: { children: ReactNode }) {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24"></main>
+    <main className=" bg-slate-100 h-screen">
+      <DocsUI>
+        <div>This is my docs UI</div>
+      </DocsUI>
+    </main>
   );
 }

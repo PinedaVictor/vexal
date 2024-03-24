@@ -1,13 +1,9 @@
 "use client";
 import { useState } from "react";
 import { Menu } from "@headlessui/react";
-// import {
-//   Bars3Icon,
-//   BellIcon,
-//   MagnifyingGlassIcon,
-// } from "@heroicons/react/24/outline";
-// import { UserButton } from "@clerk/nextjs";
-import { MobileDrawer, Sidebar } from "../atomic/organisms";
+import { Bars3Icon } from "@heroicons/react/16/solid";
+import { Sidebar } from "./Sidebar";
+import { MobileDrawer } from "./mobile/MobileDrawer";
 
 type props = {
   children: React.ReactNode;
@@ -23,8 +19,8 @@ export const Navigation: React.FC<props> = (props) => {
       />
       {/* Static sidebar for desktop */}
       <Sidebar />
-      <div className="lg:pl-72">
-        <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+      <div className=" bg-slate-100 lg:pl-72">
+        <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 bg-slate-100 px-4 sm:gap-x-6 sm:px-6 lg:px-8">
           <button
             type="button"
             className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
@@ -76,10 +72,11 @@ export const Navigation: React.FC<props> = (props) => {
               />
 
               {/* Profile dropdown */}
-              <Menu as="div" className="relative">
+              <Menu as="div" className="relative bg-slate-100">
                 <Menu.Button className="-m-1.5 flex items-center p-1.5">
                   <span className="lg:flex lg:items-center">
-                    <UserButton afterSignOutUrl="/sign-in" />
+                    {/* Clerk Auth */}
+                    {/* <UserButton afterSignOutUrl="/sign-in" /> */}
                   </span>
                 </Menu.Button>
               </Menu>

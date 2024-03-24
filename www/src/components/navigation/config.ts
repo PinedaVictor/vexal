@@ -23,4 +23,7 @@ export type NavItemType = {
 // export const dftNav = [{ name: "NA", href: "/", icon: HomeIcon }];
 export const dftNav = [{ name: "NA", href: "/" }];
 
-export const navigationMenu = [{ name: "Home", href: "/home" }];
+export const navigationMenu = [
+  { name: "Getting started", href: "/" },
+  { name: "Deps", href: "/deps" },
+];

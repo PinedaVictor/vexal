@@ -29,7 +29,7 @@ export const SubMenu: React.FC<props> = (props) => {
                   notActive
                 )}
               >
-                <tab.icon
+                {/* <tab.icon
                   className={classNames(
                     tab.href === path
                       ? "text-indigo-500"
@@ -38,7 +38,7 @@ export const SubMenu: React.FC<props> = (props) => {
                   )}
                   aria-hidden="true"
                 />
-                <span>{tab.name}</span>
+                <span>{tab.name}</span> */}
               </Link>
             ))}
           </nav>
