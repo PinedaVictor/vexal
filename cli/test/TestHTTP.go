@@ -3,9 +3,11 @@ package test
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
+	"vx/config"
 	"vx/tools"
 )
 
@@ -14,7 +16,9 @@ type TestPayload struct {
 }
 
 func TestHTTP() (bool, error) {
-	req, err := tools.GetRequest("http://localhost:3000/api")
+	env, _ := config.LoadEnvironment()
+	route := fmt.Sprintf("%s/api", env.API_URL)
+	req, err := tools.GetRequest(route)
 	if err != nil {
 		log.Println("error:", err)
 	}
@@ -30,8 +34,8 @@ func TestHTTP() (bool, error) {
 	}
 	var requestData TestPayload
 	if err := json.Unmarshal(requestBody, &requestData); err != nil {
-		log.Println("Error unmarshalling data", err)
+		log.Println("Error unmarshalling data:", err)
 	}
-	log.Println(requestData)
+	log.Println("Request dataL:", requestData)
 	return true, nil
 }

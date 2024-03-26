@@ -46,6 +46,7 @@ func GetRequest(url string) (*http.Response, error) {
 	return resp, nil
 }
 
+// TODO: Test PostRquest
 // PostRequest performs an HTTP POST request with the specified payload and returns the response and any error.
 func PostRequest(url string, payload interface{}) (*http.Response, error) {
 	var reqBody io.Reader
