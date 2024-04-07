@@ -20,7 +20,10 @@ func TestHTTP() (bool, error) {
 	route := fmt.Sprintf("%s/api", env.API_URL)
 	req, err := tools.GetRequest(route)
 	if err != nil {
-		log.Println("error:", err)
+		log.Println(`Failed to connect to the Vexal server.
+		Please ensure your internet connection is stable and try again.
+		`)
+		return false, err
 	}
 
 	if req.StatusCode != http.StatusOK {

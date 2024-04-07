@@ -14,8 +14,6 @@ func LoadEnvironment() (config EnvironmentConfig, err error) {
 	viper.AddConfigPath(".")
 	viper.SetConfigName("app.env")
 	viper.SetConfigType("env")
-
-	log.Println("Viper reading config")
 	viper.AutomaticEnv()
 
 	err = viper.ReadInConfig()
@@ -23,7 +21,6 @@ func LoadEnvironment() (config EnvironmentConfig, err error) {
 		log.Println(err)
 		return
 	}
-	log.Println("We are getting passed the error")
 
 	err = viper.Unmarshal(&config)
 	return
