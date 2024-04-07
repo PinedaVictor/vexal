@@ -1,5 +1,5 @@
 "use server";
-import { g } from "./openai";
+import { generateChatResponse } from "./openai";
 // Initial route for ai based packages.
 
 /**
@@ -10,6 +10,6 @@ import { g } from "./openai";
  */
 export async function GET(request: Request) {
   console.log("Hitting server at /api/ai");
-  g("");
+  generateChatResponse("");
   return Response.json({ sup: true });
 }

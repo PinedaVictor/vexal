@@ -1,6 +1,5 @@
 /*
 Copyright © 2024 Victor Pineda
-
 */
 package cmd
 
@@ -13,15 +12,15 @@ import (
 // smzCmd represents the smz command
 var smzCmd = &cobra.Command{
 	Use:   "smz",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Use smz to generate summarize files or dirictories.",
+	Long: `smz generates readme.md files based on a file or directory.
+	You can use this to explain code you need to update or have written.`,
+	PreRun: func(cmd *cobra.Command, args []string) {
+		fmt.Println("In the PreRun stage")
+		fmt.Println(args)
+	},
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("smz called")
+		fmt.Println("smz called", args)
 	},
 }
 

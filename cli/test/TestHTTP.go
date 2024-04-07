@@ -29,7 +29,6 @@ func TestHTTP() (bool, error) {
 	if req.StatusCode != http.StatusOK {
 		return false, errors.New("unexpected status code: " + req.Status)
 	}
-	log.Println(req)
 	requestBody, err := io.ReadAll(req.Body)
 	if err != nil {
 		return false, errors.New("unable to read in respoonse body")
@@ -39,6 +38,6 @@ func TestHTTP() (bool, error) {
 	if err := json.Unmarshal(requestBody, &requestData); err != nil {
 		log.Println("Error unmarshalling data:", err)
 	}
-	log.Println("Request dataL:", requestData)
+	log.Println("Connected to Vexal server:", requestData.Sup)
 	return true, nil
 }
