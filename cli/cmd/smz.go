@@ -12,7 +12,7 @@ import (
 // smzCmd represents the smz command
 var smzCmd = &cobra.Command{
 	Use:   "smz",
-	Short: "Use smz to generate summarize files or dirictories.",
+	Short: "Use smz to summarize files or dirictories.",
 	Long: `smz generates readme.md files based on a file or directory.
 	You can use this to explain code you need to update or have written.`,
 	PreRun: func(cmd *cobra.Command, args []string) {
