@@ -16,7 +16,7 @@ var smzCmd = &cobra.Command{
 	Long: `smz generates readme.md files based on a file or directory.
 	You can use this to explain code you need to update or have written.`,
 	PreRun: func(cmd *cobra.Command, args []string) {
-		fmt.Println("In the PreRun stage")
+		fmt.Println("In the PreRun stage for smz")
 		fmt.Println(args)
 	},
 	Run: func(cmd *cobra.Command, args []string) {
