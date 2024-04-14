@@ -1,5 +1,5 @@
-// Package directories handles the directory generation and management
-package directories
+// Package paths handles path logic for stat
+package paths
 
 import (
 	"errors"
@@ -55,7 +55,6 @@ func isDirectory(input string) bool {
 func getFileInfo(input string) fs.FileInfo {
 	currentDir, _ := os.Getwd()
 	path := fmt.Sprintf("%s/%s", currentDir, input)
-	log.Println("usrs current working directory:", currentDir)
 	info, infoErr := os.Stat(path)
 	if infoErr != nil {
 		log.Fatal("error reading path:", infoErr)
