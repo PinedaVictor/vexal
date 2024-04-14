@@ -5,19 +5,26 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+	"vx/pkg/directories"
 
 	"github.com/spf13/cobra"
 )
 
 // smzCmd represents the smz command
 var smzCmd = &cobra.Command{
-	Use:   "smz",
+	Use: "smz [file | directory]",
+
+	// DisableFlagsInUseLine: true,
 	Short: "Use smz to summarize files or dirictories.",
 	Long: `smz generates readme.md files based on a file or directory.
-	You can use this to explain code you need to update or have written.`,
+	You can use smz to explain code you need to update or have written.`,
 	PreRun: func(cmd *cobra.Command, args []string) {
-		fmt.Println("In the PreRun stage for smz")
-		fmt.Println(args)
+		if len(args) == 0 {
+			cmd.Help() // Display help text
+			os.Exit(0)
+		}
+		directories.DeterminePath(args[0])
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("smz called", args)
@@ -26,6 +33,8 @@ var smzCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(smzCmd)
+	// smzCmd.SetUsageTemplate("sfsdfg")
+	// smzCmd.SetUsageTemplate("Usage: vx smz [file | directory]\n")
 
 	// Here you will define your flags and configuration settings.
 
