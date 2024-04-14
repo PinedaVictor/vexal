@@ -38,6 +38,6 @@ func TestHTTP() (bool, error) {
 	if err := json.Unmarshal(requestBody, &requestData); err != nil {
 		log.Println("Error unmarshalling data:", err)
 	}
-	log.Println("Connected to Vexal server:", requestData.Sup)
+	// log.Println("Connected to Vexal server:", requestData.Sup)
 	return true, nil
 }

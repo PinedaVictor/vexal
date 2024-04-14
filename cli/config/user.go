@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"reflect"
 	"strings"
 	"vx/tools/dirs"
 
@@ -69,7 +70,7 @@ func InitConfig() {
 	}
 }
 
-// LoadConfig will print sid configuration to the screen
+// LoadConfig will print vx configuration to the screen
 func LoadConfig() {
 	c := viper.AllSettings()
 	b, err := json.MarshalIndent(c, " ", " ")
@@ -138,4 +139,28 @@ func checkConfigFile() bool {
 		return false
 	}
 	return true
+}
+
+// KeyCheck returns true if key in config exists false if key does not exists
+func KeyCheck(keyInput string) bool {
+	cfg := viper.AllSettings()
+	keys := strings.Split(keyInput, ".")
+	const (
+		keyIdxOne = 0
+		keyIdxTwo = 1
+	)
+	v, ok := cfg[keys[keyIdxOne]]
+	if ok {
+		isMap := reflect.ValueOf(v).Kind() == reflect.Map
+		if isMap {
+			nestedKeys := reflect.ValueOf(v).MapKeys()
+			for _, value := range nestedKeys {
+				if value.String() == keys[keyIdxTwo] {
+					return true
+				}
+			}
+		}
+		return true
+	}
+	return false
 }
