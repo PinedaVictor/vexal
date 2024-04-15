@@ -31,8 +31,7 @@ var smzCmd = &cobra.Command{
 		fmt.Println("smz called", args)
 		pathType, path := paths.DeterminePath(args[0])
 		log.Println("pathType:", pathType, ":", "path:", path)
-		smz.SMZ(pathType, path)
-		// paths.GetContent("")
+		smz.SMZ(pathType, path, args[0])
 	},
 }
 

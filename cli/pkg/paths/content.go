@@ -31,8 +31,5 @@ func GetContent(path string) string {
 		fmt.Println("Error reading file:", err)
 		return ""
 	}
-
-	// Print file content
-	fmt.Println(string(content))
 	return string(content)
 }

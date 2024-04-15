@@ -33,10 +33,14 @@ func NewClient() *Client {
 }
 
 // GetRequest performs an HTTP GET request and returns the response and any error.
-func GetRequest(url string) (*http.Response, error) {
+func GetRequest(url string, headers map[string]string) (*http.Response, error) {
 	req, err := http.Get(url)
 	if err != nil {
 		return nil, err
+	}
+	// Set headers
+	for key, value := range headers {
+		req.Header.Set(key, value)
 	}
 	resp, err := HTTPClient.Do(req.Request)
 	if err != nil {
@@ -48,7 +52,7 @@ func GetRequest(url string) (*http.Response, error) {
 
 // TODO: Test PostRquest
 // PostRequest performs an HTTP POST request with the specified payload and returns the response and any error.
-func PostRequest(url string, payload interface{}) (*http.Response, error) {
+func PostRequest(url string, headers map[string]string, payload interface{}) (*http.Response, error) {
 	var reqBody io.Reader
 	if payload != nil {
 		jsonData, err := json.Marshal(payload)
@@ -62,7 +66,10 @@ func PostRequest(url string, payload interface{}) (*http.Response, error) {
 	if err != nil {
 		return nil, err
 	}
-
+	// Set headers
+	for key, value := range headers {
+		req.Header.Set(key, value)
+	}
 	resp, err := HTTPClient.Do(req)
 	if err != nil {
 		return nil, err

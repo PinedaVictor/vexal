@@ -18,7 +18,7 @@ type TestPayload struct {
 func TestHTTP() (bool, error) {
 	env, _ := config.LoadEnvironment()
 	route := fmt.Sprintf("%s/api", env.API_URL)
-	req, err := tools.GetRequest(route)
+	req, err := tools.GetRequest(route, map[string]string{})
 	if err != nil {
 		log.Println(`Failed to connect to the Vexal server.
 		Please ensure your internet connection is stable and try again.
