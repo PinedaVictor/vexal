@@ -28,14 +28,11 @@ func HomeDir() (string, error) {
 // DeterminePath returens a string "file" or "directory" depending on the file mode. Empty string for none
 func DeterminePath(input string) (string, string) {
 	if ok, path := isFile(input); ok {
-		log.Println(input, "is a file")
 		return FP, path
 	}
 	if ok, path := isDirectory(input); ok {
-		log.Println(input, "is a directory")
 		return DP, path
 	}
-	log.Println(input, "is niether a file or a directory")
 	return "", ""
 }
 
@@ -53,6 +50,7 @@ func isDirectory(input string) (bool, string) {
 
 // getFileInfo gets path info using os pkg
 func getFileInfo(input string) (fs.FileInfo, string) {
+	// NOTE: You're not handling an error here
 	currentDir, _ := os.Getwd()
 	path := fmt.Sprintf("%s/%s", currentDir, input)
 	info, infoErr := os.Stat(path)
