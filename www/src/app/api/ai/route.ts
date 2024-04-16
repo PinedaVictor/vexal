@@ -10,6 +10,6 @@ import { generateChatResponse } from "./openai";
  */
 export async function GET(request: Request) {
   console.log("Hitting server at /api/ai");
-  generateChatResponse("");
+
   return Response.json({ sup: true });
 }

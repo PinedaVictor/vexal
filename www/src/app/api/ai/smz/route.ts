@@ -15,9 +15,9 @@ export async function POST(request: NextRequest) {
       `${process.env.SMZ_FILE} file: ${data.entity} content: ${data.content}`
     );
     console.log("This is the summary:", aiResponse?.content);
+    return NextResponse.json(aiResponse.content);
   } catch (error) {
     console.error("error generating SMZ response");
     return NextResponse.json({ error: error });
   }
-  return NextResponse.json({ sup: true });
 }

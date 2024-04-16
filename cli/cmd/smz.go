@@ -6,8 +6,8 @@ package cmd
 import (
 	"fmt"
 	"os"
-	"time"
 	"vx/internal/commands"
+	"vx/internal/commands/smz"
 	"vx/pkg/paths"
 
 	"github.com/spf13/cobra"
@@ -31,9 +31,7 @@ var smzCmd = &cobra.Command{
 		pathType, path := paths.DeterminePath(args[0])
 		if path != "" {
 			commands.StartSpinner(fmt.Sprintf("smz %s:", args[0]))
-			fmt.Println("pathType:", pathType, ":", "path:", path)
-			time.Sleep(4 * time.Second)
-			// smz.SMZ(pathType, path, args[0])
+			smz.SMZ(pathType, path, args[0])
 		}
 	},
 	PostRun: func(cmd *cobra.Command, args []string) {
