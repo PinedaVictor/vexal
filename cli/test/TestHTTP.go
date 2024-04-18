@@ -23,8 +23,8 @@ func TestHTTP() (bool, error) {
 	if err != nil {
 		log.Println(`
 		The service you're trying to use requires and internet connection.
-		Failed to connect to the Vexal server.
-		Please ensure your internet connection is stable and try again.
+		Failed to connect to the Vexal server. Please ensure your internet
+		connection is stable and try again.
 		`)
 		os.Exit(0)
 		return false, err
