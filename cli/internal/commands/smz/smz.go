@@ -48,7 +48,8 @@ func smzFile(entity string) {
 	log.Println("the resp data:", string(body))
 	formattedContent := strings.ReplaceAll(string(body), "\n", "\n\n")
 	// TODO: File writing and formatting
-	file, err := os.Create("readme.md")
+	currentDir, _ := os.Getwd()
+	file, err := os.Create(fmt.Sprintf("%s/%s", currentDir, "readme.md"))
 	if err != nil {
 		log.Fatal("error creating file:", err)
 	}

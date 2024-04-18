@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 	"vx/config"
 	"vx/tools"
 )
@@ -20,9 +21,12 @@ func TestHTTP() (bool, error) {
 	route := fmt.Sprintf("%s/api", env.API_URL)
 	req, err := tools.GetRequest(route, map[string]string{})
 	if err != nil {
-		log.Println(`Failed to connect to the Vexal server.
+		log.Println(`
+		The service you're trying to use requires and internet connection.
+		Failed to connect to the Vexal server.
 		Please ensure your internet connection is stable and try again.
 		`)
+		os.Exit(0)
 		return false, err
 	}
 
