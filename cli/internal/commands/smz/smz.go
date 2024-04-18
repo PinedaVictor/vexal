@@ -22,7 +22,7 @@ func SMZ(t string, path string, entity string) {
 		smzFile(entity)
 	}
 	if t == paths.DP {
-		smzDirectory()
+		smzDirectory(entity)
 	}
 }
 
@@ -45,7 +45,6 @@ func smzFile(entity string) {
 		log.Fatal("error reading response body:", err)
 	}
 
-	log.Println("the resp data:", string(body))
 	formattedContent := strings.ReplaceAll(string(body), "\n", "\n\n")
 	// TODO: File writing and formatting
 	currentDir, _ := os.Getwd()
@@ -59,7 +58,32 @@ func smzFile(entity string) {
 	if err != nil {
 		log.Fatal("error writing to file:", err)
 	}
-
 }
 
-func smzDirectory() {}
+// TODO:
+func smzDirectory(entity string) {
+	log.Println("Under construction: Directory:", entity)
+}
+
+func appendToFile(path string) {
+	// Open the file in append mode. Create the file if it doesn't exist.
+	file, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	// Data to append to the file
+	data := "This is some new data to append."
+
+	// Add a newline character to the data
+	dataWithNewline := "\n" + data
+
+	// Write the data to the file
+	if _, err := file.WriteString(dataWithNewline); err != nil {
+		log.Fatal(err)
+	}
+
+	// Output success message
+	log.Println("Data appended to file successfully.")
+}
