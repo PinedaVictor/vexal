@@ -1,1 +1,10 @@
-"file: `useArea.tsx`\ncontent: \nThis file contains a custom React hook named `useArea`, which calculates the area based on the provided initial width and height values. The hook utilizes the `useState` and `useEffect` hooks from React.\nThe `useArea` function initializes state variables for width, height, and area using the `useState` hook with the provided initial width and height values. It also calculates the initial area by multiplying the initial width and height values.\nAn `useEffect` hook is used to update the area whenever the width or height changes.\nThe `setDimensions` function allows updating the width and height values.\nThe hook returns an object containing the current width, height, area, and `setDimensions` function for updating the dimensions.\nThis file is exported as a default."
+## useArea.tsx
+"useArea.tsx
+
+This file contains a custom React hook called `useArea` that calculates the area based on the input width and height values. The hook utilizes the `useState` and `useEffect` hooks from React to manage state and side effects.
+
+The `useArea` function takes two parameters: `initialWidth` and `initialHeight`, which are used to initialize the state variables for width, height, and area. The area is calculated as the product of width and height.
+
+An `useEffect` hook is used to recalculate the area whenever the width or height values change. The `setDimensions` function allows for updating the width and height values, which triggers the recalculation of the area.
+
+The `useArea` hook returns an object with properties `width`, `height`, `area`, and `setDimensions` function to update the dimensions. This custom hook can be imported and used in other components to manage and calculate the area based on the width and height values."
