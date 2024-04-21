@@ -27,16 +27,15 @@ func SMZ(t string, path string, entity string) {
 	}
 }
 
-func smzFile(entity string) {
-	// TODO: Some of this can be abstracted out
-	fmt.Println("the entity:", entity)
-	c := paths.GetContent(pathSmz)
+func smzRequest(entity string) string {
+	fmt.Println("Calling smzRequest with entity:", entity)
+	content := paths.GetContent(pathSmz)
 	cfg := viper.GetString("openaikey")
 	env, _ := config.LoadEnvironment()
 	route := fmt.Sprintf("%s/api/ai/smz", env.API_URL)
 	resp, err := tools.PostRequest(route,
 		map[string]string{"openai": cfg},
-		map[string]interface{}{"content": c, "entity": entity})
+		map[string]interface{}{"content": content, "entity": entity})
 	if err != nil {
 		log.Fatal("error making smz requests")
 	}
@@ -46,8 +45,12 @@ func smzFile(entity string) {
 	if err != nil {
 		log.Fatal("error reading response body:", err)
 	}
+	formatedResponse := strings.ReplaceAll(string(body), `\n`, "\n")
+	return formatedResponse
+}
 
-	newText := strings.ReplaceAll(string(body), `\n`, "\n")
+func smzFile(entity string) {
+	text := smzRequest(entity)
 	// TODO: File writing and formatting
 	currentDir, _ := os.Getwd()
 	file, err := os.Create(fmt.Sprintf("%s/%s", currentDir, "readme.md"))
@@ -58,7 +61,7 @@ func smzFile(entity string) {
 
 	file.WriteString(fmt.Sprintf("## %s\n", entity))
 
-	_, err = file.WriteString(newText)
+	_, err = file.WriteString(text)
 	if err != nil {
 		log.Fatal("error writing to file:", err)
 	}
