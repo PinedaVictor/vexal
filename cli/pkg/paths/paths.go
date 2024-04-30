@@ -36,6 +36,20 @@ func DeterminePath(input string) (string, string) {
 	return "", ""
 }
 
+// PathExists returns true if path exists and false if it does not
+func PathExists(path string) bool {
+	if _, err := os.Stat(path); err == nil {
+		fmt.Println("Path exists")
+		return true
+	} else if os.IsNotExist(err) {
+		fmt.Println("Path does not exist")
+		return false
+	} else {
+		fmt.Println("Error occurred while checking the path:", err)
+		return false
+	}
+}
+
 // isFile determines if a path is a file
 func isFile(input string) (bool, string) {
 	info, p := getFileInfo(input)

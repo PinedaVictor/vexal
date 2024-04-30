@@ -43,6 +43,7 @@ func Execute() {
 func init() {
 	test.TestHTTP()
 	config.InitConfig()
+	config.WriteLicense()
 	// Color output setup
 	rootCmd.SetOutput(color.Output)
 	cobra.AddTemplateFunc("StyleHeading", color.New(color.FgBlue, color.Underline, color.Bold).SprintFunc())

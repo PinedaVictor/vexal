@@ -1,14 +1,31 @@
-## useArea.tsx
-"useArea.tsx
+## ztest
 
-This file contains a custom hook `useArea` which takes initial width and height as parameters and returns the current width, height, area, and a function to set new dimensions. 
+app.ts
 
-The `useArea` function utilizes the `useState` and `useEffect` hooks from React to manage the state of width, height, and area. The initial values of width, height, and area are set using `useState`. 
 
-The `useEffect` hook is used to recalculate the area whenever the width or height is changed. 
+"# ztest
 
-The `setDimensions` function allows for setting new width and height values, which in turn update the area. 
+This file is an Express server set up with four different routes (\"/\", \"/service\", \"/serviceB\", \"/service3\") that all return a JSON response with the message `{ sup: true }` and a status code of 200. The server is listening on port 8080 and logs a message to the console when it starts.
 
-Finally, the `useArea` custom hook returns an object with the current width, height, area, and the `setDimensions` function.
+Relevant Functions:
+- `app.get(route, callback)`: The `app.get()` function is used to define routes that the server will respond to with the specified callback function.
+- `app.listen(port, callback)`: The `app.listen()` function starts the server and listens on the specified port for incoming requests.
 
-Developers can import and use this custom hook to easily manage the area calculation for components in their React application."
+Code Logic:
+1. Import the Express framework and define the server app.
+2. Set the port to 8080.
+3. Define four different routes that respond with a JSON message and status code of 200.
+4. Start the server and log a message to the console indicating that the server is listening on port 8080."
+
+
+main.py
+
+
+{"error":"open api key not provided"}
+
+
+useLoading.tsx
+
+
+{"error":"open api key not provided"}
+

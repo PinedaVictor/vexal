@@ -27,12 +27,12 @@ func SMZ(t string, path string, entity string) {
 	}
 }
 
-func smzRequest(entity string) string {
+func smzRequest(content string, entity string) string {
 	fmt.Println("Calling smzRequest with entity:", entity)
-	content := paths.GetContent(pathSmz)
 	cfg := viper.GetString("openaikey")
 	env, _ := config.LoadEnvironment()
 	route := fmt.Sprintf("%s/api/ai/smz", env.API_URL)
+	log.Println("OpenAI key:", cfg)
 	resp, err := tools.PostRequest(route,
 		map[string]string{"openai": cfg},
 		map[string]interface{}{"content": content, "entity": entity})
@@ -50,8 +50,8 @@ func smzRequest(entity string) string {
 }
 
 func smzFile(entity string) {
-	text := smzRequest(entity)
-	// TODO: File writing and formatting
+	content := paths.GetContent(pathSmz)
+	text := smzRequest(content, entity)
 	currentDir, _ := os.Getwd()
 	file, err := os.Create(fmt.Sprintf("%s/%s", currentDir, "readme.md"))
 	if err != nil {
@@ -70,12 +70,17 @@ func smzFile(entity string) {
 // TODO:
 func smzDirectory(entity string) {
 	log.Println("Under construction: Directory:", entity)
-	cfg := viper.GetString("openaikey")
-	env, _ := config.LoadEnvironment()
-	route := fmt.Sprintf("%s/api/ai/smz", env.API_URL)
+	// cfg := viper.GetString("openaikey")
+	// env, _ := config.LoadEnvironment()
+	// route := fmt.Sprintf("%s/api/ai/smz", env.API_URL)
 	currentDir, _ := os.Getwd()
-	os.Create(fmt.Sprintf("%s/%s", currentDir, "readme.md"))
-
+	// os.Create(fmt.Sprintf("%s/%s", currentDir, "readme.md"))
+	file, fileErr := os.Create(fmt.Sprintf("%s/%s", currentDir, "readme.md"))
+	if fileErr != nil {
+		log.Fatal("error creating file:", fileErr)
+	}
+	file.WriteString(fmt.Sprintf("## %s\n", entity))
+	//
 	// currentDir, _ := os.Getwd()
 	// Open the directory
 	err := filepath.Walk(fmt.Sprintf("%s/%s", currentDir, entity), func(path string, info os.FileInfo, err error) error {
@@ -90,23 +95,24 @@ func smzDirectory(entity string) {
 		// Print file path
 		fmt.Println(path)
 		content := paths.GetContent(path)
-		// fmt.Println(content)
-		resp, err := tools.PostRequest(route,
-			map[string]string{"openai": cfg},
-			map[string]interface{}{"content": content, "entity": entity})
-		if err != nil {
-			log.Fatal("error making smz requests")
-		}
-		defer resp.Body.Close()
+		// // fmt.Println(content)
+		// resp, err := tools.PostRequest(route,
+		// 	map[string]string{"openai": cfg},
+		// 	map[string]interface{}{"content": content, "entity": entity})
+		// if err != nil {
+		// 	log.Fatal("error making smz requests")
+		// }
+		// defer resp.Body.Close()
 
-		body, err := io.ReadAll(resp.Body)
-		if err != nil {
-			log.Fatal("error reading response body:", err)
-		}
-		formattedContent := strings.ReplaceAll(string(body), "\n", "\n\n")
+		// body, err := io.ReadAll(resp.Body)
+		// if err != nil {
+		// 	log.Fatal("error reading response body:", err)
+		// }
+		text := smzRequest(content, entity)
+		// formattedContent := strings.ReplaceAll(string(body), "\n", "\n\n")
 		appendToFile(fmt.Sprintf("%s/%s", currentDir, "readme.md"), info.Name())
 		appendToFile(fmt.Sprintf("%s/%s", currentDir, "readme.md"), "\n")
-		appendToFile(fmt.Sprintf("%s/%s", currentDir, "readme.md"), formattedContent)
+		appendToFile(fmt.Sprintf("%s/%s", currentDir, "readme.md"), text)
 		appendToFile(fmt.Sprintf("%s/%s", currentDir, "readme.md"), "\n")
 
 		// _, err = file.WriteString(formattedContent)
