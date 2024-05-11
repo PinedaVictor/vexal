@@ -35,7 +35,7 @@ var smzCmd = &cobra.Command{
 		}
 	},
 	PostRun: func(cmd *cobra.Command, args []string) {
-		commands.StopSpinner()
+		commands.StopSpinner("Complete!")
 	},
 }
 

@@ -7,8 +7,8 @@ import (
 	"os"
 	"regexp"
 	"strings"
+	"vx/cmd/auth"
 	"vx/config"
-	"vx/test"
 
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
@@ -41,9 +41,10 @@ func Execute() {
 }
 
 func init() {
-	test.TestHTTP()
+	// test.TestHTTP()
 	config.InitConfig()
 	config.WriteLicense()
+	rootCmd.AddCommand(auth.AuthCmd)
 	// Color output setup
 	rootCmd.SetOutput(color.Output)
 	cobra.AddTemplateFunc("StyleHeading", color.New(color.FgBlue, color.Underline, color.Bold).SprintFunc())
