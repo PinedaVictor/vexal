@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import { vexalFirebaseApp } from "@/app/firebase";
 import { useEffect } from "react";
-import { redirect } from "next/navigation";
+import { redirectUser } from "@/app/api/redirects/route";
 
 export default function SignInCLI() {
   const [loading, setLoading] = useState(true);
@@ -34,7 +34,7 @@ export default function SignInCLI() {
         console.log("The user:", user);
         console.log("Token:", token);
         setLoading(false);
-        window.location.href = `http://localhost:8080/callback?token=${token}&userId=${user.uid}`;
+        redirectUser(token, user.uid);
       } else {
         // No user signed in, continue authentication flow
         SignInOAuth2();
