@@ -19,7 +19,6 @@ export default function SignInCLI() {
     const SignInOAuth2 = async () => {
       const provider = new GoogleAuthProvider();
       try {
-        console.log("Redirecting user");
         signInWithRedirect(auth, provider);
       } catch (error) {
         console.log("Error redirecting user:", error);
@@ -31,8 +30,6 @@ export default function SignInCLI() {
       if (user) {
         // User is signed in
         const token = await user.getIdToken();
-        console.log("The user:", user);
-        console.log("Token:", token);
         setLoading(false);
         redirectUser(token, user.uid);
       } else {
@@ -53,22 +50,7 @@ export default function SignInCLI() {
             <p>Authenticating...</p>
           ) : (
             <>
-              <p>Authentication successful</p>
-              <button
-                onClick={() => {
-                  signOut(auth)
-                    .then(() => {
-                      // Sign-out successful.
-                      console.log("User signed out");
-                    })
-                    .catch((error) => {
-                      // An error happened.
-                      console.log("Error signing out");
-                    });
-                }}
-              >
-                Sign Out
-              </button>
+              <p>Redirecting you</p>
             </>
           )}
         </div>
