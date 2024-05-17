@@ -18,8 +18,12 @@ type TestPayload struct {
 
 func TestHTTP() (bool, error) {
 	env, _ := config.LoadEnvironment()
+	user, err := config.LoadAuth()
+	if err != nil {
+		fmt.Println("Error reading auth:", err)
+	}
 	route := fmt.Sprintf("%s/api", env.API_URL)
-	req, err := tools.GetRequest(route, map[string]string{})
+	req, err := tools.GetRequest(route, map[string]string{"Authorization": user.Token})
 	if err != nil {
 		log.Println(`
 		The service you're trying to use requires and internet connection.

@@ -1,0 +1,1 @@
+export { vexalFirebaseApp } from "./config";

@@ -34,7 +34,7 @@ func NewClient() *Client {
 
 // GetRequest performs an HTTP GET request and returns the response and any error.
 func GetRequest(url string, headers map[string]string) (*http.Response, error) {
-	req, err := http.Get(url)
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -42,11 +42,11 @@ func GetRequest(url string, headers map[string]string) (*http.Response, error) {
 	for key, value := range headers {
 		req.Header.Set(key, value)
 	}
-	resp, err := HTTPClient.Do(req.Request)
+	resp, err := HTTPClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
-	defer req.Body.Close()
+	defer resp.Body.Close()
 	return resp, nil
 }
 
