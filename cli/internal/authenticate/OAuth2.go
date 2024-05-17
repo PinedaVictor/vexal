@@ -14,7 +14,8 @@ import (
 var server *http.Server
 
 func RunAuthServer() {
-	server = &http.Server{Addr: "localhost:8080"}
+	env, _ := config.LoadEnvironment()
+	server = &http.Server{Addr: env.SERVER_REDIRECT_ADDR}
 	http.HandleFunc("/callback", callbackHandler)
 	err := server.ListenAndServe()
 	if err != nil {

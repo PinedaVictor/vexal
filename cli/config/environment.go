@@ -7,7 +7,8 @@ import (
 )
 
 type EnvironmentConfig struct {
-	API_URL string `mapstructure:"API_URL"`
+	API_URL              string `mapstructure:"API_URL"`
+	SERVER_REDIRECT_ADDR string `mapstructure:"SERVER_REDIRECT_ADDR"`
 }
 
 func LoadEnvironment() (config EnvironmentConfig, err error) {
