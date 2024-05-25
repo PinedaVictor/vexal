@@ -21,7 +21,7 @@ const envSchema = z.object({
   // GCP
   GCP_PROJECT_ID: z.string(),
 
-  // Secreats Manager
+  // Secrets Manager
   SECRETS_MAN_PRIVATE_KEY: z.string(),
   SECRETS_MAN_EMAIL: z.string(),
 });
