@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express, {Request, Response} from 'express';
 import {writeSecret} from './libs/gcp/secrets-manager/config';
+import {validateToken} from './libs/gcp/firebase-admin/config';
 
 const app = express();
 const port = 4000 || process.env.PORT;
@@ -12,5 +13,6 @@ app.get('/', (req: Request, res: Response) => {
 app.listen(port, () => {
   // TODO: Update 8080 to port const
   console.log(`API listening on port http://localhost:${port}`);
+  validateToken('');
   // writeSecret();
 });

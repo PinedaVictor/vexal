@@ -19,14 +19,14 @@ const initSecretManager = () => {
   return client;
 };
 
-export const writeSecret = async () => {
+export const writeSecret = async (secretId: string) => {
   const client = initSecretManager();
   try {
     const secretCreate = await client.createSecret({
       parent: `projects/${API_ENV.GCP_PROJECT_ID}`,
       secret: {
         labels: {sdk: 'openai'},
-        name: 'topsecretValue',
+        // name: 'topsecretValue',
         replication: {
           userManaged: {
             replicas: [{location: 'us-central1'}],
@@ -34,8 +34,9 @@ export const writeSecret = async () => {
         },
       },
       // This will be the sid+[SDK-SUFFIX]
-      secretId: 'topsecret',
+      secretId: secretId,
     });
+    console.log('Secret create:', secretCreate);
   } catch (error) {
     console.error('error creating secret:', error);
   }
