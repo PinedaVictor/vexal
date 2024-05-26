@@ -22,7 +22,7 @@ var (
 func initFirebase() {
 	env, _ := config.LoadEnvironment()
 	creds := map[string]string{
-		"type":         env.FB_ADMIN_ACCOUNT_TYPE,
+		"type":         env.GCP_ACCOUNT_TYPE,
 		"project_id":   env.GCP_PROJECT_ID,
 		"private_key":  env.FB_ADMIN_PRIVATE_KEY,
 		"client_email": env.FB_ADMIN_CLIENT_EMAIL,
