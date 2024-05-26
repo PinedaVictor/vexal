@@ -25,8 +25,10 @@
 go.work
 
 #Environement
-app.env
+.env
 
 # Binary 
 vx
+
+
 
