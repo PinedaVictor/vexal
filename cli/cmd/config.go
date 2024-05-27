@@ -10,7 +10,6 @@ import (
 	"vx/config"
 
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // configCmd represents the config command
@@ -21,13 +20,14 @@ var configCmd = &cobra.Command{
 	Configuration located at $HOME/.vx`,
 }
 
-var view = &cobra.Command{
-	Use:   "view",
-	Short: "view config.json from $HOME/.vx",
-	Run: func(cmd *cobra.Command, args []string) {
-		config.LoadConfig()
-	},
-}
+// TODO: This will likely be deleted
+// var view = &cobra.Command{
+// 	Use:   "view",
+// 	Short: "view config.json from $HOME/.vx",
+// 	Run: func(cmd *cobra.Command, args []string) {
+// 		// config.LoadConfig()
+// 	},
+// }
 
 var (
 	key   = ""
@@ -38,23 +38,24 @@ var set = &cobra.Command{
 	Use:   "set [flags] [args]",
 	Short: "set key value pair for vx configuration",
 	PreRun: func(cmd *cobra.Command, args []string) {
-		validKey := config.KeyCheck(key)
+		apis, validKey := config.CheckSupportedAPI(key)
 		if !validKey {
-			fmt.Println("Invalid key: use vx config view")
-			cmd.Help()
+			fmt.Printf("Invalid Key: %s \n", key)
+			fmt.Printf("Supported APIs: %s \n", apis)
 			os.Exit(0)
 		}
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		viper.Set(key, value)
-		viper.WriteConfig()
+		// viper.Set(key, value)
+		// viper.WriteConfig()
 		log.Println("Config updated successfully")
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(configCmd)
-	configCmd.AddCommand(view)
+	// TODO: view cmd will likely not be needed
+	// configCmd.AddCommand(view)
 	configCmd.AddCommand(set)
 	set.Flags().StringVarP(&key, "key", "k", "", "Define key to to be updated")
 	set.Flags().StringVarP(&value, "value", "v", "", "Value of key")

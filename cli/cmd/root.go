@@ -10,7 +10,6 @@ import (
 	"vx/cmd/auth"
 	"vx/config"
 	"vx/internal/authenticate"
-	"vx/test"
 
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
@@ -49,7 +48,6 @@ func rootAuthStatus() string {
 }
 
 func init() {
-	test.TestHTTP()
 	config.InitConfig()
 	config.WriteLicense()
 	rootCmd.AddCommand(auth.AuthCmd)

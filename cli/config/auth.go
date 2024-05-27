@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 
-	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
@@ -14,18 +13,23 @@ type AuthConfig struct {
 	Token string `mapstructure:"token"`
 }
 
+var authCfg = viper.New()
+
 func SetUserCfg(uid string, token string) {
-	home, err := os.UserHomeDir()
-	authCfgPath := fmt.Sprintf("%s/%s/user.json", home, CfgDir)
-	cobra.CheckErr(err)
-	viper.SetConfigFile(authCfgPath)
+	home, _ := os.UserHomeDir()
+	authCfgPath := fmt.Sprintf("%s/%s/user.json", home, ConfigDir)
+	// viper.AddConfigPath(authCfgPath)
+	// cobra.CheckErr(err)
+	authCfg.SetConfigFile(authCfgPath)
 	config := AuthConfig{
 		UID:   uid,
 		Token: token,
 	}
-	viper.Set("uid", config.UID)
-	viper.Set("token", config.Token)
-	err = viper.WriteConfigAs(authCfgPath)
+
+	authCfg.Set("uid", config.UID)
+	authCfg.Set("token", config.Token)
+
+	err := authCfg.WriteConfig()
 	if err != nil {
 		log.Println("error saving user data to your system")
 	}
@@ -33,18 +37,18 @@ func SetUserCfg(uid string, token string) {
 
 func LoadAuth() (config AuthConfig, err error) {
 	home, _ := os.UserHomeDir()
-	authCfgPath := fmt.Sprintf("%s/%s", home, CfgDir)
-	viper.AddConfigPath(authCfgPath)
-	viper.SetConfigName("user") // name of config file (without extension)
-	viper.SetConfigType("json")
-	viper.AutomaticEnv()
+	authCfgPath := fmt.Sprintf("%s/%s", home, ConfigDir)
+	authCfg.AddConfigPath(authCfgPath)
+	authCfg.SetConfigName("user") // name of config file (without extension)
+	authCfg.SetConfigType("json")
+	authCfg.AutomaticEnv()
 
-	err = viper.ReadInConfig()
+	err = authCfg.ReadInConfig()
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	err = viper.Unmarshal(&config)
+	err = authCfg.Unmarshal(&config)
 	return
 }
