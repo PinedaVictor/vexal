@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"vx/config"
+	"vx/internal/secrets"
 
 	"github.com/spf13/cobra"
 )
@@ -46,8 +47,7 @@ var set = &cobra.Command{
 		}
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		// viper.Set(key, value)
-		// viper.WriteConfig()
+		secrets.AddSecret(key, value)
 		log.Println("Config updated successfully")
 	},
 }

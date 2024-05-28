@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"strings"
 	"sync"
 	"vx/config"
 
@@ -22,7 +23,7 @@ var (
 	initError    error
 )
 
-func initSecretManger() {
+func initSecretManager() {
 	env, _ := config.LoadEnvironment()
 	creds := map[string]string{
 		"project_id":   env.GCP_PROJECT_ID,
@@ -34,7 +35,6 @@ func initSecretManger() {
 	if err != nil {
 		log.Fatalf("error marshaling credentials: %v", err)
 	}
-	log.Println("Passing creds json")
 	secretsCtx = context.Background()
 	opt := option.WithCredentialsJSON(credsJSON)
 	once.Do(func() {
@@ -47,12 +47,39 @@ func initSecretManger() {
 
 }
 
-func CreateSecet() {
-	initSecretManger()
+func AddSecret(secretId string, secretValue string) {
+	initSecretManager()
 	env, _ := config.LoadEnvironment()
+	user, _ := config.LoadAuth()
+	secret := fmt.Sprintf("%s_%s", user.UID, secretId)
+	parent := fmt.Sprintf("projects/%s/secrets/%s", env.GCP_PROJECT_ID, secret) // "projects/my-project/secrets/my-secret"
+	fmt.Println("parent:", parent)
+	req := &secretmanagerpb.GetSecretRequest{
+		Name: parent,
+	}
+	result, err := secretClient.GetSecret(secretsCtx, req)
+	if err != nil {
+		log.Println("Secret does not exist or not found")
+		// TODO: Create secret and update version
+		secretCreated := createSecet(secretId)
+		if secretCreated {
+			fmt.Println("Secret created succesfully")
+			// TODO: Add version
+		}
+	} else {
+		// TODO: Update secret version
+	}
+	log.Println("get secret result:", result)
+	defer secretClient.Close()
+}
+
+func createSecet(secretId string) bool {
+	env, _ := config.LoadEnvironment()
+	user, _ := config.LoadAuth()
+	secretName := fmt.Sprintf("%s_%s", user.UID, secretId) // "UID_SDKSUFFIX"
 	req := &secretmanagerpb.CreateSecretRequest{
 		Parent:   fmt.Sprintf("projects/%s", env.GCP_PROJECT_ID),
-		SecretId: "129873287UID_SDKSUFFIX",
+		SecretId: secretName,
 		Secret: &secretmanagerpb.Secret{
 			Replication: &secretmanagerpb.Replication{
 				Replication: &secretmanagerpb.Replication_UserManaged_{
@@ -66,15 +93,21 @@ func CreateSecet() {
 				},
 			},
 			Labels: map[string]string{
-				"sdk": "sdk",
+				"sdk": secretId,
 			},
 		},
 	}
-
 	result, err := secretClient.CreateSecret(secretsCtx, req)
 	if err != nil {
 		log.Println("error creating secret")
+		return false
 	}
-	log.Println(result.Name)
 	defer secretClient.Close()
+	nameResult := strings.Split(result.Name, "/")
+	return nameResult[len(nameResult)-1] == secretName
+}
+
+func addSecretVersion(secretId string, secretValue string) {
+	// payload := []byte(secretValue)
+
 }
