@@ -35,7 +35,7 @@ func ShutdownServer() {
 
 func Login() {
 	env, _ := config.LoadEnvironment()
-	OAuthEndpoint := fmt.Sprintf("%s/login", env.API_URL)
+	OAuthEndpoint := fmt.Sprintf("%s/login", env.APP_URL)
 	exe.OpenURL(OAuthEndpoint)
 	// Start the HTTP server
 	RunAuthServer()

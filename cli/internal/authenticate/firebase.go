@@ -61,6 +61,7 @@ func ValidateToken() (bool, string) {
 	return validToken.UID == user.UID, "Authorized"
 }
 
+// TODO: Implement refresh token flow
 func RequireAuth() {
 	auth, _ := ValidateToken()
 	authMsg := "Error: The command you're tyring to run requires authentication"

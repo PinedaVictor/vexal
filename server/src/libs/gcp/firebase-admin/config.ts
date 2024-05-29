@@ -29,7 +29,9 @@ export const validateToken = async (token: string) => {
   try {
     const tokenValid = await getAuth().verifyIdToken(token);
     console.log(tokenValid);
+    return true;
   } catch (error) {
     console.error(error);
+    return false;
   }
 };

@@ -13,6 +13,6 @@ app.get('/', (req: Request, res: Response) => {
 app.listen(port, () => {
   // TODO: Update 8080 to port const
   console.log(`API listening on port http://localhost:${port}`);
-  validateToken('');
+  // validateToken('');
   // writeSecret();
 });

@@ -11,8 +11,6 @@ import (
 	"vx/config"
 	"vx/pkg/paths"
 	"vx/tools"
-
-	"github.com/spf13/viper"
 )
 
 var pathSmz = ""
@@ -29,12 +27,13 @@ func SMZ(t string, path string, entity string) {
 
 func smzRequest(content string, entity string) string {
 	fmt.Println("Calling smzRequest with entity:", entity)
-	cfg := viper.GetString("openaikey")
+	// cfg := viper.GetString("openaikey")
 	env, _ := config.LoadEnvironment()
 	route := fmt.Sprintf("%s/api/ai/smz", env.API_URL)
-	log.Println("OpenAI key:", cfg)
+	// log.Println("OpenAI key:", cfg)
 	resp, err := tools.PostRequest(route,
-		map[string]string{"openai": cfg},
+		// map[string]string{"openai": cfg},
+		nil,
 		map[string]interface{}{"content": content, "entity": entity})
 	if err != nil {
 		log.Fatal("error making smz requests")

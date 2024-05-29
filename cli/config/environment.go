@@ -8,6 +8,7 @@ import (
 
 type EnvironmentConfig struct {
 	// Apps
+	APP_URL              string `mapstructure:"APP_URL"`
 	API_URL              string `mapstructure:"API_URL"`
 	SERVER_REDIRECT_ADDR string `mapstructure:"SERVER_REDIRECT_ADDR"`
 	// GCP
