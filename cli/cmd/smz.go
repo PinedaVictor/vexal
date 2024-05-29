@@ -6,6 +6,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"vx/internal/authenticate"
 	"vx/internal/commands"
 	"vx/internal/commands/smz"
 	"vx/pkg/paths"
@@ -22,6 +23,7 @@ var smzCmd = &cobra.Command{
 	Long: `smz generates readme.md files based on a file or directory.
 	You can use smz to explain code you need to update or have written.`,
 	PreRun: func(cmd *cobra.Command, args []string) {
+		authenticate.RequireAuth()
 		if len(args) == 0 {
 			cmd.Help() // Display help text
 			os.Exit(0)

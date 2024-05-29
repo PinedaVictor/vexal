@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"vx/config"
+	"vx/internal/authenticate"
 	"vx/internal/commands"
 	"vx/internal/secrets"
 
@@ -39,6 +40,7 @@ var set = &cobra.Command{
 	Use:   "set [flags] [args]",
 	Short: "set key value pair for vx configuration",
 	PreRun: func(cmd *cobra.Command, args []string) {
+		authenticate.RequireAuth()
 		apis, validKey := config.CheckSupportedAPI(key)
 		if !validKey {
 			fmt.Printf("Invalid Key: %s \n", key)

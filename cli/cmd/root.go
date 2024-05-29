@@ -34,19 +34,6 @@ func Execute() {
 	}
 }
 
-func rootAuthStatus() string {
-	auth, msg := authenticate.ValidateToken()
-	authMsg := ""
-	if auth {
-		c := color.New(color.FgGreen)
-		authMsg = c.Sprint(msg)
-		return authMsg
-	}
-	red := color.New(color.FgRed)
-	authMsg = red.Sprint(msg)
-	return authMsg
-}
-
 func init() {
 	config.InitConfig()
 	config.WriteLicense()
@@ -65,7 +52,7 @@ func init() {
 	).Replace(usageTemplate)
 	re := regexp.MustCompile(`(?m)^Flags:\s*$`)
 	usageTemplate = re.ReplaceAllLiteralString(usageTemplate, `{{StyleHeading "Flags:"}}`)
-	usageTemplate = usageTemplate + "Auth Status: " + rootAuthStatus() + "\n"
+	usageTemplate = usageTemplate + "Auth Status: " + authenticate.RootAuthStatus() + "\n"
 	rootCmd.SetUsageTemplate(usageTemplate)
 
 	// Here you will define your flags and configuration settings.

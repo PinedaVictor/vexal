@@ -3,11 +3,14 @@ package authenticate
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
+	"os"
 	"sync"
 	"vx/config"
 
 	firebase "firebase.google.com/go"
+	"github.com/fatih/color"
 	"google.golang.org/api/option"
 )
 
@@ -56,4 +59,26 @@ func ValidateToken() (bool, string) {
 		return false, "Unauthorized: Run vx auth login"
 	}
 	return validToken.UID == user.UID, "Authorized"
+}
+
+func RequireAuth() {
+	auth, _ := ValidateToken()
+	authMsg := "Error: The command you're tyring to run requires authentication"
+	if !auth {
+		fmt.Println(authMsg)
+		os.Exit(0)
+	}
+}
+
+func RootAuthStatus() string {
+	auth, msg := ValidateToken()
+	authMsg := ""
+	if auth {
+		c := color.New(color.FgGreen)
+		authMsg = c.Sprint(msg)
+		return authMsg
+	}
+	red := color.New(color.FgRed)
+	authMsg = red.Sprint(msg)
+	return authMsg
 }
