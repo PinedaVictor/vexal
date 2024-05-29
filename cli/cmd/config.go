@@ -5,9 +5,9 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"vx/config"
+	"vx/internal/commands"
 	"vx/internal/secrets"
 
 	"github.com/spf13/cobra"
@@ -47,8 +47,12 @@ var set = &cobra.Command{
 		}
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		commands.StartSpinner("Updating config")
 		secrets.AddSecret(key, value)
-		log.Println("Config updated successfully")
+	},
+	PostRun: func(cmd *cobra.Command, args []string) {
+		msg := fmt.Sprintf("%s config updated successfully", key)
+		commands.StopSpinner(msg)
 	},
 }
 

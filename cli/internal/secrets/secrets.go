@@ -53,23 +53,18 @@ func AddSecret(secretId string, secretValue string) {
 	user, _ := config.LoadAuth()
 	secret := fmt.Sprintf("%s_%s", user.UID, secretId)
 	parent := fmt.Sprintf("projects/%s/secrets/%s", env.GCP_PROJECT_ID, secret) // "projects/my-project/secrets/my-secret"
-	fmt.Println("parent:", parent)
 	req := &secretmanagerpb.GetSecretRequest{
 		Name: parent,
 	}
-	result, err := secretClient.GetSecret(secretsCtx, req)
+	_, err := secretClient.GetSecret(secretsCtx, req)
 	if err != nil {
-		log.Println("Secret does not exist or not found")
-		// TODO: Create secret and update version
 		secretCreated := createSecet(secretId)
 		if secretCreated {
-			fmt.Println("Secret created succesfully")
-			// TODO: Add version
+			addSecretVersion(parent, secretValue)
 		}
 	} else {
-		// TODO: Update secret version
+		addSecretVersion(parent, secretValue)
 	}
-	log.Println("get secret result:", result)
 	defer secretClient.Close()
 }
 
@@ -107,7 +102,21 @@ func createSecet(secretId string) bool {
 	return nameResult[len(nameResult)-1] == secretName
 }
 
-func addSecretVersion(secretId string, secretValue string) {
-	// payload := []byte(secretValue)
-
+func addSecretVersion(secretId string, secretValue string) bool {
+	payload := []byte(secretValue)
+	fmt.Println(payload)
+	req := &secretmanagerpb.AddSecretVersionRequest{
+		Parent: secretId,
+		Payload: &secretmanagerpb.SecretPayload{
+			Data: payload,
+			// DataCrc32C: &checksum,
+		},
+	}
+	_, err := secretClient.AddSecretVersion(secretsCtx, req)
+	if err != nil {
+		log.Println("error adding secret version")
+		return false
+	}
+	defer secretClient.Close()
+	return true
 }
