@@ -18,6 +18,7 @@ var pathSmz = ""
 func SMZ(t string, path string, entity string) {
 	pathSmz = path
 	if t == paths.FP {
+		fmt.Println("SMZ file")
 		smzFile(entity)
 	}
 	if t == paths.DP {
@@ -27,13 +28,11 @@ func SMZ(t string, path string, entity string) {
 
 func smzRequest(content string, entity string) string {
 	fmt.Println("Calling smzRequest with entity:", entity)
-	// cfg := viper.GetString("openaikey")
 	env, _ := config.LoadEnvironment()
-	route := fmt.Sprintf("%s/api/ai/smz", env.API_URL)
-	// log.Println("OpenAI key:", cfg)
+	user, _ := config.LoadAuth()
+	route := fmt.Sprintf("%s/data/smz", env.API_URL)
 	resp, err := tools.PostRequest(route,
-		// map[string]string{"openai": cfg},
-		nil,
+		map[string]string{"authorization": user.Token},
 		map[string]interface{}{"content": content, "entity": entity})
 	if err != nil {
 		log.Fatal("error making smz requests")
@@ -50,7 +49,9 @@ func smzRequest(content string, entity string) string {
 
 func smzFile(entity string) {
 	content := paths.GetContent(pathSmz)
+	fmt.Println("About to make SMZ request")
 	text := smzRequest(content, entity)
+	fmt.Println("The text:", text)
 	currentDir, _ := os.Getwd()
 	file, err := os.Create(fmt.Sprintf("%s/%s", currentDir, "readme.md"))
 	if err != nil {

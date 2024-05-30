@@ -28,8 +28,9 @@ export const validateToken = async (token: string) => {
   console.log('Firebase admin validating token');
   try {
     const tokenValid = await getAuth().verifyIdToken(token);
-    console.log(tokenValid);
-    return true;
+    console.log('Token is valid:', tokenValid);
+    return tokenValid;
+    // return {validToken: true, uid: tokenValid.};
   } catch (error) {
     console.error(error);
     return false;

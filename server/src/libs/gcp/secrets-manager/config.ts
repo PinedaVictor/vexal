@@ -1,5 +1,6 @@
 import {SecretManagerServiceClient} from '@google-cloud/secret-manager';
 import {API_ENV} from '../../../env';
+import {VxReq} from '../../../middlewares';
 
 let client: SecretManagerServiceClient;
 const initSecretManager = () => {
@@ -19,25 +20,40 @@ const initSecretManager = () => {
   return client;
 };
 
-export const writeSecret = async (secretId: string) => {
+export const getSecret = async (req: VxReq, sdk: string) => {
   const client = initSecretManager();
   try {
-    const secretCreate = await client.createSecret({
-      parent: `projects/${API_ENV.GCP_PROJECT_ID}`,
-      secret: {
-        labels: {sdk: 'openai'},
-        // name: 'topsecretValue',
-        replication: {
-          userManaged: {
-            replicas: [{location: 'us-central1'}],
-          },
-        },
-      },
-      // This will be the sid+[SDK-SUFFIX]
-      secretId: secretId,
+    const secretVersion = await client.accessSecretVersion({
+      name: `projects/${API_ENV.GCP_PROJECT_ID}/secrets/${req.user?.uid}_${sdk}/versions/latest`,
     });
-    console.log('Secret create:', secretCreate);
+    // console.log('The secret:', secretVersion[0].payload?.data?.toString());
+    return secretVersion[0].payload?.data?.toString();
   } catch (error) {
-    console.error('error creating secret:', error);
+    console.error(error);
+    // return 'secret not found';
   }
 };
+
+// TODO: Likely ready to delete
+// export const writeSecret = async (secretId: string) => {
+//   const client = initSecretManager();
+//   try {
+//     const secretCreate = await client.createSecret({
+//       parent: `projects/${API_ENV.GCP_PROJECT_ID}`,
+//       secret: {
+//         labels: {sdk: 'openai'},
+//         // name: 'topsecretValue',
+//         replication: {
+//           userManaged: {
+//             replicas: [{location: 'us-central1'}],
+//           },
+//         },
+//       },
+//       // This will be the sid+[SDK-SUFFIX]
+//       secretId: secretId,
+//     });
+//     console.log('Secret create:', secretCreate);
+//   } catch (error) {
+//     console.error('error creating secret:', error);
+//   }
+// };

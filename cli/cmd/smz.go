@@ -4,10 +4,8 @@ Copyright © 2024 Victor Pineda
 package cmd
 
 import (
-	"fmt"
 	"os"
 	"vx/internal/authenticate"
-	"vx/internal/commands"
 	"vx/internal/commands/smz"
 	"vx/pkg/paths"
 
@@ -32,12 +30,12 @@ var smzCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		pathType, path := paths.DeterminePath(args[0])
 		if path != "" {
-			commands.StartSpinner(fmt.Sprintf("smz %s:", args[0]))
+			// commands.StartSpinner(fmt.Sprintf("smz %s:", args[0]))
 			smz.SMZ(pathType, path, args[0])
 		}
 	},
 	PostRun: func(cmd *cobra.Command, args []string) {
-		commands.StopSpinner("Complete!")
+		// commands.StopSpinner("Complete!")
 	},
 }
 
