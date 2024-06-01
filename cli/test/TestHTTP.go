@@ -23,7 +23,7 @@ func TestHTTP() (bool, error) {
 		fmt.Println("Error reading auth:", err)
 	}
 	route := fmt.Sprintf("%s/api", env.API_URL)
-	req, err := tools.GetRequest(route, map[string]string{"Authorization": user.Token})
+	req, err := tools.GetRequest(route, map[string]string{"Authorization": user.UID})
 	if err != nil {
 		log.Println(`
 		The service you're trying to use requires and internet connection.

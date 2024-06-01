@@ -11,6 +11,9 @@ const envSchema = z.object({
   // Secrets Manager
   SECRETS_MAN_PRIVATE_KEY: z.string(),
   SECRETS_MAN_EMAIL: z.string(),
+
+  // Prompts
+  SMZ_FILE: z.string(),
 });
 
 export const API_ENV = envSchema.parse(process.env);

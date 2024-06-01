@@ -1,5 +1,5 @@
 "use server";
-import { initializeApp, cert, getApps } from "firebase-admin/app";
+import { initializeApp, cert, getApps, getApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 
 const placeholderRandomKey =
@@ -9,7 +9,7 @@ const projectId = process.env.FB_ADMIN_PROJECT_ID;
 const privateKey = process.env.FB_ADMIN_PRIVATE_KEY ?? placeholderRandomKey;
 const clientEmail = process.env.FB_ADMIN_CLIENT_EMAIL;
 
-const initializeAdmin = () => {
+const initFirebaseAdmin = () => {
   initializeApp({
     credential: cert({
       privateKey: privateKey.replace(/\\n/g, "\n"),
@@ -19,17 +19,27 @@ const initializeAdmin = () => {
   });
 };
 
-const apps = getApps();
-if (!apps.length) {
-  initializeAdmin();
-}
+// // Initialize Firebase
+export const getFirebaseAdmin = () => {
+  const app = getApp();
+  if (!app) {
+    return initializeApp({
+      credential: cert({
+        privateKey: privateKey.replace(/\\n/g, "\n"),
+        clientEmail,
+        projectId,
+      }),
+    });
+  }
+  return app;
+};
+// export const firebaseAdminApp = () => getFirebaseAdmin();
 
 export const validateToken = async (token: string) => {
   console.log("Going to validate token");
-
   try {
     const tokenValid = await getAuth().verifyIdToken(token);
-    console.log(tokenValid);
+    console.log("token valid", tokenValid);
   } catch (error) {
     console.error(error);
   }

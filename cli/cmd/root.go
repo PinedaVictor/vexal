@@ -10,6 +10,7 @@ import (
 	"vx/cmd/auth"
 	"vx/config"
 	"vx/internal/authenticate"
+	"vx/test"
 
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
@@ -37,6 +38,7 @@ func Execute() {
 func init() {
 	config.InitConfig()
 	config.WriteLicense()
+	test.TestHTTP()
 	rootCmd.AddCommand(auth.AuthCmd)
 	// Color output setup
 	rootCmd.SetOutput(color.Output)

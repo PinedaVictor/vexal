@@ -31,8 +31,9 @@ func smzRequest(content string, entity string) string {
 	env, _ := config.LoadEnvironment()
 	user, _ := config.LoadAuth()
 	route := fmt.Sprintf("%s/data/smz", env.API_URL)
+	fmt.Println("content:", content, "enttity:", entity)
 	resp, err := tools.PostRequest(route,
-		map[string]string{"authorization": user.Token},
+		map[string]string{"authorization": user.Token, "Content-Type": "application/json"},
 		map[string]interface{}{"content": content, "entity": entity})
 	if err != nil {
 		log.Fatal("error making smz requests")

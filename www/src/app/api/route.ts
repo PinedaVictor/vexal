@@ -1,7 +1,8 @@
 "use server";
 
 import { validateToken } from "./firebase-admin/config";
-import { writeSecret } from "./secrets/config";
+import { getSecret, writeSecret } from "./secrets/config";
+import { headers } from "next/headers";
 // import { initSecretManager } from "./secrets/config";
 
 /**
@@ -14,7 +15,18 @@ export async function GET(request: Request) {
   console.log("Hitting server at /api");
   // const auth = request.headers.get("Authorization");
   // console.log("req in api:", auth);
-  writeSecret();
+  const authorization = headers().get("authorization");
+  console.log("Authori:", authorization);
+  if (!authorization) {
+    return Response.json({ sup: false });
+  }
+  // validateToken(authorization);
+  try {
+    const i = await getSecret(authorization, "openai");
+    console.log("secret: getSecret:::", i);
+  } catch (error) {
+    console.log("ERROR::", error);
+  }
   // if (!auth) return;
   // validateToken(auth);
   return Response.json({ sup: true });

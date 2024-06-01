@@ -8,6 +8,7 @@ const app = express();
 const port = 4000 || process.env.PORT;
 app.use(cors({origin: '*'}));
 app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 app.get('/', (req: Request, res: Response) => {
   return res.status(200).json({sup: true});
