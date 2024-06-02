@@ -27,11 +27,9 @@ func SMZ(t string, path string, entity string) {
 }
 
 func smzRequest(content string, entity string) string {
-	fmt.Println("Calling smzRequest with entity:", entity)
 	env, _ := config.LoadEnvironment()
 	user, _ := config.LoadAuth()
 	route := fmt.Sprintf("%s/data/smz", env.API_URL)
-	fmt.Println("content:", content, "enttity:", entity)
 	resp, err := tools.PostRequest(route,
 		map[string]string{"authorization": user.Token, "Content-Type": "application/json"},
 		map[string]interface{}{"content": content, "entity": entity})
@@ -50,7 +48,6 @@ func smzRequest(content string, entity string) string {
 
 func smzFile(entity string) {
 	content := paths.GetContent(pathSmz)
-	fmt.Println("About to make SMZ request")
 	text := smzRequest(content, entity)
 	fmt.Println("The text:", text)
 	currentDir, _ := os.Getwd()
@@ -68,7 +65,7 @@ func smzFile(entity string) {
 	}
 }
 
-// TODO:
+// TODO: You can likely use go concurrency to do all the calls in parallel
 func smzDirectory(entity string) {
 	log.Println("Under construction: Directory:", entity)
 	// cfg := viper.GetString("openaikey")
