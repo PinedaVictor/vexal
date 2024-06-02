@@ -15,14 +15,9 @@ export async function GET(request: Request) {
   console.log("Hitting server at /api");
   // const auth = request.headers.get("Authorization");
   // console.log("req in api:", auth);
-  const authorization = headers().get("authorization");
-  console.log("Authori:", authorization);
-  if (!authorization) {
-    return Response.json({ sup: false });
-  }
-  // validateToken(authorization);
+
   try {
-    const i = await getSecret(authorization, "openai");
+    const i = await getSecret("openai");
     console.log("secret: getSecret:::", i);
   } catch (error) {
     console.log("ERROR::", error);
