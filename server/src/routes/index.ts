@@ -1,1 +1,0 @@
-export {dataRouter} from './data';
