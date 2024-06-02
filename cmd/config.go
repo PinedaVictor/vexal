@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"os"
 	"vx/config"
+	"vx/internal"
 	"vx/internal/authenticate"
-	"vx/internal/commands"
 	"vx/internal/secrets"
 
 	"github.com/spf13/cobra"
@@ -49,12 +49,12 @@ var set = &cobra.Command{
 		}
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		commands.StartSpinner("Updating config")
+		internal.StartSpinner("Updating config")
 		secrets.AddSecret(key, value)
 	},
 	PostRun: func(cmd *cobra.Command, args []string) {
 		msg := fmt.Sprintf("%s config updated successfully", key)
-		commands.StopSpinner(msg)
+		internal.StopSpinner(msg)
 	},
 }
 

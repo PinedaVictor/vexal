@@ -6,7 +6,7 @@ package cmd
 import (
 	"os"
 	"vx/internal/authenticate"
-	"vx/internal/commands/smz"
+	"vx/internal/smz"
 	"vx/pkg/paths"
 
 	"github.com/spf13/cobra"

@@ -1,5 +1,5 @@
 // Package commands handles internal logic for cli workflow
-package commands
+package internal
 
 import (
 	"fmt"
