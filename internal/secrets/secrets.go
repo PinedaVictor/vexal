@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 	"strings"
 	"sync"
 	"vx/config"
@@ -119,4 +120,22 @@ func addSecretVersion(secretId string, secretValue string) bool {
 	}
 	defer secretClient.Close()
 	return true
+}
+
+func GetSecretVersion(secretId string) string {
+	initSecretManager()
+	env, _ := config.LoadEnvironment()
+	parent := fmt.Sprintf("projects/%s/secrets/%s/versions/latest", env.GCP_PROJECT_ID, secretId) // "projects/my-project/secrets/my-secret"
+	fmt.Println(parent)
+	req := &secretmanagerpb.AccessSecretVersionRequest{
+		Name: parent,
+	}
+	result, err := secretClient.AccessSecretVersion(secretsCtx, req)
+	defer secretClient.Close()
+	if err != nil {
+		fmt.Println("error: secret not found or does not exists", err)
+		os.Exit(0)
+	}
+	return string(result.Payload.Data)
+
 }
