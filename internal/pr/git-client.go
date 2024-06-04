@@ -18,7 +18,7 @@ func initGithubClient() {
 	user, _ := config.LoadAuth()
 	secretName := fmt.Sprintf("%s_github", user.UID)
 	gitToken := secrets.GetSecretVersion(secretName)
-	// github client
+	// github
 	gitCtx = context.Background()
 	gitClient = github.NewClient(nil).WithAuthToken(gitToken)
 }
@@ -33,4 +33,8 @@ func GetGitUser() *github.User {
 	}
 	fmt.Println("user:", user)
 	return user
+}
+
+func AutoPr() {
+	initGithubClient()
 }
