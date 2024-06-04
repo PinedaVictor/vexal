@@ -9,7 +9,6 @@ import (
 	"strings"
 	"vx/config"
 	"vx/internal/authenticate"
-	"vx/test"
 
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
@@ -37,7 +36,6 @@ func Execute() {
 func init() {
 	config.InitConfig()
 	config.WriteLicense()
-	test.TestHTTP()
 	// Color output setup
 	rootCmd.SetOutput(color.Output)
 	cobra.AddTemplateFunc("StyleHeading", color.New(color.FgBlue, color.Underline, color.Bold).SprintFunc())
