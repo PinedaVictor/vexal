@@ -24,12 +24,13 @@ var (
 	initError    error
 )
 
+// strings.Replace(env.FB_ADMIN_PRIVATE_KEY, "\\n", "\n", -1))
 func initSecretManager() {
 	env, _ := config.LoadEnvironment()
 	creds := map[string]string{
 		"project_id":   env.GCP_PROJECT_ID,
 		"type":         env.GCP_ACCOUNT_TYPE,
-		"private_key":  env.SECRETS_MAN_PRIVATE_KEY,
+		"private_key":  strings.Replace(env.SECRETS_MAN_PRIVATE_KEY, "\\n", "\n", -1),
 		"client_email": env.SECRETS_MAN_EMAIL,
 	}
 	credsJSON, err := json.Marshal(creds)

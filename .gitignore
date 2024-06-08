@@ -26,9 +26,12 @@ go.work
 
 #Environement
 .env
+.env.*
 
 # Binary 
 vx
 
 
 
+
+dist/

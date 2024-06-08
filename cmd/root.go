@@ -36,6 +36,7 @@ func Execute() {
 func init() {
 	config.InitConfig()
 	config.WriteLicense()
+	authMsg := authenticate.RootAuthStatus()
 	// Color output setup
 	rootCmd.SetOutput(color.Output)
 	cobra.AddTemplateFunc("StyleHeading", color.New(color.FgBlue, color.Underline, color.Bold).SprintFunc())
@@ -50,7 +51,7 @@ func init() {
 	).Replace(usageTemplate)
 	re := regexp.MustCompile(`(?m)^Flags:\s*$`)
 	usageTemplate = re.ReplaceAllLiteralString(usageTemplate, `{{StyleHeading "Flags:"}}`)
-	usageTemplate = usageTemplate + "Auth Status: " + authenticate.RootAuthStatus() + "\n"
+	usageTemplate = usageTemplate + "Auth Status: " + authMsg + "\n"
 	rootCmd.SetUsageTemplate(usageTemplate)
 
 	// Here you will define your flags and configuration settings.

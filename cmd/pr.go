@@ -24,6 +24,7 @@ to quickly create a Cobra application.`,
 		fmt.Println("pr called")
 		// pr.GetGitUser()
 		pr.AutoPr()
+		// pr.GetRepo()
 	},
 }
 

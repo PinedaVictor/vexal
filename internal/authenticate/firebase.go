@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"sync"
 	"vx/config"
 
@@ -27,7 +28,7 @@ func initFirebase() {
 	creds := map[string]string{
 		"type":         env.GCP_ACCOUNT_TYPE,
 		"project_id":   env.GCP_PROJECT_ID,
-		"private_key":  env.FB_ADMIN_PRIVATE_KEY,
+		"private_key":  strings.Replace(env.FB_ADMIN_PRIVATE_KEY, "\\n", "\n", -1),
 		"client_email": env.FB_ADMIN_CLIENT_EMAIL,
 	}
 	credsJSON, err := json.Marshal(creds)
@@ -52,17 +53,19 @@ func ValidateToken() (bool, string) {
 	user, _ := config.LoadAuth()
 	auth, err := firebaseApp.Auth(firebaseCtx)
 	if err != nil {
-		log.Println("error initializing Firebase")
+		log.Println("error initializing Firebase", err)
+		return false, "error"
 	}
 	validToken, tokenErr := auth.VerifyIDToken(firebaseCtx, user.Token)
 	if tokenErr != nil {
-		return false, "Unauthorized: Run vx auth login"
+		return false, "Unauthorized: Run vx login"
 	}
 	return validToken.UID == user.UID, "Authorized"
 }
 
 // TODO: Implement refresh token flow
 func RequireAuth() {
+	initFirebase()
 	auth, _ := ValidateToken()
 	authMsg := "Error: The command you're tyring to run requires authentication"
 	if !auth {
@@ -72,6 +75,7 @@ func RequireAuth() {
 }
 
 func RootAuthStatus() string {
+	initFirebase()
 	auth, msg := ValidateToken()
 	authMsg := ""
 	if auth {
