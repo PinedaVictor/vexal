@@ -126,8 +126,8 @@ func addSecretVersion(secretId string, secretValue string) bool {
 func GetSecretVersion(secretId string) string {
 	initSecretManager()
 	env, _ := config.LoadEnvironment()
-	parent := fmt.Sprintf("projects/%s/secrets/%s/versions/latest", env.GCP_PROJECT_ID, secretId) // "projects/my-project/secrets/my-secret"
-	fmt.Println(parent)
+	// "projects/my-project/secrets/my-secret"
+	parent := fmt.Sprintf("projects/%s/secrets/%s/versions/latest", env.GCP_PROJECT_ID, secretId)
 	req := &secretmanagerpb.AccessSecretVersionRequest{
 		Name: parent,
 	}
