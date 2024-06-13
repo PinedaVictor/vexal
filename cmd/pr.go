@@ -5,6 +5,9 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+	"vx/internal"
+	"vx/internal/authenticate"
 	"vx/internal/pr"
 
 	"github.com/spf13/cobra"
@@ -13,18 +16,27 @@ import (
 // prCmd represents the pr command
 var prCmd = &cobra.Command{
 	Use:   "pr",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "AI generated PRs based on your commit history",
+	// TODO: Add long description
+	Long: ``,
+	PreRun: func(cmd *cobra.Command, args []string) {
+		authenticate.RequireAuth()
+		user := pr.GetGitUser()
+		if user == nil {
+			fmt.Printf("We could not get your github user.\n")
+			fmt.Printf("Make sure you enable the github api and supply vexal with a github token.\n")
+			fmt.Printf("command: vx config set -k github -v [ACCESS-TOKEN]\n")
+			fmt.Printf("Github documentation on access tokens\n")
+			fmt.Printf("https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens\n")
+			os.Exit(0)
+		}
+	},
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("pr called")
-		pr.GetGitUser()
+		internal.StartSpinner("Preparing your PR ")
 		pr.AutoPr()
-		// pr.GetRepo()
+	},
+	PostRun: func(cmd *cobra.Command, args []string) {
+		internal.StopSpinner("PR complete!")
 	},
 }
 
