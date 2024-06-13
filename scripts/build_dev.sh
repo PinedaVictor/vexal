@@ -5,7 +5,7 @@ cd ..
 # Source environment variables from .env.development
 source .env.development
 
-# Build your application with injected environment variables using ldflags
+# Build application with injected environment variables using ldflags
 echo "Building Development"
 go build -ldflags "\
   -X 'vx/config.APP_URL=$APP_URL' \

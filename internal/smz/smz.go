@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 	"strings"
 	"vx/config"
+	"vx/pkg"
 	"vx/pkg/paths"
-	"vx/tools"
 )
 
 var pathSmz = ""
@@ -30,7 +30,7 @@ func smzRequest(content string, entity string) string {
 	env, _ := config.LoadEnvironment()
 	user, _ := config.LoadAuth()
 	route := fmt.Sprintf("%s/data/smz", env.API_URL)
-	resp, err := tools.PostRequest(route,
+	resp, err := pkg.PostRequest(route,
 		map[string]string{"authorization": user.Token, "Content-Type": "application/json"},
 		map[string]interface{}{"content": content, "entity": entity})
 	if err != nil {

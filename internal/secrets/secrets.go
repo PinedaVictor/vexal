@@ -13,6 +13,8 @@ import (
 	secretmanager "cloud.google.com/go/secretmanager/apiv1"
 	"cloud.google.com/go/secretmanager/apiv1/secretmanagerpb"
 	"google.golang.org/api/option"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 var (
@@ -46,7 +48,6 @@ func initSecretManager() {
 			log.Fatalf("failed to create secret manager client: %v", err)
 		}
 	})
-
 }
 
 func AddSecret(secretId string, secretValue string) {
@@ -132,11 +133,27 @@ func GetSecretVersion(secretId string) string {
 		Name: parent,
 	}
 	result, err := secretClient.AccessSecretVersion(secretsCtx, req)
-	defer secretClient.Close()
+	/*
+		TODO: Use or don't use defer statement
+		The defer statement is used to close the secret manager client. The issue arises when
+		there are 2 calls from the calling function.
+		FIXME: You can either think of a different way of managing the client or accept an array od secretIds
+	*/
+	// defer secretClient.Close()
 	if err != nil {
 		fmt.Println("error: secret not found or does not exists", err)
 		os.Exit(0)
 	}
+	if err != nil {
+		fmt.Printf("Error accessing secret version: %v\n", err)
+		if status.Code(err) == codes.NotFound {
+			fmt.Println("Secret not found or does not exist.")
+		} else if status.Code(err) == codes.Canceled {
+			fmt.Println("Request canceled. gRPC client connection might be closing.")
+		} else {
+			fmt.Printf("An unexpected error occurred: %v\n", err)
+		}
+		os.Exit(1)
+	}
 	return string(result.Payload.Data)
-
 }
