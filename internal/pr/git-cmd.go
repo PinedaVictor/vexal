@@ -49,9 +49,12 @@ func GetGitLogs() string {
 func GetWorkingBranch() string {
 	// branch --show-current
 	execmd := exec.Command(GitCMD, "branch", "--show-current")
-	ouput, err := execmd.Output()
+	output, err := execmd.Output()
 	if err != nil {
 		fmt.Println("err running cmd:", err)
+		return ""
 	}
-	return string(ouput)
+	// Convert to string and trim whitespace
+	branch := strings.TrimSpace(string(output))
+	return branch
 }
