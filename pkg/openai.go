@@ -17,7 +17,6 @@ var (
 func initOpenAI() {
 	user, _ := config.LoadAuth()
 	secret := secrets.GetSecretVersion(fmt.Sprintf("%s_openai", user.UID))
-	fmt.Println("openai key:", secret)
 	openAiClient = openai.NewClient(secret)
 }
 
