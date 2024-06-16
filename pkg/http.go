@@ -1,10 +1,11 @@
 // package tools
-package tools
+package pkg
 
 import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 
@@ -46,7 +47,9 @@ func GetRequest(url string, headers map[string]string) (*http.Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+	// defer resp.Body.Close()
+	fmt.Println("RESP:", resp)
+
 	return resp, nil
 }
 
