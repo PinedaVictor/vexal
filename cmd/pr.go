@@ -13,6 +13,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var branch = ""
+
 // prCmd represents the pr command
 var prCmd = &cobra.Command{
 	Use:   "pr",
@@ -33,7 +35,7 @@ var prCmd = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		internal.StartSpinner("Preparing your PR ")
-		pr.AutoPr()
+		pr.AutoPr(branch)
 	},
 	PostRun: func(cmd *cobra.Command, args []string) {
 		internal.StopSpinner("PR complete!")
@@ -42,6 +44,7 @@ var prCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(prCmd)
+	prCmd.Flags().StringVarP(&branch, "branch", "b", "main", "PR to an existing remote branch. Default is main")
 
 	// Here you will define your flags and configuration settings.
 

@@ -30,15 +30,8 @@ func GetRepo() (string, string, string) {
 	return owner, repo, fmt.Sprintf("%s/%s/%s", githubURL, owner, repo)
 }
 
-func GetGitLogs() string {
-	// branch
-	// git rev-parse --abbrev-ref HEAD
-	// commits to 15
-	// git log --pretty=format:"%s" -n 15 origin/main
-	// commits to branch
-	// git log --pretty=format:"%s" origin/main
-	// execmd := exec.Command(GitCMD, "log", `--pretty=format:%s | %ci`, "origin/main")
-	execmd := exec.Command(GitCMD, "log", `--pretty=format:%s`, "origin/main")
+func GetGitLogs(branch string) string {
+	execmd := exec.Command(GitCMD, "log", `--pretty=format:%s`, "-n", "20", branch)
 	output, err := execmd.Output()
 	if err != nil {
 		fmt.Println("err running cmd:", err)
