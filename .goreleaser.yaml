@@ -1,0 +1,66 @@
+project_name: vexal
+release:
+  github:
+    owner: your-github-username
+    name: vexal
+
+builds:
+  - id: vx
+    main: ./cmd/vx
+    binary: vx
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+
+archives:
+  - format: tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - license
+      - README.md
+
+brews:
+  - name: vx
+  - repository:
+      owner: PinedaVictor
+      name: homebrew-tap
+    description: "A brief description of your CLI tool"
+    homepage: "https://github.com/your-github-username/vexal"
+    install: |
+      bin.install "vx"
+
+snapcrafts:
+  - name: vx
+    summary: "A brief summary of your CLI tool"
+    description: "A detailed description of your CLI tool"
+    grade: stable
+    confinement: strict
+    apps:
+      vx:
+        command: vx
+
+# chocolatey:
+#   username: your-chocolatey-username
+#   api_key:
+#     secure: $CHOCOLATEY_API_KEY
+#   package:
+#     id: vx
+#     title: "VX CLI"
+#     description: "A brief description of your CLI tool"
+#     tags:
+#       - vx
+
+# env_files:
+#   - .env.production
+
+env:
+  - GITHUB_TOKEN
+  - CHOCOLATEY_API_KEY
