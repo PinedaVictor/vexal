@@ -141,17 +141,18 @@ func GetSecretVersion(secretId string) string {
 	*/
 	// defer secretClient.Close()
 	if err != nil {
-		fmt.Println("error: secret not found or does not exists", err)
+		fmt.Println("error: secret not found or does not exists.")
+		fmt.Println("Make sure that the API you are trying to use is enabled and configured")
 		os.Exit(0)
 	}
 	if err != nil {
-		fmt.Printf("Error accessing secret version: %v\n", err)
+		fmt.Printf("Error accessing secret version")
 		if status.Code(err) == codes.NotFound {
 			fmt.Println("Secret not found or does not exist.")
 		} else if status.Code(err) == codes.Canceled {
 			fmt.Println("Request canceled. gRPC client connection might be closing.")
 		} else {
-			fmt.Printf("An unexpected error occurred: %v\n", err)
+			fmt.Printf("An unexpected error occurred")
 		}
 		os.Exit(1)
 	}
