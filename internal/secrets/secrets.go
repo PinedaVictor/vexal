@@ -142,7 +142,7 @@ func GetSecretVersion(secretId string) string {
 	// defer secretClient.Close()
 	if err != nil {
 		fmt.Println("error: secret not found or does not exists.")
-		fmt.Println("Make sure that the API you are trying to use is enabled and configured")
+		fmt.Println("Make sure the API you are trying to use is enabled and configured.")
 		os.Exit(0)
 	}
 	if err != nil {
