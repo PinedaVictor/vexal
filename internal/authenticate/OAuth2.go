@@ -19,7 +19,7 @@ func RunAuthServer() {
 	http.HandleFunc("/callback", callbackHandler)
 	err := server.ListenAndServe()
 	if err != nil {
-		fmt.Println("error starting server:", err)
+		fmt.Println("", err)
 	}
 }
 

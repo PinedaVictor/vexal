@@ -17,7 +17,7 @@ import (
 // configCmd represents the config command
 var configCmd = &cobra.Command{
 	Use:   "config",
-	Short: "View and edit vx configuartion",
+	Short: "Edit vx configuartion",
 	Long: `You can use config to access and edit vx configuration.
 	Configuration located at $HOME/.vx`,
 }

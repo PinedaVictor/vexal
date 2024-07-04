@@ -5,6 +5,7 @@ import (
 	"os"
 	"vx/pkg"
 	"vx/pkg/exe"
+	"vx/pkg/paths"
 
 	"github.com/google/go-github/v62/github"
 )
@@ -14,18 +15,22 @@ func AutoPr(branch string) {
 	owner, repo, _ := GetRepo()
 	workingBranch := GetWorkingBranch()
 	logs := GetGitLogs(workingBranch)
-	prBody := pkg.GenerateReponse(fmt.Sprintf("Use the following commit messages to summaraize development, use bullet points as well. Each commit log is sperated by a | %s", logs))
-	// TODO: Input and/default for base branch
-	// base := "main"
+	hasTpl, tpl := hasPRTemplate()
+	var prBody string
+	if hasTpl {
+		prBody = pkg.GenerateReponse(fmt.Sprintf("Use the following commit messages and PR template %s to summaraize development, use bullet points as well. Each commit log is sperated by a | %s", tpl, logs))
+	} else {
+		prBody = pkg.GenerateReponse(fmt.Sprintf("Use the following commit messages to summaraize development, use bullet points as well. Each commit log is sperated by a | %s", logs))
+	}
+
 	maintainerCanModify := false
 	// draft := false
 	// issue := 0
 	pullReq := &github.NewPullRequest{
-		Title:    &workingBranch,
-		Head:     github.String(workingBranch),
-		HeadRepo: github.String(workingBranch),
-		Base:     github.String(branch),
-		// Base:                &base,
+		Title:               &workingBranch,
+		Head:                github.String(workingBranch),
+		HeadRepo:            github.String(workingBranch),
+		Base:                github.String(branch),
 		Body:                &prBody,
 		MaintainerCanModify: &maintainerCanModify,
 		// Draft:               &draft,
@@ -39,4 +44,15 @@ func AutoPr(branch string) {
 	}
 	url := pullRequest.HTMLURL
 	exe.OpenURL(*url)
+}
+
+func hasPRTemplate() (bool, string) {
+	dir, _ := os.Getwd()
+	templateDir := fmt.Sprintf("%s/.github/pull_request_template.md", dir)
+	tplExists := paths.PathExists(templateDir)
+	if tplExists {
+		templateContent := paths.GetContent(templateDir)
+		return true, templateContent
+	}
+	return false, ""
 }
