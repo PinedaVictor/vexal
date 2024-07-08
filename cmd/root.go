@@ -21,7 +21,7 @@ var versionFlag bool
 var rootCmd = &cobra.Command{
 	Use:     "vx",
 	Short:   `AI Powered tools for Developers`,
-	Version: "v1.0.1",
+	Version: "v1.0.2",
 	Long:    ``,
 	PreRun: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Running PreRun", cmd)
