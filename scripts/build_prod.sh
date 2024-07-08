@@ -8,6 +8,7 @@ source .env.production
 # Build application with injected environment variables using ldflags
 echo "Building Production"
 go build -ldflags "\
+  -X 'vx/config.ENVIRONMENT=$ENVIRONMENT' \
   -X 'vx/config.APP_URL=$APP_URL' \
   -X 'vx/config.SERVER_REDIRECT_ADDR=$SERVER_REDIRECT_ADDR' \
   -X 'vx/config.GCP_PROJECT_ID=$GCP_PROJECT_ID' \

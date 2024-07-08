@@ -8,6 +8,8 @@ import (
 )
 
 type EnvironmentConfig struct {
+	// Environments
+	ENVIRONMENT string `mapstructure:"ENVIRONMENT"`
 	// Apps
 	APP_URL              string `mapstructure:"APP_URL"`
 	API_URL              string `mapstructure:"API_URL"`
@@ -26,6 +28,7 @@ type EnvironmentConfig struct {
 
 // Variables to be set at build time using -ldflags
 var (
+	ENVIRONMENT              string
 	APP_URL                  string
 	SERVER_REDIRECT_ADDR     string
 	GCP_PROJECT_ID           string
@@ -38,24 +41,31 @@ var (
 )
 
 func LoadEnvironment() (config EnvironmentConfig, err error) {
-	viper.AddConfigPath(".")
-	viper.SetConfigName(".env")
-	viper.SetConfigType("env")
-	viper.AutomaticEnv()
 
-	err = viper.ReadInConfig()
-	if err != nil {
-		log.Println(err)
-		return
+	fmt.Println("ENV:", ENVIRONMENT)
+	if ENVIRONMENT != "production" {
+		fmt.Println("ENV is NOT PROD")
+		viper.AddConfigPath(".")
+		viper.SetConfigName(".env")
+		viper.SetConfigType("env")
+		viper.AutomaticEnv()
+
+		err = viper.ReadInConfig()
+		if err != nil {
+			log.Println(err)
+			return
+		}
+
+		err = viper.Unmarshal(&config)
+		if err != nil {
+			fmt.Println("error: reading in environment config")
+		}
+		return config, nil
 	}
-
-	err = viper.Unmarshal(&config)
-	if err != nil {
-		fmt.Println("error: reading in environment config")
-	}
-
+	fmt.Println("ENV is PROD")
 	// Override with build-time variables if they are set
 	if APP_URL != "" {
+
 		config.APP_URL = APP_URL
 	}
 	if SERVER_REDIRECT_ADDR != "" {
