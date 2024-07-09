@@ -50,28 +50,18 @@ func initSecretManager() {
 	})
 }
 
-func AddSecret(secretId string, secretValue string) {
+func AddSecret(secretId string, secretValue string) bool {
 	initSecretManager()
+	defer secretClient.Close()
 	env, _ := config.LoadEnvironment()
 	user, _ := config.LoadAuth()
 	secret := fmt.Sprintf("%s_%s", user.UID, secretId)
 	parent := fmt.Sprintf("projects/%s/secrets/%s", env.GCP_PROJECT_ID, secret) // "projects/my-project/secrets/my-secret"
-	req := &secretmanagerpb.GetSecretRequest{
-		Name: parent,
-	}
-	_, err := secretClient.GetSecret(secretsCtx, req)
-	if err != nil {
-		secretCreated := createSecet(secretId)
-		if secretCreated {
-			addSecretVersion(parent, secretValue)
-		}
-	} else {
-		addSecretVersion(parent, secretValue)
-	}
-	defer secretClient.Close()
+	return addSecretVersion(parent, secretValue)
 }
 
-func createSecet(secretId string) bool {
+func CreateSecret(secretId string) bool {
+	initSecretManager()
 	env, _ := config.LoadEnvironment()
 	user, _ := config.LoadAuth()
 	secretName := fmt.Sprintf("%s_%s", user.UID, secretId) // "UID_SDKSUFFIX"
@@ -97,7 +87,11 @@ func createSecet(secretId string) bool {
 	}
 	result, err := secretClient.CreateSecret(secretsCtx, req)
 	if err != nil {
-		log.Println("error creating secret")
+		if status.Code(err) == codes.AlreadyExists {
+			fmt.Println("Secret version already exists.")
+			fmt.Println("Try running: vx config set -k [API] -v [YOUR API KEY]")
+			return false
+		}
 		return false
 	}
 	defer secretClient.Close()
@@ -107,7 +101,6 @@ func createSecet(secretId string) bool {
 
 func addSecretVersion(secretId string, secretValue string) bool {
 	payload := []byte(secretValue)
-	fmt.Println(payload)
 	req := &secretmanagerpb.AddSecretVersionRequest{
 		Parent: secretId,
 		Payload: &secretmanagerpb.SecretPayload{
@@ -117,7 +110,13 @@ func addSecretVersion(secretId string, secretValue string) bool {
 	}
 	_, err := secretClient.AddSecretVersion(secretsCtx, req)
 	if err != nil {
-		log.Println("error adding secret version")
+		if status.Code(err) == codes.NotFound {
+			fmt.Println("API key not found or does not exist.")
+		} else if status.Code(err) == codes.Canceled {
+			fmt.Println("Request canceled. Client connection might be closing.")
+		} else {
+			fmt.Printf("An unexpected error occurred")
+		}
 		return false
 	}
 	defer secretClient.Close()

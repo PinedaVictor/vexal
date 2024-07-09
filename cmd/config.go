@@ -22,15 +22,6 @@ var configCmd = &cobra.Command{
 	Configuration located at $HOME/.vx`,
 }
 
-// TODO: This will likely be deleted
-// var view = &cobra.Command{
-// 	Use:   "view",
-// 	Short: "view config.json from $HOME/.vx",
-// 	Run: func(cmd *cobra.Command, args []string) {
-// 		// config.LoadConfig()
-// 	},
-// }
-
 var (
 	key   = ""
 	value = ""
@@ -50,9 +41,11 @@ var set = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		internal.StartSpinner("Updating config")
-		secrets.AddSecret(key, value)
-	},
-	PostRun: func(cmd *cobra.Command, args []string) {
+		if !secrets.AddSecret(key, value) {
+			msg := fmt.Sprintf("Make sure you have enabled the API: %s", key)
+			internal.StopSpinner(msg)
+			os.Exit(0)
+		}
 		msg := fmt.Sprintf("%s config updated successfully", key)
 		internal.StopSpinner(msg)
 	},
@@ -60,8 +53,6 @@ var set = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(configCmd)
-	// TODO: view cmd will likely not be needed
-	// configCmd.AddCommand(view)
 	configCmd.AddCommand(set)
 	set.Flags().StringVarP(&key, "key", "k", "", "Define key to to be updated")
 	set.Flags().StringVarP(&value, "value", "v", "", "Value of key")

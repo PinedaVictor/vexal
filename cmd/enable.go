@@ -8,6 +8,8 @@ import (
 	"os"
 	"vx/config"
 	"vx/internal"
+	"vx/internal/authenticate"
+	"vx/internal/secrets"
 
 	"github.com/spf13/cobra"
 )
@@ -21,6 +23,7 @@ var enableCmd = &cobra.Command{
 	enhancing the capabilities of their applications. This tool supports various popular APIs,
 	enabling easy configuration and management to streamline workflows and automate processes`,
 	PreRun: func(cmd *cobra.Command, args []string) {
+		authenticate.RequireAuth()
 		if !config.APISupported(args[0]) {
 			fmt.Printf("API: %s is not supported \n", args[0])
 			config.PrintSupportedAPIs()
@@ -29,8 +32,11 @@ var enableCmd = &cobra.Command{
 		internal.StartSpinner("Enabling API")
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("enable called", args)
-		internal.StopSpinner("API Enabled")
+		if secrets.CreateSecret(args[0]) {
+			msg := fmt.Sprintf("API Enabled run: vx config set -k %s -v [YOUR API KEY]", args[0])
+			internal.StopSpinner(msg)
+		}
+		internal.StopSpinner("Failed to enable API")
 	},
 }
 
