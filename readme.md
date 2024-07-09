@@ -5,13 +5,11 @@
 Vexal is an automation tool helping organizations and developers achieve their goals!
 We have officailly released vx - a CLI app built for assisting and automating developer workflow. 🥳
 
-Current version: [v1.0.3]()
-
 Documentation: [vexal.io](https://www.vexal.io/)
 
 ## Getting started
 
-Currently support for Homebrew tap install
+Homebrew tap install
 
 1.
 
@@ -23,4 +21,36 @@ brew tap PinedaVictor/vx
 
 ```
 brew install pinedavictor/vx/vexal
+```
+
+## Once installed
+
+Run
+
+```
+vx
+```
+
+You should see the following prompt
+
+```
+AI Powered tools for Developers
+
+Usage:
+  vx [command]
+
+Commands:
+  completion  Generate the autocompletion script for the specified shell
+  config      Edit vx configuartion
+  enable      Enable supported API integrations by vx
+  help        Help about any command
+  login       Use login to authenticate into the vexal platform
+  pr          AI generated PRs based on your commit history
+
+Flags:
+  -h, --help      help for vx
+  -v, --version   version for vx
+
+Use "vx [command] --help" for more information about a command.
+Auth Status: Unauthorized: Run vx login
 ```
