@@ -2,10 +2,12 @@
 <img width="698" alt="banner maker" src="https://github.com/PinedaVictor/vexal/blob/main/docs/images/vexal_banner.jpg">
 </div>
 
+[vexal.io](https://www.vexal.io/)
+
 Vexal is an automation tool helping organizations and developers achieve their goals!
 We have officailly released vx - a CLI app built for assisting and automating developer workflow. 🥳
 
-Documentation: [vexal.io](https://www.vexal.io/)
+[Quick Start Guide](https://www.vexal.io/quickstart)
 
 ## Getting started
 
@@ -23,7 +25,7 @@ brew tap PinedaVictor/vx
 brew install pinedavictor/vx/vexal
 ```
 
-## Once installed
+## Once Installed
 
 Run
 
@@ -31,7 +33,7 @@ Run
 vx
 ```
 
-You should see the following prompt
+You will see the following prompt
 
 ```
 AI Powered tools for Developers
