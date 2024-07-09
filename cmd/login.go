@@ -1,7 +1,6 @@
 /*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-*/
-package cmd
+Copyright © 2024 Victor Pineda pinedavictor095@gmail.com
+*/package cmd
 
 import (
 	"vx/internal"
