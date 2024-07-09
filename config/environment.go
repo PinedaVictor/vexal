@@ -41,10 +41,7 @@ var (
 )
 
 func LoadEnvironment() (config EnvironmentConfig, err error) {
-
-	fmt.Println("ENV:", ENVIRONMENT)
 	if ENVIRONMENT != "production" {
-		fmt.Println("ENV is NOT PROD")
 		viper.AddConfigPath(".")
 		viper.SetConfigName(".env")
 		viper.SetConfigType("env")
@@ -62,7 +59,7 @@ func LoadEnvironment() (config EnvironmentConfig, err error) {
 		}
 		return config, nil
 	}
-	fmt.Println("ENV is PROD")
+
 	// Override with build-time variables if they are set
 	if APP_URL != "" {
 

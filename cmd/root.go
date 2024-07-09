@@ -4,7 +4,6 @@ Copyright © 2024 Victor Pineda pinedavictor095@gmail.com
 package cmd
 
 import (
-	"fmt"
 	"os"
 	"regexp"
 	"strings"
@@ -15,24 +14,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var versionFlag bool
-
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:     "vx",
 	Short:   `AI Powered tools for Developers`,
 	Version: "v1.0.2",
 	Long:    ``,
-	PreRun: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Running PreRun", cmd)
-		fmt.Println(versionFlag)
-		if versionFlag {
-			// TODO: version
-			// runVersion()
-			fmt.Println("Print version number here")
-			os.Exit(0)
-		}
-	},
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) {},
