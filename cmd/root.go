@@ -18,7 +18,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:     "vx",
 	Short:   `AI Powered tools for Developers`,
-	Version: "v1.0.2",
+	Version: "v1.0.3",
 	Long:    ``,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
