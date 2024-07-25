@@ -70,3 +70,19 @@ func getFileInfo(input string) (fs.FileInfo, string) {
 	}
 	return info, path
 }
+
+func AppendToFile(filename string, content string) error {
+	// Open the file in append mode, create it if it doesn't exist
+	file, err := os.OpenFile(filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return fmt.Errorf("failed to open file: %w", err)
+	}
+	defer file.Close()
+
+	// Write the content to the file
+	if _, err := file.WriteString(content); err != nil {
+		return fmt.Errorf("failed to write to file: %w", err)
+	}
+
+	return nil
+}

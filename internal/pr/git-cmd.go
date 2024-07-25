@@ -11,6 +11,7 @@ const (
 	githubURL = "https://github.com"
 )
 
+// GetRepo returns local repositroy information: owner, repo, repo URL
 func GetRepo() (string, string, string) {
 	// TODO: Implement working directory switching if needed
 	// curDir, _ := os.Getwd()
