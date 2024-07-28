@@ -52,3 +52,6 @@ func GetWorkingBranch() string {
 	branch := strings.TrimSpace(string(output))
 	return branch
 }
+
+// Number of commits
+// git rev-list BRANCH | wc -l
