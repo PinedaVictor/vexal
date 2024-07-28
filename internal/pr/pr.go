@@ -5,6 +5,7 @@ import (
 	"os"
 	"vx/pkg"
 	"vx/pkg/exe"
+	"vx/pkg/gutils"
 	"vx/pkg/paths"
 
 	"github.com/google/go-github/v62/github"
@@ -12,9 +13,9 @@ import (
 
 func AutoPr(branch string) {
 	initGithubClient()
-	owner, repo, _ := GetRepo()
-	workingBranch := GetWorkingBranch()
-	logs := GetGitLogs(workingBranch)
+	owner, repo, _ := gutils.GetRepo()
+	workingBranch := gutils.GetWorkingBranch()
+	logs := gutils.GetGitLogs(workingBranch)
 	hasTpl, tpl := hasPRTemplate()
 	var prBody string
 	if hasTpl {

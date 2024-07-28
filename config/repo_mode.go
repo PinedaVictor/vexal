@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"vx/pkg/gutils"
 	"vx/pkg/paths"
 
 	"github.com/spf13/viper"
@@ -11,6 +12,7 @@ import (
 
 type RepoMode struct {
 	repo       string `mapstructure:"repo"`
+	repoURL    string `mapstructure:"repoURL"`
 	openai_key string `mapstructure:"openai_key"`
 	github_key string `mapstructure:"github_key"`
 }
@@ -34,23 +36,28 @@ func InitRepoMode() {
 	curDir, _ := os.Getwd()
 	cfgFile := fmt.Sprintf("%s/%s", curDir, vxCfg)
 	repoMode.SetConfigFile(cfgFile)
-	repoMode.SetConfigType("json")
+	repoMode.SetConfigType("yaml")
+	_, repoName, gitRepoURL := gutils.GetRepo()
+
 	dfltCfg := RepoMode{
-		repo:       "",
+		repo:       repoName,
+		repoURL:    gitRepoURL,
 		openai_key: "",
 		github_key: "",
 	}
 	repoMode.Set("repo", dfltCfg.repo)
+	repoMode.Set("repoURL", dfltCfg.repoURL)
 	repoMode.Set("openai_key", dfltCfg.openai_key)
 	repoMode.Set("github_key", dfltCfg.github_key)
 	err := repoMode.WriteConfig()
 	if err != nil {
 		log.Println("error initiating repo config")
 	}
+
 	addToGitIgnore(fmt.Sprintf("%s/.gitignore", curDir))
 }
 
 func addToGitIgnore(dir string) {
-	paths.AppendToFile(dir, "# vx config - vexal.io \n")
+	paths.AppendToFile(dir, "# vexal.io vx config \n")
 	paths.AppendToFile(dir, ".vx \n")
 }
