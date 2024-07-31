@@ -11,10 +11,10 @@ import (
 )
 
 type RepoMode struct {
-	repo       string `mapstructure:"repo"`
-	repoURL    string `mapstructure:"repoURL"`
-	openai_key string `mapstructure:"openai_key"`
-	github_key string `mapstructure:"github_key"`
+	Repo       string `mapstructure:"repo"`
+	RepoURL    string `mapstructure:"repoURL"`
+	Openai_key string `mapstructure:"openai_key"`
+	Github_key string `mapstructure:"github_key"`
 }
 
 var (
@@ -22,14 +22,14 @@ var (
 	vxCfg    = ".vx"
 )
 
-func configExists() bool {
+func RepoModeActive() bool {
 	curDir, _ := os.Getwd()
 	cfgDir := fmt.Sprintf("%s/%s", curDir, vxCfg)
 	return paths.PathExists(cfgDir)
 }
 
 func InitRepoMode() {
-	if configExists() {
+	if RepoModeActive() {
 		fmt.Println("Repository config already exists.")
 		return
 	}
@@ -40,15 +40,15 @@ func InitRepoMode() {
 	_, repoName, gitRepoURL := gutils.GetRepo()
 
 	dfltCfg := RepoMode{
-		repo:       repoName,
-		repoURL:    gitRepoURL,
-		openai_key: "",
-		github_key: "",
+		Repo:       repoName,
+		RepoURL:    gitRepoURL,
+		Openai_key: "",
+		Github_key: "",
 	}
-	repoMode.Set("repo", dfltCfg.repo)
-	repoMode.Set("repoURL", dfltCfg.repoURL)
-	repoMode.Set("openai_key", dfltCfg.openai_key)
-	repoMode.Set("github_key", dfltCfg.github_key)
+	repoMode.Set("repo", dfltCfg.Repo)
+	repoMode.Set("repoURL", dfltCfg.RepoURL)
+	repoMode.Set("openai_key", dfltCfg.Openai_key)
+	repoMode.Set("github_key", dfltCfg.Github_key)
 	err := repoMode.WriteConfig()
 	if err != nil {
 		log.Println("error initiating repo config")
@@ -60,4 +60,25 @@ func InitRepoMode() {
 func addToGitIgnore(dir string) {
 	paths.AppendToFile(dir, "# vexal.io vx config \n")
 	paths.AppendToFile(dir, ".vx \n")
+}
+
+func LoadRepoConfig() (config RepoMode, err error) {
+	curDir, _ := os.Getwd()
+	repoMode.AddConfigPath(curDir)
+	repoMode.SetConfigName(vxCfg) // name of config file (without extension)
+	repoMode.SetConfigType("yaml")
+	repoMode.AutomaticEnv()
+
+	err = repoMode.ReadInConfig()
+	if err != nil {
+		log.Println("Error reading repo config:", err)
+		return
+	}
+
+	err = repoMode.Unmarshal(&config)
+	if err != nil {
+		log.Printf("Unable to decode into struct: %s\n", err)
+		return config, err
+	}
+	return config, nil
 }

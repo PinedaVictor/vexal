@@ -12,8 +12,8 @@ import (
 // initCmd represents the init command
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "Repository utilities",
-	Long:  ``,
+	Short: "Initialize repository utilities",
+	Long:  `Run vx init in the root of your project to initialize repository utilities.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		config.InitRepoMode()
 	},

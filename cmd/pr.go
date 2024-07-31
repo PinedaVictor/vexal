@@ -6,6 +6,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"vx/config"
 	"vx/internal"
 	"vx/internal/authenticate"
 	"vx/internal/pr"
@@ -22,7 +23,15 @@ var prCmd = &cobra.Command{
 	// TODO: Add long description
 	Long: ``,
 	PreRun: func(cmd *cobra.Command, args []string) {
-		authenticate.RequireAuth()
+		// TODO: We need a control scructure on where to get our keys
+		// 1. check if theres  a repo config
+		// 2. if theres a repo config use that one
+		// 3. else use auth config
+		// It might be useful to create a package
+		if !config.RepoModeActive() {
+			fmt.Println("Repo mode not active")
+			authenticate.RequireAuth()
+		}
 		user := pr.GetGitUser()
 		if user == nil {
 			fmt.Printf("We could not get your github user.\n")

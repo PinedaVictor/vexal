@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"vx/config"
+	"vx/internal/keys"
 	"vx/internal/secrets"
 
 	"github.com/sashabaranov/go-openai"
@@ -15,9 +16,14 @@ var (
 )
 
 func initOpenAI() {
+	rCfg, _ := keys.KeySrc()
+	openAiClient = openai.NewClient(rCfg.Openai_key)
+}
+
+// TODO: implement auth init config
+func initWithAuth() string {
 	user, _ := config.LoadAuth()
-	secret := secrets.GetSecretVersion(fmt.Sprintf("%s_openai", user.UID))
-	openAiClient = openai.NewClient(secret)
+	return secrets.GetSecretVersion(fmt.Sprintf("%s_openai", user.UID))
 }
 
 func GenerateReponse(prompt string) string {

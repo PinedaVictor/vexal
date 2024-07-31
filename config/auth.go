@@ -50,5 +50,9 @@ func LoadAuth() (config AuthConfig, err error) {
 	}
 
 	err = authCfg.Unmarshal(&config)
-	return
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	return config, nil
 }

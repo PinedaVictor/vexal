@@ -12,6 +12,10 @@
 *.so
 *.dylib
 
+
+# dist
+/dist
+
 # Test binary, built with `go test -c`
 *.test
 
@@ -32,7 +36,9 @@ go.work
 vx
 
 
-
-
-
-dist/
+# vexal.io vx config 
+.vx 
+# vexal.io vx config 
+.vx 
+# vexal.io vx config 
+.vx 
