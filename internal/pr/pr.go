@@ -3,6 +3,7 @@ package pr
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"vx/pkg"
 	"vx/pkg/exe"
 	"vx/pkg/gutils"
@@ -11,13 +12,18 @@ import (
 	"github.com/google/go-github/v62/github"
 )
 
+// github package: "github.com/google/go-github/v62/github"
+
 func AutoPr(branch string) {
 	initGithubClient()
-	owner, repo, _ := gutils.GetRepo()
 	workingBranch := gutils.GetWorkingBranch()
-	logs := gutils.GetGitLogs(workingBranch)
+	commitTotals := gutils.CalcNumCommit(branch, workingBranch)
+	ct := strconv.Itoa(commitTotals)
+	owner, repo, _ := gutils.GetRepo()
+	logs := gutils.GetGitLogs(workingBranch, ct)
 	hasTpl, tpl := hasPRTemplate()
 	var prBody string
+
 	if hasTpl {
 		prBody = pkg.GenerateReponse(fmt.Sprintf("Use the following commit messages and PR template %s to summaraize development, use bullet points as well. Each commit log is sperated by a | %s", tpl, logs))
 	} else {
