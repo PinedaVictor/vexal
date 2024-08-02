@@ -1,5 +1,5 @@
 /*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
+Copyright © 2024 Victor Pineda pinedavictor095@gmail.com
 */
 package cmd
 
@@ -12,7 +12,7 @@ import (
 // initCmd represents the init command
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "Initialize repository utilities",
+	Short: "Initialize repository utilities. (Only needed if you plan on using github and OpenAI)",
 	Long:  `Run vx init in the root of your project to initialize repository utilities.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		config.InitRepoMode()

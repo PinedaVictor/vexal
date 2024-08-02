@@ -8,7 +8,6 @@ import (
 	"regexp"
 	"strings"
 	"vx/config"
-	"vx/internal/authenticate"
 
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
@@ -17,9 +16,9 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:     "vx",
-	Short:   `AI Powered tools for Developers`,
+	Short:   `vexal.io - Developer Tools`,
 	Version: "v1.0.3",
-	Long:    ``,
+	// Long:    ``,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) {},
@@ -37,7 +36,8 @@ func Execute() {
 func init() {
 	config.InitConfig()
 	config.WriteLicense()
-	authMsg := authenticate.RootAuthStatus()
+	// TODO: Whats the vision for UI/UX
+	// authMsg := authenticate.RootAuthStatus()
 	// Color output setup
 	rootCmd.SetOutput(color.Output)
 	cobra.AddTemplateFunc("StyleHeading", color.New(color.FgBlue, color.Underline, color.Bold).SprintFunc())
@@ -52,7 +52,8 @@ func init() {
 	).Replace(usageTemplate)
 	re := regexp.MustCompile(`(?m)^Flags:\s*$`)
 	usageTemplate = re.ReplaceAllLiteralString(usageTemplate, `{{StyleHeading "Flags:"}}`)
-	usageTemplate = usageTemplate + "Auth Status: " + authMsg + "\n"
+	// TODO: Whats the vision for UI/UX
+	// usageTemplate = usageTemplate + "Auth Status: " + authMsg + "\n"
 	rootCmd.SetUsageTemplate(usageTemplate)
 
 	// Here you will define your flags and configuration settings.

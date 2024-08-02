@@ -1,40 +1,29 @@
 /*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
+Copyright © 2024 Victor Pineda pinedavictor095@gmail.com
 */
 package cmd
 
 import (
-	"fmt"
+	"vx/internal"
+	"vx/internal/scraper"
 
 	"github.com/spf13/cobra"
 )
 
-// todosCmd represents the todos command
 var todosCmd = &cobra.Command{
 	Use:   "todos",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: `Find all "TODO:" comments in your codebase.`,
+	PreRun: func(cmd *cobra.Command, args []string) {
+		internal.PreFeedback(`Finding all "TODO:" comments`)
+	},
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("todos called")
+		scraper.ScrapeTodos()
+	},
+	PostRun: func(cmd *cobra.Command, args []string) {
+		internal.PostFeedback("All done! todos.md ✅")
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(todosCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// todosCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// todosCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

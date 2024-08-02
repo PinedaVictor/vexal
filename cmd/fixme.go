@@ -1,11 +1,11 @@
 /*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
+Copyright © 2024 Victor Pineda pinedavictor095@gmail.com
 */
 package cmd
 
 import (
-	"fmt"
+	"vx/internal"
+	"vx/internal/scraper"
 
 	"github.com/spf13/cobra"
 )
@@ -13,15 +13,15 @@ import (
 // fixmeCmd represents the fixme command
 var fixmeCmd = &cobra.Command{
 	Use:   "fixme",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: `Find all "FIXME:" comments in your codebase.`,
+	PreRun: func(cmd *cobra.Command, args []string) {
+		internal.PreFeedback(`Finding all "FIXME:" comments`)
+	},
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("fixme called")
+		scraper.ScrapeFixMe()
+	},
+	PostRun: func(cmd *cobra.Command, args []string) {
+		internal.PostFeedback("All done! fixme.md ✅")
 	},
 }
 
