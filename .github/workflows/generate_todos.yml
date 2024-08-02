@@ -3,8 +3,6 @@ name: Run CLI Commands and Write Output to File
 on: 
   push:
     branches: [ repo-mode ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   run-cli-commands:
@@ -16,21 +14,25 @@ jobs:
 
     - name: Set up Homebrew
       uses: Homebrew/actions/setup-homebrew@master
+      with:
+        # Make sure to use the correct version if needed
+        version: 'latest'
 
     - name: Install CLI App
       run: |
         brew tap PinedaVictor/vx
         brew install pinedavictor/vx/vexal
 
-    - name: Ensure CLI App is Executable
+    - name: Verify CLI App Installation
       run: |
-        echo Updating vx permissions
-        chmod +x /home/linuxbrew/.linuxbrew/bin/vx
-        
-    - name: Run CLI Command and Capture Output
-      run: |
-        output=$(vx -v)
-        echo "$output" > cli-output.txt
+        which vx
+        vx -v
+
+    # CMD
+    # - name: Run CLI Command and Capture Output
+    #   run: |
+    #     output=$(vx -v)
+    #     echo "$output" > cli-output.txt
 
     # - name: Commit changes
     #   run: |
