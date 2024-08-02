@@ -28,6 +28,17 @@ jobs:
         echo "Homebrew path: $(which brew)"
         echo "Homebrew prefix: $(brew --prefix)"
         echo "PATH: $PATH"
+        
+    - name: Locate CLI App and Fix Permissions
+      run: |
+        # Locate the binary installed by Homebrew
+        vx_path=$(find $(brew --prefix)/bin -name vx)
+        echo "CLI app path: $vx_path"
+        
+        # Fix permissions if necessary
+        if [ -f "$vx_path" ]; then
+          chmod +x "$vx_path"
+        fi
 
     - name: Verify CLI App Installation
       run: |
