@@ -15,7 +15,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up Homebrew
-      uses: Homebrew/actions/setup-homebrew@v2
+      uses: Homebrew/actions/setup-homebrew@master
 
     - name: Install CLI App
       run: |
