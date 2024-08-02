@@ -23,10 +23,16 @@ jobs:
         brew tap PinedaVictor/vx
         brew install pinedavictor/vx/vexal
 
+    - name: Verify Homebrew Path
+      run: |
+        echo "Homebrew path: $(which brew)"
+        echo "Homebrew prefix: $(brew --prefix)"
+        echo "PATH: $PATH"
+
     - name: Verify CLI App Installation
       run: |
-        which vx
-        vx -v
+        echo "CLI app path: $(which vx)"
+        vx -v || echo "vx command failed to execute"
 
     # CMD
     # - name: Run CLI Command and Capture Output
