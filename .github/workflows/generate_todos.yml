@@ -1,0 +1,50 @@
+name: Run CLI Commands and Write Output to File
+
+on:
+  push:
+    branches: [repo-mode]
+
+jobs:
+  run-cli-commands:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+        with:
+          # Make sure to use the correct version if needed
+          version: "latest"
+
+      - name: Install CLI App
+        run: |
+          brew tap PinedaVictor/vx
+          brew install pinedavictor/vx/vexal
+
+      - name: Verify Homebrew Path
+        run: |
+          echo "Homebrew path: $(which brew)"
+          echo "Homebrew prefix: $(brew --prefix)"
+          echo "PATH: $PATH"
+
+      # FIXME: Generally Homebrew will handle this for you.
+      # TODO: Delete & update binary to support architecture x86_64
+      #  BUG:
+      - name: Locate CLI App and Fix Permissions
+        run: |
+          # Locate the binary installed by Homebrew
+          vx_path=$(find $(brew --prefix)/bin -name vx)
+          echo "CLI app path: $vx_path"
+
+          # Fix permissions if necessary
+          if [ -f "$vx_path" ]; then
+            chmod +x "$vx_path"
+          fi
+
+      #
+      - name: Verify CLI App Installation
+        run: |
+          echo "CLI app path: $(which vx)"
+          vx -v || echo "vx command failed to execute"

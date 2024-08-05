@@ -67,7 +67,7 @@ func ValidateToken() (bool, string) {
 func RequireAuth() {
 	initFirebase()
 	auth, _ := ValidateToken()
-	authMsg := "Error: The command you're tyring to run requires authentication"
+	authMsg := "The command you're tyring to run either requires authentication or repository configuration."
 	if !auth {
 		fmt.Println(authMsg)
 		os.Exit(0)

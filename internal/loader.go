@@ -24,3 +24,13 @@ func StopSpinner(userFeedback string) {
 	s.FinalMSG = c.Sprint(fmt.Sprintf("%s \n", userFeedback))
 	s.Stop()
 }
+
+func PreFeedback(msg string) {
+	c := color.New(color.FgCyan).Add(color.Bold)
+	c.Println(msg)
+}
+
+func PostFeedback(msg string) {
+	c := color.New(color.FgGreen).Add(color.Bold)
+	c.Println(msg)
+}
