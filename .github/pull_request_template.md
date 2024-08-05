@@ -1,4 +1,4 @@
-## Completes
+## Completed
 
 - Insert completed bullet points
 
