@@ -1,5 +1,7 @@
 # TODOS 
 
+**.github/workflows/generate_todos.yml:33** - TODO: Delete & update binary to support architecture x86_64
+
 **cmd/pr.go:23** - TODO: Add long description
 
 **cmd/pr.go:26** - TODO: We need a control scructure on where to get our keys
@@ -8,11 +10,9 @@
 
 **cmd/root.go:55** - TODO: Whats the vision for UI/UX
 
-**cmd/todos.go:16** - TODO:" comments in your codebase.`,
+**cmd/todos.go:15** - TODO:" comments in your codebase.`,
 
-**cmd/todos.go:18** - TODO:" comments`)
-
-**cmd/todos.go:24** - todo.md ✅")
+**cmd/todos.go:17** - TODO:" comments`)
 
 **internal/authenticate/firebase.go:66** - TODO: Implement refresh token flow
 
