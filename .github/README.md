@@ -1,5 +1,5 @@
-<div align="center">
-<img width="698" alt="banner maker" src="https://github.com/PinedaVictor/vexal/blob/main/docs/images/vexal_banner.jpg">
+<div align="left">
+<img  width="698" alt="banner maker" src="https://github.com/PinedaVictor/vexal/blob/main/docs/images/vexal_banner.jpg">
 </div>
 
 [vexal.io](https://www.vexal.io/)
@@ -7,8 +7,6 @@
 ## Overview
 
 Vexal is a CLI tool written in [Go](https://go.dev/) helping developers automate tasks and improve the quality of their codebase.
-
-with vexal you can:
 
 - Leverage AI combined with your commit history to create PRs ✅
 - Keep track of all "TODO" comments in your codebase ✅
