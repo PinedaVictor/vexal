@@ -4,6 +4,8 @@
 
 [vexal.io](https://www.vexal.io/)
 
+## Overview
+
 Vexal is an automation tool helping organizations and developers achieve their goals!
 I have officailly released vx - a CLI app built for assisting and automating developer workflow. 🥳
 
