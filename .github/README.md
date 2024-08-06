@@ -1,9 +1,11 @@
 <div align="center">
-<img  width="698" alt="banner maker" src="https://github.com/PinedaVictor/vexal/blob/main/docs/images/vexal_banner.jpg">
+<img   alt="banner maker" src="https://github.com/PinedaVictor/vexal/blob/main/docs/images/vexal_banner.jpg">
 </div>
 
 <div align="center">
-[website](https://www.vexal.io/) | [Documentation](https://www.vexal.io/init) 
+  <a href="https://www.vexal.io/">website</a> | 
+  <a href="https://www.vexal.io/init">Init</a> | 
+  <a href="https://www.vexal.io/quickstart">Quickstart</a>
 </div>
 
 ## Overview
