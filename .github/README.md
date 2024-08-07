@@ -3,9 +3,9 @@
 </div>
 
 <div align="center">
-  <a href="https://www.vexal.io/" target="_blank">website</a> | 
-  <a href="https://www.vexal.io/init" target="_blank">Init</a> | 
-  <a href="https://www.vexal.io/quickstart" target="_blank">Quickstart</a>
+  <a href="https://www.vexal.io/" target="_blank" rel="noopener noreferrer">website</a> | 
+  <a href="https://www.vexal.io/init" target="_blank" rel="noopener noreferrer">Init</a> | 
+  <a href="https://www.vexal.io/quickstart" target="_blank" rel="noopener noreferrer">Quickstart</a>
 </div>
 
 ## Overview
