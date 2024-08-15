@@ -5,6 +5,8 @@ package cmd
 
 import (
 	"fmt"
+	"vx/config"
+	"vx/internal"
 	"vx/internal/authenticate"
 
 	"github.com/spf13/cobra"
@@ -16,6 +18,7 @@ var jiraCmd = &cobra.Command{
 	Short: "Jira utils",
 }
 
+// jiraLogin initiates Jira OAuth2.0 login flow
 var jiraLogin = &cobra.Command{
 	Use:   "login",
 	Short: "Login into your Jira board",
@@ -25,9 +28,22 @@ var jiraLogin = &cobra.Command{
 	},
 }
 
+// initJira appends to Jira configuration keys to repository config
+var initJira = &cobra.Command{
+	Use:   "init",
+	Short: "Initialize Jira connection for your epository",
+	Run: func(cmd *cobra.Command, args []string) {
+		config.InitJira()
+	},
+	PostRun: func(cmd *cobra.Command, args []string) {
+		internal.PostFeedback("Configuration updated successfully. ✅")
+	},
+}
+
 func init() {
 	rootCmd.AddCommand(jiraCmd)
 	jiraCmd.AddCommand(jiraLogin)
+	jiraCmd.AddCommand(initJira)
 
 	// Here you will define your flags and configuration settings.
 

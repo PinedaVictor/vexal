@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"vx/config"
+	"vx/internal"
 
 	"github.com/spf13/cobra"
 )
@@ -16,6 +17,9 @@ var initCmd = &cobra.Command{
 	Long:  `Run vx init in the root of your project to initialize repository utilities.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		config.InitRepoMode()
+	},
+	PostRun: func(cmd *cobra.Command, args []string) {
+		internal.PostFeedback("Configuration initialized successfully. ./vx.yaml ✅")
 	},
 }
 

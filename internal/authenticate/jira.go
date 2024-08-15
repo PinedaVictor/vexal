@@ -24,12 +24,6 @@ func JiraLogin() {
 		"https://auth.atlassian.com/authorize?audience=api.atlassian.com&client_id=%s&redirect_uri=%s&state=%s&scope=%s&response_type=code&prompt=consent",
 		clientID, encodedRedirectURI, encodedState, encodedScope)
 
-	fmt.Println("THE URL:", authorizationURL)
 	exe.OpenURL(authorizationURL)
+	RunAuthServer("jira")
 }
-
-// Step to Authorize - which will be handle be the server
-// curl --request POST \
-//   --url 'https://auth.atlassian.com/oauth/token' \
-//   --header 'Content-Type: application/json' \
-//   --data '{"grant_type": "authorization_code","client_id": "CLIENT_ID","client_secret": "YOUR_CLIENT_SECRET","code": "ATOAjrE3vulLNTrG1XEjWb-ioPZKMFB8yA6ognBBA_7ie5gg2xW70TxESY_9vsHT39w8040F258F","redirect_uri": "https://api.vexal.io/callback"}'
