@@ -13,6 +13,7 @@ import (
 type JiraRepoCfg struct {
 	Jira_URL      string `mapstructure:"jira_url"`
 	Jira_Cloud_ID string `mapstructure:"jira_cloud_id"`
+	Jira_Email    string `mapstructure:"jira_email"`
 }
 
 type RepoMode struct {
@@ -97,9 +98,11 @@ func InitJira() error {
 		JiraSettings: JiraRepoCfg{
 			Jira_URL:      "",
 			Jira_Cloud_ID: "",
+			Jira_Email:    "",
 		},
 	}
 	repoMode.Set("jira_url", repoCfg.JiraSettings.Jira_URL)
+	repoMode.Set("jira_email", repoCfg.JiraSettings.Jira_Email)
 	repoMode.Set("jira_cloud_id", repoCfg.JiraSettings.Jira_Cloud_ID)
 
 	// Write the updated config back to the file
