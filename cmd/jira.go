@@ -8,6 +8,7 @@ import (
 	"vx/config"
 	"vx/internal"
 	"vx/internal/authenticate"
+	jiraclient "vx/internal/jira-client"
 
 	"github.com/spf13/cobra"
 )
@@ -34,9 +35,18 @@ var initJira = &cobra.Command{
 	Short: "Initialize Jira connection for your epository",
 	Run: func(cmd *cobra.Command, args []string) {
 		config.InitJira()
+		// TODO: Error Handling: 2024/08/15 23:53:49 Error reading repo config: Config File ".vx.yaml" Not Found in "[/Users/victorpineda/repos/vexal-technologies/vexal]"
 	},
 	PostRun: func(cmd *cobra.Command, args []string) {
 		internal.PostFeedback("Configuration updated successfully. ✅")
+	},
+}
+
+var createIssue = &cobra.Command{
+	Use:   "ci",
+	Short: "Create Issue",
+	Run: func(cmd *cobra.Command, args []string) {
+		jiraclient.CreateIssue()
 	},
 }
 
@@ -44,6 +54,7 @@ func init() {
 	rootCmd.AddCommand(jiraCmd)
 	jiraCmd.AddCommand(jiraLogin)
 	jiraCmd.AddCommand(initJira)
+	jiraCmd.AddCommand(createIssue)
 
 	// Here you will define your flags and configuration settings.
 

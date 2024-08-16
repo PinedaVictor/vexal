@@ -10,18 +10,16 @@ import (
 	"github.com/spf13/viper"
 )
 
-type JiraRepoCfg struct {
+type RepoMode struct {
+	Openai_key string `mapstructure:"openai_key"`
+	// Github
+	Github_key string `mapstructure:"github_key"`
+	Repo       string `mapstructure:"repo"`
+	RepoURL    string `mapstructure:"repo_URL"`
+	// Jira Software
 	Jira_URL      string `mapstructure:"jira_url"`
 	Jira_Cloud_ID string `mapstructure:"jira_cloud_id"`
 	Jira_Email    string `mapstructure:"jira_email"`
-}
-
-type RepoMode struct {
-	Repo         string `mapstructure:"repo"`
-	RepoURL      string `mapstructure:"repo_URL"`
-	Openai_key   string `mapstructure:"openai_key"`
-	Github_key   string `mapstructure:"github_key"`
-	JiraSettings JiraRepoCfg
 }
 
 var (
@@ -53,6 +51,8 @@ func LoadRepoConfig() (config RepoMode, err error) {
 		log.Printf("Unable to decode into struct: %s\n", err)
 		return config, err
 	}
+	fmt.Println("THE CONFIG:", config)
+
 	return config, nil
 }
 
@@ -92,18 +92,20 @@ func addToGitIgnore(dir string) {
 }
 
 func InitJira() error {
-	LoadRepoConfig()
-
-	repoCfg := RepoMode{
-		JiraSettings: JiraRepoCfg{
-			Jira_URL:      "",
-			Jira_Cloud_ID: "",
-			Jira_Email:    "",
-		},
+	// Load the existing configuration
+	config, err := LoadRepoConfig()
+	if err != nil {
+		return fmt.Errorf("error loading config: %w", err)
 	}
-	repoMode.Set("jira_url", repoCfg.JiraSettings.Jira_URL)
-	repoMode.Set("jira_email", repoCfg.JiraSettings.Jira_Email)
-	repoMode.Set("jira_cloud_id", repoCfg.JiraSettings.Jira_Cloud_ID)
+
+	config.Jira_URL = "your_jira_url"
+	config.Jira_Cloud_ID = "your_jira_cloud_id"
+	config.Jira_Email = "your_jira_email"
+
+	// Set the updated Jira settings back to Viper
+	repoMode.Set("jira_url", config.Jira_URL)
+	repoMode.Set("jira_cloud_id", config.Jira_Cloud_ID)
+	repoMode.Set("jira_email", config.Jira_Email)
 
 	// Write the updated config back to the file
 	if err := repoMode.WriteConfig(); err != nil {

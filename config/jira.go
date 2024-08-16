@@ -26,11 +26,12 @@ func SetJiraCfg(userId string, token string) {
 	config := JiraAuthCfg{
 		JiraToken: token,
 	}
-	jiraCfg.Set("JiraToken", config.JiraToken)
+	jiraCfg.Set("token", config.JiraToken)
 	err := jiraCfg.WriteConfig()
 	if err != nil {
 		log.Println("error saving user data to your system")
 	}
+	fmt.Println("All done")
 }
 
 func LoadJiraAuthCfg() (cfg JiraAuthCfg, err error) {
