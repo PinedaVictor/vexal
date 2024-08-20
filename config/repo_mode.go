@@ -17,9 +17,10 @@ type RepoMode struct {
 	Repo       string `mapstructure:"repo"`
 	RepoURL    string `mapstructure:"repo_URL"`
 	// Jira Software
+	Jira_Name     string `mapstructure:"jira_name"`
+	Jira_Email    string `mapstructure:"jira_email"`
 	Jira_URL      string `mapstructure:"jira_url"`
 	Jira_Cloud_ID string `mapstructure:"jira_cloud_id"`
-	Jira_Email    string `mapstructure:"jira_email"`
 }
 
 var (
@@ -98,6 +99,7 @@ func InitJira() error {
 		return fmt.Errorf("error loading config: %w", err)
 	}
 
+	config.Jira_Name = "jira_name"
 	config.Jira_URL = "your_jira_url"
 	config.Jira_Cloud_ID = "your_jira_cloud_id"
 	config.Jira_Email = "your_jira_email"
@@ -106,8 +108,29 @@ func InitJira() error {
 	repoMode.Set("jira_url", config.Jira_URL)
 	repoMode.Set("jira_cloud_id", config.Jira_Cloud_ID)
 	repoMode.Set("jira_email", config.Jira_Email)
+	repoMode.Set("jira_name", config.Jira_Name)
 
 	// Write the updated config back to the file
+	if err := repoMode.WriteConfig(); err != nil {
+		return fmt.Errorf("error writing config file: %w", err)
+	}
+
+	return nil
+}
+
+func UpdateJiraRepoCfg(name string, url string, id string) error {
+	config, err := LoadRepoConfig()
+	if err != nil {
+		return fmt.Errorf("error loading config: %w", err)
+	}
+	config.Jira_Name = name
+	config.Jira_URL = url
+	config.Jira_Cloud_ID = id
+
+	// Set the updated Jira settings back to Viper
+	repoMode.Set("jira_url", config.Jira_URL)
+	repoMode.Set("jira_cloud_id", config.Jira_Cloud_ID)
+	repoMode.Set("jira_name", config.Jira_Name)
 	if err := repoMode.WriteConfig(); err != nil {
 		return fmt.Errorf("error writing config file: %w", err)
 	}

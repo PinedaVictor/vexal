@@ -47,8 +47,9 @@ func GetRequest(url string, headers map[string]string) (*http.Response, error) {
 	if err != nil {
 		return nil, err
 	}
+	// TODO: Delete this - likely won't be needed
 	// defer resp.Body.Close()
-	fmt.Println("RESP:", resp)
+	// fmt.Println("RESP:", resp)
 
 	return resp, nil
 }
@@ -59,10 +60,12 @@ func PostRequest(url string, headers map[string]string, payload interface{}) (*h
 	var reqBody io.Reader
 	if payload != nil {
 		jsonData, err := json.Marshal(payload)
+		fmt.Println("PAYLOAD JSON:", jsonData)
 		if err != nil {
 			return nil, errors.New("error marshalling payload: " + err.Error())
 		}
 		reqBody = bytes.NewBuffer(jsonData)
+		fmt.Println("REQBODY:", reqBody)
 	}
 
 	req, err := http.NewRequest(http.MethodPost, url, reqBody)
@@ -75,9 +78,11 @@ func PostRequest(url string, headers map[string]string, payload interface{}) (*h
 	}
 	resp, err := HTTPClient.Do(req)
 	if err != nil {
+
 		return nil, err
 	}
 
+	fmt.Println("This is where the bug is", resp)
 	return resp, nil
 }
 

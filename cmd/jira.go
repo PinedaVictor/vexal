@@ -29,12 +29,19 @@ var jiraLogin = &cobra.Command{
 	},
 }
 
+var manual bool
+
 // initJira appends to Jira configuration keys to repository config
 var initJira = &cobra.Command{
 	Use:   "init",
-	Short: "Initialize Jira connection for your epository",
+	Short: "Initialize Jira connection for your repository",
 	Run: func(cmd *cobra.Command, args []string) {
-		config.InitJira()
+		fmt.Println(manual)
+		if manual {
+			config.InitJira()
+		} else {
+			authenticate.InitJiraWithAuth()
+		}
 		// TODO: Error Handling: 2024/08/15 23:53:49 Error reading repo config: Config File ".vx.yaml" Not Found in "[/Users/victorpineda/repos/vexal-technologies/vexal]"
 	},
 	PostRun: func(cmd *cobra.Command, args []string) {
@@ -50,13 +57,23 @@ var createIssue = &cobra.Command{
 	},
 }
 
+var test = &cobra.Command{
+	Use:   "t",
+	Short: "Create Issue",
+	Run: func(cmd *cobra.Command, args []string) {
+		jiraclient.GetIssueTypes()
+	},
+}
+
 func init() {
 	rootCmd.AddCommand(jiraCmd)
 	jiraCmd.AddCommand(jiraLogin)
 	jiraCmd.AddCommand(initJira)
 	jiraCmd.AddCommand(createIssue)
+	jiraCmd.AddCommand(test)
 
 	// Here you will define your flags and configuration settings.
+	initJira.Flags().BoolVarP(&manual, "manual", "m", false, "Enable manual config setup")
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
