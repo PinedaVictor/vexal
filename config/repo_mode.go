@@ -52,7 +52,6 @@ func LoadRepoConfig() (config RepoMode, err error) {
 		log.Printf("Unable to decode into struct: %s\n", err)
 		return config, err
 	}
-	fmt.Println("THE CONFIG:", config)
 
 	return config, nil
 }

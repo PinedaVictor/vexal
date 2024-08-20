@@ -57,11 +57,13 @@ var createIssue = &cobra.Command{
 	},
 }
 
+// TODO: Purely a testing function - Delete when deploying to production
 var test = &cobra.Command{
 	Use:   "t",
 	Short: "Create Issue",
 	Run: func(cmd *cobra.Command, args []string) {
-		jiraclient.GetIssueTypes()
+		// jiraclient.GetIssueTypes()
+		jiraclient.GetJiraPrjtMeta()
 	},
 }
 

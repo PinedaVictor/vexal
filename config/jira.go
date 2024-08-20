@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+// JiraAuthCfg handles the OAuth2.0
 type JiraAuthCfg struct {
 	JiraToken string `mapstructure:"token"`
 	JiraUID   string `mapstructure:"uid"`

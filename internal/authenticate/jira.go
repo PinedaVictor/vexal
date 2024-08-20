@@ -30,9 +30,9 @@ func InitJiraWithAuth() {
 
 func JiraLogin() {
 	env, _ := config.LoadEnvironment()
-	clientID := env.JIRA_OAUTH_CLIENT_ID // Replace with your actual client ID
+	clientID := env.JIRA_OAUTH_CLIENT_ID
 	redirectURI := "https://api.vexal.io/jira/callback"
-	state := env.JIRA_STATE // Replace with a real state value
+	state := env.JIRA_STATE
 	scope := "read:jira-work write:jira-work manage:jira-project read:jira-user manage:jira-configuration read:me report:personal-data"
 
 	// URL encode the parameters
@@ -49,10 +49,6 @@ func JiraLogin() {
 	RunAuthServer("jira")
 }
 
-//	curl --request GET \
-//	  --url https://api.atlassian.com/oauth/token/accessible-resources \
-//	  --header 'Authorization: Bearer ACCESS_TOKEN' \
-//	  --header 'Accept: application/json'
 func getJiraAccessibleResources() (JiraResource, error) {
 	jiraAuthCfg, _ := config.LoadJiraAuthCfg()
 	tokenHeader := fmt.Sprintf("Bearer %s", jiraAuthCfg.JiraToken)
@@ -69,7 +65,7 @@ func getJiraAccessibleResources() (JiraResource, error) {
 	// Read the body of the response
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Println("error reading response body:", err)
+		log.Println("error getting Jira Accessible Resources:", err)
 		return JiraResource{}, err
 	}
 
@@ -77,7 +73,7 @@ func getJiraAccessibleResources() (JiraResource, error) {
 	var resources []JiraResource
 	err = json.Unmarshal(body, &resources)
 	if err != nil {
-		log.Println("error unmarshaling response body:", err)
+		log.Println("error getting Jira Accessible Resources:", err)
 		return JiraResource{}, err
 	}
 
