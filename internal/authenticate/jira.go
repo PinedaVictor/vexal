@@ -24,7 +24,6 @@ func InitJiraWithAuth() {
 	fmt.Println("All Done Logging into Jira")
 	resources, _ := getJiraAccessibleResources()
 	fmt.Println("Resoruces:", resources)
-	// Some function that updates config
 	config.UpdateJiraRepoCfg(resources.Name, resources.URL, resources.ID)
 }
 
