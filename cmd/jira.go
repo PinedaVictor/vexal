@@ -72,7 +72,7 @@ var test = &cobra.Command{
 	Short: "Create Issue",
 	Run: func(cmd *cobra.Command, args []string) {
 		// jiraclient.GetIssueTypes()
-		// jiraclient.GetJiraPrjtMeta()
+		jiraclient.GetJiraPrjtMeta("SCRUM")
 	},
 }
 

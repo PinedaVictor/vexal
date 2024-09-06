@@ -80,21 +80,11 @@ func parseIssueTypes(issueTypeName string) (string, string, string) {
 }
 
 func CreateIssue(issueTypeID string, projctKey string, summary string, description string) {
-	cfg, cfgErr := config.LoadJiraAuthCfg()
-	if cfgErr != nil {
-		log.Println("error reading jira auth:", cfgErr)
-	}
 	repoCfg, _ := config.LoadRepoConfig()
-	url := fmt.Sprintf("https://api.atlassian.com/ex/jira/%s/rest/api/3/issue", repoCfg.Jira_Cloud_ID)
+	url := fmt.Sprintf("%s/%s/rest/api/3/issue", OAuth2URL, repoCfg.Jira_Cloud_ID)
+	headers := getJiraOAuthHeaders()
 	fmt.Println("Updating: ", url)
 
-	OAuthToken := fmt.Sprintf("Bearer %s", cfg.JiraToken)
-	// Define the headers in a map
-	headers := map[string]string{
-		"Accept":        "application/json",
-		"Content-Type":  "application/json",
-		"Authorization": OAuthToken,
-	}
 	// Define the payload (JSON data)
 	payload := map[string]interface{}{
 		"fields": map[string]interface{}{

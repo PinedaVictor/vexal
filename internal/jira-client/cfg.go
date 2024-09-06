@@ -33,15 +33,30 @@ func getJiraOAuthHeaders() map[string]string {
 	return headers
 }
 
-// JiraAPIGet is a GET request pre-configureed with Jira base URL and Authorization headers
-func JiraAPIGet(API string) (*http.Response, error) {
+// getJiraReqCfg is a utility function that configures the URL and Authorization requests headers for the Jira endpoints
+func getJiraReqCfg(API string) (string, map[string]string) {
 	baseURL := getJiraOAuthURL()
 	url := fmt.Sprintf("%s%s", baseURL, API)
 	hdrs := getJiraOAuthHeaders()
+	return url, hdrs
+}
 
+// JiraAPIGet is a GET request pre-configureed with Jira base URL and Authorization headers
+func JiraAPIGet(API string) (*http.Response, error) {
+	url, hdrs := getJiraReqCfg(API)
 	resp, err := pkg.GetRequest(url, hdrs)
 	if err != nil {
-		log.Println("error getting issues types")
+		log.Println("error", err)
+	}
+	return resp, err
+}
+
+// JiraAPIPost is a POST request pre-configureed with Jira base URL and Authorization headers
+func JiraAPIPost(API string, payload interface{}) (*http.Response, error) {
+	url, hdrs := getJiraReqCfg(API)
+	resp, err := pkg.PostRequest(url, hdrs, payload)
+	if err != nil {
+		log.Println("error", err)
 	}
 	return resp, err
 }

@@ -31,6 +31,7 @@ type JiraProject struct {
 	UUID           string                 `json:"uuid"`
 }
 
+// TODO: Update - this functionality is depreicated in v3
 func GetAllProjects() []JiraProject {
 	resp, err := JiraAPIGet("/rest/api/3/project")
 	if err != nil {
