@@ -53,7 +53,16 @@ var createIssue = &cobra.Command{
 	Use:   "ci",
 	Short: "Create Issue",
 	Run: func(cmd *cobra.Command, args []string) {
-		jiraclient.CreateIssue()
+		// jiraclient.CreateIssue()
+	},
+}
+
+var pushTodos = &cobra.Command{
+	Use:   "push-t",
+	Short: "Push all TODO comments to Jira - by defualt this will also delete all TODO comments in your codebase.",
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("Pushing all TODO comments in yhour ")
+		jiraclient.PushTodos()
 	},
 }
 
@@ -63,7 +72,7 @@ var test = &cobra.Command{
 	Short: "Create Issue",
 	Run: func(cmd *cobra.Command, args []string) {
 		// jiraclient.GetIssueTypes()
-		jiraclient.GetJiraPrjtMeta()
+		// jiraclient.GetJiraPrjtMeta()
 	},
 }
 
@@ -72,6 +81,7 @@ func init() {
 	jiraCmd.AddCommand(jiraLogin)
 	jiraCmd.AddCommand(initJira)
 	jiraCmd.AddCommand(createIssue)
+	jiraCmd.AddCommand(pushTodos)
 	jiraCmd.AddCommand(test)
 
 	// Here you will define your flags and configuration settings.

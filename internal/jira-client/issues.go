@@ -31,7 +31,7 @@ type JiraIssueTypeScope struct {
 	} `json:"project"`
 }
 
-func GetIssueTypes() {
+func GetIssueTypes() string {
 	baseURL := getJiraOAuthURL()
 	url := fmt.Sprintf("%s/rest/api/3/issuetype", baseURL)
 	hdrs := getJiraOAuthHeaders()
@@ -51,13 +51,12 @@ func GetIssueTypes() {
 	if err != nil {
 		log.Fatalf("Error reading response body: %v", err)
 	}
-	issueID, name, _ := parseIssueTypes(string(body), "story")
-	fmt.Println("Issue ID:", issueID, name)
+
+	return string(body)
 }
 
-func parseIssueTypes(issueBodyResp string, issueTypeName string) (string, string, string) {
-	// Create Parsing function
-	bodyJSON := string(issueBodyResp) // Your JSON string here
+func parseIssueTypes(issueTypeName string) (string, string, string) {
+	bodyJSON := GetIssueTypes()
 
 	var issueTypes []JiraIssueType
 	JSONErr := json.Unmarshal([]byte(bodyJSON), &issueTypes)
@@ -76,15 +75,11 @@ func parseIssueTypes(issueBodyResp string, issueTypeName string) (string, string
 			return issueType.ID, issueType.Name, issueType.Description
 		}
 	}
+
 	return "", "", ""
 }
 
-// ALG:
-// 1. Get Issue Type IDs
-// 2. Scrape codebase
-// 3. Use Go concurrency to update Jira per issueType
-// ---3.1 How will Vexal make sure NOT to create dublicates????
-func CreateIssue() {
+func CreateIssue(issueTypeID string, projctKey string, summary string, description string) {
 	cfg, cfgErr := config.LoadJiraAuthCfg()
 	if cfgErr != nil {
 		log.Println("error reading jira auth:", cfgErr)
@@ -103,14 +98,17 @@ func CreateIssue() {
 	// Define the payload (JSON data)
 	payload := map[string]interface{}{
 		"fields": map[string]interface{}{
-			"summary": "Main order flow broken",
+			"summary": summary,
+			// "summary": "Main order flow broken",
 			"issuetype": map[string]string{
 				// TODO: This will likely call a getIsssueId function
-				"id": "10003", // Replace with the valid ID
+				// "id": "10003", // Replace with the valid ID
+				"id": issueTypeID,
 			},
 			"project": map[string]string{
 				// TODO: Get project Meta data
-				"key": "SCRUM", // Ensure the project key is correct
+				// "key": "SCRUM", // Ensure the project key is correct
+				"key": projctKey, // Ensure the project key is correct
 			},
 			"description": map[string]interface{}{
 				"type":    "doc",
@@ -121,7 +119,8 @@ func CreateIssue() {
 						"content": []map[string]interface{}{
 							{
 								"type": "text",
-								"text": "THIS IS TESTING WITH GO REST API CALL.",
+								"text": description,
+								// "text": "THIS IS TESTING WITH GO REST API CALL.",
 							},
 						},
 					},

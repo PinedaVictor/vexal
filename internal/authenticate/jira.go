@@ -21,9 +21,7 @@ type JiraResource struct {
 
 func InitJiraWithAuth() {
 	JiraLogin()
-	fmt.Println("All Done Logging into Jira")
 	resources, _ := getJiraAccessibleResources()
-	fmt.Println("Resoruces:", resources)
 	config.UpdateJiraRepoCfg(resources.Name, resources.URL, resources.ID)
 }
 

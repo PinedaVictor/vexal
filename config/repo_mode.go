@@ -17,10 +17,11 @@ type RepoMode struct {
 	Repo       string `mapstructure:"repo"`
 	RepoURL    string `mapstructure:"repo_URL"`
 	// Jira Software
-	Jira_Name     string `mapstructure:"jira_name"`
-	Jira_Email    string `mapstructure:"jira_email"`
-	Jira_URL      string `mapstructure:"jira_url"`
-	Jira_Cloud_ID string `mapstructure:"jira_cloud_id"`
+	Jira_Name        string `mapstructure:"jira_name"`
+	Jira_Email       string `mapstructure:"jira_email"`
+	Jira_URL         string `mapstructure:"jira_url"`
+	Jira_Cloud_ID    string `mapstructure:"jira_cloud_id"`
+	Jira_Project_key string `mapstructure:"jira_project_key"`
 }
 
 var (
@@ -102,12 +103,14 @@ func InitJira() error {
 	config.Jira_URL = "your_jira_url"
 	config.Jira_Cloud_ID = "your_jira_cloud_id"
 	config.Jira_Email = "your_jira_email"
+	config.Jira_Project_key = "Your Jira project key"
 
 	// Set the updated Jira settings back to Viper
 	repoMode.Set("jira_url", config.Jira_URL)
 	repoMode.Set("jira_cloud_id", config.Jira_Cloud_ID)
 	repoMode.Set("jira_email", config.Jira_Email)
 	repoMode.Set("jira_name", config.Jira_Name)
+	repoMode.Set("jira_project_key", config.Jira_Project_key)
 
 	// Write the updated config back to the file
 	if err := repoMode.WriteConfig(); err != nil {
@@ -130,6 +133,7 @@ func UpdateJiraRepoCfg(name string, url string, id string) error {
 	repoMode.Set("jira_url", config.Jira_URL)
 	repoMode.Set("jira_cloud_id", config.Jira_Cloud_ID)
 	repoMode.Set("jira_name", config.Jira_Name)
+	repoMode.Set("jira_project_key", "Enter the Jira Project key associated with this repository")
 	if err := repoMode.WriteConfig(); err != nil {
 		return fmt.Errorf("error writing config file: %w", err)
 	}
