@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"strings"
-	"vx/config"
 	"vx/pkg"
 )
 
@@ -69,6 +68,7 @@ func parseIssueTypes(issueTypeName string) (string, string, string) {
 	} else if issueTypeName == "fixme" {
 		issueTypeName = "Bug"
 	}
+
 	// Use the parsed data
 	for _, issueType := range issueTypes {
 		if strings.EqualFold(issueType.Name, issueTypeName) {
@@ -80,24 +80,14 @@ func parseIssueTypes(issueTypeName string) (string, string, string) {
 }
 
 func CreateIssue(issueTypeID string, projctKey string, summary string, description string) {
-	repoCfg, _ := config.LoadRepoConfig()
-	url := fmt.Sprintf("%s/%s/rest/api/3/issue", OAuth2URL, repoCfg.Jira_Cloud_ID)
-	headers := getJiraOAuthHeaders()
-	fmt.Println("Updating: ", url)
-
 	// Define the payload (JSON data)
 	payload := map[string]interface{}{
 		"fields": map[string]interface{}{
 			"summary": summary,
-			// "summary": "Main order flow broken",
 			"issuetype": map[string]string{
-				// TODO: This will likely call a getIsssueId function
-				// "id": "10003", // Replace with the valid ID
 				"id": issueTypeID,
 			},
 			"project": map[string]string{
-				// TODO: Get project Meta data
-				// "key": "SCRUM", // Ensure the project key is correct
 				"key": projctKey, // Ensure the project key is correct
 			},
 			"description": map[string]interface{}{
@@ -110,7 +100,6 @@ func CreateIssue(issueTypeID string, projctKey string, summary string, descripti
 							{
 								"type": "text",
 								"text": description,
-								// "text": "THIS IS TESTING WITH GO REST API CALL.",
 							},
 						},
 					},
@@ -119,10 +108,9 @@ func CreateIssue(issueTypeID string, projctKey string, summary string, descripti
 		},
 	}
 
-	fmt.Println("PAYLOAD:", payload)
-	resp, err := pkg.PostRequest(url, headers, payload)
+	resp, err := JiraAPIPost("/rest/api/3/issue", payload)
 	if err != nil {
-		log.Println("error creating issue:", err)
+		log.Println("error creating issue")
 	}
-	fmt.Println(resp)
+	log.Println("RESP:", resp)
 }

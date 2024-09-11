@@ -2,7 +2,10 @@ package jiraclient
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
 	"regexp"
+	"sync"
 	"vx/config"
 	"vx/internal/scraper"
 )
@@ -14,19 +17,29 @@ import (
 // ---3.1 How will Vexal make sure NOT to create dublicates????
 // 4. Clear comments
 func PushTodos() {
-	id, _, _ := parseIssueTypes("todo")
+	currentDir, _ := os.Getwd()
+	issueTypeID, _, _ := parseIssueTypes("todo")
 	cfg, _ := config.LoadRepoConfig()
 	todoPattern := regexp.MustCompile(`^\s*//\s*TODO:\s*`)
+	var wg sync.WaitGroup
 	pattern := scraper.FindPatterns()
 	for _, value := range pattern {
-		fmt.Println("issue type id", id)
-		fmt.Println("Line Number:", value.LineNumber)
-		fmt.Println("File:", value.FilePath)
+		wg.Add(1)
+		relativePath, _ := filepath.Rel(currentDir, value.FilePath)
 		updateComment := todoPattern.ReplaceAllString(value.Comment, "")
-		fmt.Println(updateComment)
-		fmt.Println("Jira project key:", cfg.Jira_Project_key)
-		fmt.Println("--------------------")
+		description := formatDescription(fmt.Sprintf("%s/%s", cfg.Repo, relativePath), value.LineNumber, updateComment)
+		go func() {
+			defer wg.Done()
+			fmt.Println("Running a go routine")
+			CreateIssue(issueTypeID, cfg.Jira_Project_key, updateComment, description)
+		}()
 	}
-	GetJiraPrjtMeta("SCRUM")
+	wg.Wait()
+	fmt.Println("Number of comments found:", len(pattern))
+	// TODO: Delete TODO comments here
 
+}
+
+func formatDescription(file string, lineNumber int, comment string) string {
+	return fmt.Sprintf("File: %s \nLine Number: %d \nComment: %s \n ", file, lineNumber, comment)
 }

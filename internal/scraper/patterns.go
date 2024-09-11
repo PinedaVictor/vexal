@@ -23,7 +23,7 @@ func findPattern(pattern *regexp.Regexp, outputFile string) {
 }
 
 func FindPatterns() []Findings {
-	return scrape(currentDirectory, fileExtensions, ignoredDirectories, todoPattern, "nil")
+	return scrape(currentDirectory, fileExtensions, ignoredDirectories, todoPattern, "todos.md")
 }
 
 func ClearTodos() {
