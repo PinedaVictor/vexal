@@ -45,7 +45,7 @@ func Push(commentType string) {
 	}
 	wg.Wait()
 
-	// FIXME: This is switch statement is used twice. Try to abstract out into 1 funciton
+	// FIXME: This switch statement is used twice. Abstract out into 1 function
 	switch commentType {
 	case "todo":
 		scraper.ClearTodos()
