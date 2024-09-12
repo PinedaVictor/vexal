@@ -15,6 +15,7 @@ import (
 // 2. Scrape codebase
 // 3. Use Go concurrency to update Jira per issueType
 // ---3.1 How will Vexal make sure NOT to create dublicates????
+// ---3.2 Delete TODO comments
 // 4. Clear comments
 func PushTodos() {
 	currentDir, _ := os.Getwd()
@@ -30,12 +31,10 @@ func PushTodos() {
 		description := formatDescription(fmt.Sprintf("%s/%s", cfg.Repo, relativePath), value.LineNumber, updateComment)
 		go func() {
 			defer wg.Done()
-			fmt.Println("Running a go routine")
 			CreateIssue(issueTypeID, cfg.Jira_Project_key, updateComment, description)
 		}()
 	}
 	wg.Wait()
-	fmt.Println("Number of comments found:", len(pattern))
 	// TODO: Delete TODO comments here
 
 }

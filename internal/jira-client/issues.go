@@ -7,7 +7,8 @@ import (
 	"log"
 	"net/http"
 	"strings"
-	"vx/pkg"
+	"vx/config"
+	"vx/internal"
 )
 
 type JiraIssueType struct {
@@ -31,11 +32,10 @@ type JiraIssueTypeScope struct {
 }
 
 func GetIssueTypes() string {
-	baseURL := getJiraOAuthURL()
-	url := fmt.Sprintf("%s/rest/api/3/issuetype", baseURL)
-	hdrs := getJiraOAuthHeaders()
-
-	resp, err := pkg.GetRequest(url, hdrs)
+	cfg, _ := config.LoadRepoConfig()
+	prj := GetJiraPrjtMeta(cfg.Jira_Project_key)
+	url := fmt.Sprintf("/rest/api/3/issuetype/project?projectId=%s", prj.ID)
+	resp, err := JiraAPIGet(url)
 	if err != nil {
 		log.Println("error getting issues types")
 	}
@@ -44,7 +44,6 @@ func GetIssueTypes() string {
 	if resp.StatusCode != http.StatusOK {
 		log.Fatalf("Received non-OK response: %v", resp.Status)
 	}
-
 	// Read the response body
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
@@ -54,17 +53,29 @@ func GetIssueTypes() string {
 	return string(body)
 }
 
-func parseIssueTypes(issueTypeName string) (string, string, string) {
-	bodyJSON := GetIssueTypes()
+func ListIssueTypes() {
+	issueTypes := GetIssueTypes()
+	parsedIssueTYpes := ParseIssueTypeJSON(issueTypes)
+	for _, issueType := range parsedIssueTYpes {
+		internal.UserFeedback("ID: " + issueType.ID + " Name: " + issueType.Name + " Description: " + issueType.Description)
+	}
+}
 
+func ParseIssueTypeJSON(bodyJSON string) []JiraIssueType {
 	var issueTypes []JiraIssueType
 	JSONErr := json.Unmarshal([]byte(bodyJSON), &issueTypes)
 	if JSONErr != nil {
 		log.Fatalf("Error unmarshalling JSON: %v", JSONErr)
 	}
+	return issueTypes
+}
+
+func parseIssueTypes(issueTypeName string) (string, string, string) {
+	bodyJSON := GetIssueTypes()
+	issueTypes := ParseIssueTypeJSON(bodyJSON)
 
 	if issueTypeName == "todo" {
-		issueTypeName = "Task"
+		issueTypeName = "Story"
 	} else if issueTypeName == "fixme" {
 		issueTypeName = "Bug"
 	}
@@ -110,7 +121,9 @@ func CreateIssue(issueTypeID string, projctKey string, summary string, descripti
 
 	resp, err := JiraAPIPost("/rest/api/3/issue", payload)
 	if err != nil {
-		log.Println("error creating issue")
+		log.Println("error creating issue", err)
 	}
-	log.Println("RESP:", resp)
+	if resp.StatusCode == http.StatusOK {
+		fmt.Println("Push to Jira Successful")
+	}
 }

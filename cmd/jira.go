@@ -61,8 +61,16 @@ var pushTodos = &cobra.Command{
 	Use:   "push-t",
 	Short: "Push all TODO comments to Jira - by defualt this will also delete all TODO comments in your codebase.",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Pushing all TODO comments in yhour ")
+		internal.UserFeedback("Pushing all TODO comments")
 		jiraclient.PushTodos()
+	},
+}
+
+var listPrjIssueTypes = &cobra.Command{
+	Use:   "lt",
+	Short: "List issue types for your project.",
+	Run: func(cmd *cobra.Command, args []string) {
+		jiraclient.ListIssueTypes()
 	},
 }
 
@@ -71,7 +79,7 @@ var test = &cobra.Command{
 	Use:   "t",
 	Short: "Create Issue",
 	Run: func(cmd *cobra.Command, args []string) {
-		// jiraclient.GetIssueTypes()
+
 		jiraclient.GetJiraPrjtMeta("SCRUM")
 	},
 }
@@ -83,6 +91,7 @@ func init() {
 	jiraCmd.AddCommand(createIssue)
 	jiraCmd.AddCommand(pushTodos)
 	jiraCmd.AddCommand(test)
+	jiraCmd.AddCommand(listPrjIssueTypes)
 
 	// Here you will define your flags and configuration settings.
 	initJira.Flags().BoolVarP(&manual, "manual", "m", false, "Enable manual config setup")

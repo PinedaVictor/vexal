@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"vx/config"
+	"vx/internal"
 	"vx/pkg"
 )
 
@@ -45,8 +47,10 @@ func getJiraReqCfg(API string) (string, map[string]string) {
 func JiraAPIGet(API string) (*http.Response, error) {
 	url, hdrs := getJiraReqCfg(API)
 	resp, err := pkg.GetRequest(url, hdrs)
-	if err != nil {
-		log.Println("error", err)
+	if resp.StatusCode == http.StatusUnauthorized {
+		log.Println("")
+		internal.UserErrFeedback("Not authenticated into Jira - run vx jira login")
+		os.Exit(0)
 	}
 	return resp, err
 }
@@ -55,8 +59,10 @@ func JiraAPIGet(API string) (*http.Response, error) {
 func JiraAPIPost(API string, payload interface{}) (*http.Response, error) {
 	url, hdrs := getJiraReqCfg(API)
 	resp, err := pkg.PostRequest(url, hdrs, payload)
-	if err != nil {
-		log.Println("error", err)
+	if resp.StatusCode == http.StatusUnauthorized {
+		log.Println("")
+		internal.UserErrFeedback("Not authenticated into Jira - run vx jira login")
+		os.Exit(0)
 	}
 	return resp, err
 }

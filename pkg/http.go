@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -54,18 +53,15 @@ func GetRequest(url string, headers map[string]string) (*http.Response, error) {
 	return resp, nil
 }
 
-// TODO: Test PostRquest
 // PostRequest performs an HTTP POST request with the specified payload and returns the response and any error.
 func PostRequest(url string, headers map[string]string, payload interface{}) (*http.Response, error) {
 	var reqBody io.Reader
 	if payload != nil {
 		jsonData, err := json.Marshal(payload)
-		fmt.Println("PAYLOAD JSON:", jsonData)
 		if err != nil {
 			return nil, errors.New("error marshalling payload: " + err.Error())
 		}
 		reqBody = bytes.NewBuffer(jsonData)
-		fmt.Println("REQBODY:", reqBody)
 	}
 
 	req, err := http.NewRequest(http.MethodPost, url, reqBody)
@@ -78,11 +74,9 @@ func PostRequest(url string, headers map[string]string, payload interface{}) (*h
 	}
 	resp, err := HTTPClient.Do(req)
 	if err != nil {
-
 		return nil, err
 	}
 
-	fmt.Println("This is where the bug is", resp)
 	return resp, nil
 }
 

@@ -55,8 +55,7 @@ func GetAllProjects() []JiraProject {
 		log.Fatalf("Error unmarshalling JSON: %v", err)
 	}
 
-	for idx, project := range projects {
-		fmt.Println(idx)
+	for _, project := range projects {
 		fmt.Printf("Project Name: %s, ID: %s, Key: %s\n", project.Name, project.ID, project.Key)
 	}
 	return projects
@@ -78,14 +77,12 @@ func GetJiraPrjtMeta(projectKey string) JiraProject {
 	if err != nil {
 		log.Fatalf("Error reading response body: %v", err)
 	}
-	// fmt.Println(string(body))
 
 	var project JiraProject
 	err = json.Unmarshal(body, &project)
 	if err != nil {
 		log.Fatalf("Error unmarshalling JSON: %v", err)
 	}
-	fmt.Println(project)
-	return project
 
+	return project
 }
