@@ -36,7 +36,6 @@ var initJira = &cobra.Command{
 	Use:   "init",
 	Short: "Initialize Jira connection for your repository",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(manual)
 		if manual {
 			config.InitJira()
 		} else {
