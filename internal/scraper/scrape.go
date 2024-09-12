@@ -73,13 +73,11 @@ func scrape(directory string, extensions []string, ignoredDirs []string, pattern
 		}
 
 		if info.IsDir() && contains(ignoredDirs, info.Name()) {
-			fmt.Println("Skipping:", info.Name())
 			return filepath.SkipDir
 		}
 
 		// Skip the output file (e.g., todos.md)
 		if !info.IsDir() && info.Name() == outputFileName {
-			fmt.Println("Skipping file:", info.Name())
 			return nil
 		}
 

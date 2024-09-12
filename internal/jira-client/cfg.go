@@ -2,7 +2,6 @@ package jiraclient
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"vx/config"
@@ -12,7 +11,8 @@ import (
 
 var (
 	// OAuth2URL: https://api.atlassian.com/ex/jira is the base URL for Jira OAuth2.0 calls.
-	OAuth2URL = "https://api.atlassian.com/ex/jira"
+	OAuth2URL      = "https://api.atlassian.com/ex/jira"
+	JiraAuthErrMsg = "Jira User Not Authenticated - run vx jira login"
 )
 
 // getJiraOAuthURL returns the the OAuth2.0 base URL interpolated with the cloud id fetched from LoadRepoConfig()
@@ -48,8 +48,7 @@ func JiraAPIGet(API string) (*http.Response, error) {
 	url, hdrs := getJiraReqCfg(API)
 	resp, err := pkg.GetRequest(url, hdrs)
 	if resp.StatusCode == http.StatusUnauthorized {
-		log.Println("")
-		internal.UserErrFeedback("Not authenticated into Jira - run vx jira login")
+		internal.UserErrFeedback(JiraAuthErrMsg)
 		os.Exit(0)
 	}
 	return resp, err
@@ -60,8 +59,7 @@ func JiraAPIPost(API string, payload interface{}) (*http.Response, error) {
 	url, hdrs := getJiraReqCfg(API)
 	resp, err := pkg.PostRequest(url, hdrs, payload)
 	if resp.StatusCode == http.StatusUnauthorized {
-		log.Println("")
-		internal.UserErrFeedback("Not authenticated into Jira - run vx jira login")
+		internal.UserErrFeedback(JiraAuthErrMsg)
 		os.Exit(0)
 	}
 	return resp, err

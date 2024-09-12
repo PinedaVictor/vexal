@@ -2,7 +2,7 @@
 
 **cmd/jira.go:45** - // TODO: Error Handling: 2024/08/15 23:53:49 Error reading repo config: Config File ".vx.yaml" Not Found in "[/Users/victorpineda/repos/vexal-technologies/vexal]"
 
-**cmd/jira.go:60** - // TODO: Purely a testing function - Delete when deploying to production
+**cmd/jira.go:77** - // TODO: Purely a testing function - Delete when deploying to production
 
 **cmd/pr.go:23** - // TODO: Add long description
 
@@ -16,9 +16,9 @@
 
 **internal/authenticate/firebase.go:66** - // TODO: Implement refresh token flow
 
-**internal/jira-client/issues.go:108** - // TODO: This will likely call a getIsssueId function
+**internal/jira-client/project.go:34** - // TODO: Update - this functionality is depreicated in v3
 
-**internal/jira-client/issues.go:112** - // TODO: Get project Meta data
+**internal/jira-client/vxjira.go:38** - // TODO: Delete TODO comments here
 
 **internal/pr/git-client.go:20** - // TODO: We need a control scructure on where to get our keys
 
@@ -26,9 +26,7 @@
 
 **pkg/gutils/git_cmd.go:17** - // TODO: Implement working directory switching if needed
 
-**pkg/http.go:50** - // TODO: Delete this - likely won't be needed
-
-**pkg/http.go:57** - // TODO: Test PostRquest
+**pkg/http.go:49** - // TODO: Delete this - likely won't be needed
 
 **pkg/openai.go:23** - // TODO: implement auth init config
 

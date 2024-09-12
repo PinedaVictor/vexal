@@ -49,48 +49,59 @@ var initJira = &cobra.Command{
 	},
 }
 
-var createIssue = &cobra.Command{
-	Use:   "ci",
-	Short: "Create Issue",
+var pushAll = &cobra.Command{
+	Use:   "push-all",
+	Short: "Push all comments to Jira - TODO, FIXME comments",
 	Run: func(cmd *cobra.Command, args []string) {
-		// jiraclient.CreateIssue()
+		internal.UserFeedback("Pushing all comments")
+		jiraclient.PushAllComments()
+	},
+	PostRun: func(cmd *cobra.Command, args []string) {
+		internal.PostFeedback("Pushed All Comments. ✅")
 	},
 }
 
 var pushTodos = &cobra.Command{
 	Use:   "push-t",
-	Short: "Push all TODO comments to Jira - by defualt this will also delete all TODO comments in your codebase.",
+	Short: "Push TODO comments to Jira - by defualt this will also delete TODO comments in your codebase",
 	Run: func(cmd *cobra.Command, args []string) {
 		internal.UserFeedback("Pushing all TODO comments")
-		jiraclient.PushTodos()
+		jiraclient.Push("todo")
+	},
+	PostRun: func(cmd *cobra.Command, args []string) {
+		internal.PostFeedback("Pushed TOOD Comments. ✅")
+	},
+}
+
+var pushFixme = &cobra.Command{
+	Use:   "push-f",
+	Short: "Push FIXME comments to Jira - by defualt this will also delete FIXME comments in your codebase",
+	Run: func(cmd *cobra.Command, args []string) {
+		internal.UserFeedback("Pushing all FIXME comments")
+		jiraclient.Push("fixme")
+	},
+	PostRun: func(cmd *cobra.Command, args []string) {
+		internal.PostFeedback("Pushed FIXME Comments. ✅")
 	},
 }
 
 var listPrjIssueTypes = &cobra.Command{
 	Use:   "lt",
-	Short: "List issue types for your project.",
+	Short: "List issue types for your project",
 	Run: func(cmd *cobra.Command, args []string) {
 		jiraclient.ListIssueTypes()
 	},
 }
 
-// TODO: Purely a testing function - Delete when deploying to production
-var test = &cobra.Command{
-	Use:   "t",
-	Short: "Create Issue",
-	Run: func(cmd *cobra.Command, args []string) {
-
-		jiraclient.GetJiraPrjtMeta("SCRUM")
-	},
-}
-
 func init() {
+	// Add jira cmd to root
 	rootCmd.AddCommand(jiraCmd)
+	// Add jira subcommands
 	jiraCmd.AddCommand(jiraLogin)
 	jiraCmd.AddCommand(initJira)
-	jiraCmd.AddCommand(createIssue)
 	jiraCmd.AddCommand(pushTodos)
-	jiraCmd.AddCommand(test)
+	jiraCmd.AddCommand(pushFixme)
+	jiraCmd.AddCommand(pushAll)
 	jiraCmd.AddCommand(listPrjIssueTypes)
 
 	// Here you will define your flags and configuration settings.

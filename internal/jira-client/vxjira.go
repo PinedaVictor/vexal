@@ -7,27 +7,36 @@ import (
 	"regexp"
 	"sync"
 	"vx/config"
+	"vx/internal"
 	"vx/internal/scraper"
 )
 
-// ALG:
-// 1. Get Issue Type IDs
-// 2. Scrape codebase
-// 3. Use Go concurrency to update Jira per issueType
-// ---3.1 How will Vexal make sure NOT to create dublicates????
-// ---3.2 Delete TODO comments
-// 4. Clear comments
-func PushTodos() {
-	currentDir, _ := os.Getwd()
-	issueTypeID, _, _ := parseIssueTypes("todo")
-	cfg, _ := config.LoadRepoConfig()
-	todoPattern := regexp.MustCompile(`^\s*//\s*TODO:\s*`)
+func PushAllComments() {
 	var wg sync.WaitGroup
-	pattern := scraper.FindPatterns()
-	for _, value := range pattern {
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		Push("todo")
+	}()
+	go func() {
+		defer wg.Done()
+		Push("fixme")
+	}()
+	wg.Wait()
+}
+
+func Push(commentType string) {
+	currentDir, _ := os.Getwd()
+	issueTypeID, _, _ := parseIssueTypes(commentType)
+	cfg, _ := config.LoadRepoConfig()
+	comments, replacePattern := getCommentsAndRegexp(commentType)
+	var wg sync.WaitGroup
+	msg := fmt.Sprintf("Number of %s comments found: %d", commentType, len(comments))
+	internal.UserFeedback(msg)
+	for _, value := range comments {
 		wg.Add(1)
 		relativePath, _ := filepath.Rel(currentDir, value.FilePath)
-		updateComment := todoPattern.ReplaceAllString(value.Comment, "")
+		updateComment := replacePattern.ReplaceAllString(value.Comment, "")
 		description := formatDescription(fmt.Sprintf("%s/%s", cfg.Repo, relativePath), value.LineNumber, updateComment)
 		go func() {
 			defer wg.Done()
@@ -35,8 +44,24 @@ func PushTodos() {
 		}()
 	}
 	wg.Wait()
-	// TODO: Delete TODO comments here
 
+	// FIXME: This is switch statement is used twice. Try to abstract out into 1 funciton
+	switch commentType {
+	case "todo":
+		scraper.ClearTodos()
+	case "fixme":
+		scraper.ClearFixme()
+	}
+}
+
+func getCommentsAndRegexp(commentType string) ([]scraper.Findings, *regexp.Regexp) {
+	switch commentType {
+	case "todo":
+		return scraper.FindTodos(), regexp.MustCompile(`^\s*//\s*TODO:\s*`)
+	case "fixme":
+		return scraper.FindFixme(), regexp.MustCompile(`^\s*//\s*FIXME:\s*`)
+	}
+	return nil, nil
 }
 
 func formatDescription(file string, lineNumber int, comment string) string {
