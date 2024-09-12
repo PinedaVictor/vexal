@@ -46,7 +46,7 @@ vx
 You will see the following prompt
 
 ```
-vexal.io - Developer Tools
+vexal.io - Developer Tooling and Automation
 
 Usage:
   vx [command]
@@ -58,6 +58,7 @@ Commands:
   fixme       Find all "FIXME:" comments in your codebase.
   help        Help about any command
   init        Initialize repository utilities. (Only needed if you plan on using github and OpenAI)
+  jira        Jira utils
   login       Use login to authenticate into the vexal platform
   pr          AI generated PRs based on your commit history
   todos       Find all "TODO:" comments in your codebase.
