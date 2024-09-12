@@ -17,7 +17,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:     "vx",
 	Short:   `vexal.io - Developer Tooling and Automation`,
-	Version: "v1.1.4",
+	Version: "v1.2.4",
 	// Long:    ``,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
