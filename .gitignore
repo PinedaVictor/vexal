@@ -32,8 +32,8 @@ go.work
 .env
 .env.*
 
-# Binary 
-vx
+# Binary and tar.gz 
+vx*
 
 
 
