@@ -21,7 +21,7 @@ var fixmeCmd = &cobra.Command{
 		scraper.ScrapeFixMe()
 	},
 	PostRun: func(cmd *cobra.Command, args []string) {
-		internal.PostFeedback("All done! fixme.md ✅")
+		internal.PostFeedback("All done. ✅")
 	},
 }
 

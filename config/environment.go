@@ -24,6 +24,9 @@ type EnvironmentConfig struct {
 	SECRETS_MAN_ACCOUNT_TYPE string `mapstructure:"SECRETS_MAN_ACCOUNT_TYPE"`
 	SECRETS_MAN_PRIVATE_KEY  string `mapstructure:"SECRETS_MAN_PRIVATE_KEY"`
 	SECRETS_MAN_EMAIL        string `mapstructure:"SECRETS_MAN_EMAIL"`
+	// Jira Software
+	JIRA_OAUTH_CLIENT_ID string `mapstructure:"JIRA_OAUTH_CLIENT_ID"`
+	JIRA_STATE           string `mapstructure:"JIRA_STATE"`
 }
 
 // Variables to be set at build time using -ldflags
@@ -38,6 +41,8 @@ var (
 	SECRETS_MAN_ACCOUNT_TYPE string
 	SECRETS_MAN_PRIVATE_KEY  string
 	SECRETS_MAN_EMAIL        string
+	JIRA_OAUTH_CLIENT_ID     string
+	JIRA_STATE               string
 )
 
 func LoadEnvironment() (config EnvironmentConfig, err error) {
@@ -89,6 +94,11 @@ func LoadEnvironment() (config EnvironmentConfig, err error) {
 	if SECRETS_MAN_EMAIL != "" {
 		config.SECRETS_MAN_EMAIL = SECRETS_MAN_EMAIL
 	}
-
+	if JIRA_OAUTH_CLIENT_ID != "" {
+		config.JIRA_OAUTH_CLIENT_ID = JIRA_OAUTH_CLIENT_ID
+	}
+	if JIRA_STATE != "" {
+		config.JIRA_STATE = JIRA_STATE
+	}
 	return config, nil
 }

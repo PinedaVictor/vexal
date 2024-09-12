@@ -52,8 +52,9 @@ var (
 		"scripts",
 		"todos.md",
 	}
-	todoPattern  = regexp.MustCompile(`(?i)\bTODO\b.*$`)
-	fixMePattern = regexp.MustCompile(`(?i)\bFIXME\b.*$`)
+
+	todoPattern  = regexp.MustCompile(`(?i)\s*//\s*TODO\b.*$`)
+	fixMePattern = regexp.MustCompile(`(?i)\s*//\s*FIXME\b.*$`)
 )
 
 type Findings struct {
@@ -110,6 +111,42 @@ func scrape(directory string, extensions []string, ignoredDirs []string, pattern
 	}
 
 	return findings
+}
+
+func deletePattern(directory string, extensions []string, ignoredDirs []string, pattern *regexp.Regexp) error {
+	err := filepath.Walk(directory, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
+		if info.IsDir() && contains(ignoredDirs, info.Name()) {
+			return filepath.SkipDir
+		}
+
+		if !info.IsDir() && hasValidExtension(info.Name(), extensions) {
+			input, err := os.ReadFile(path)
+			if err != nil {
+				return err
+			}
+
+			lines := strings.Split(string(input), "\n")
+			for i, line := range lines {
+				if pattern.MatchString(line) {
+					lines[i] = pattern.ReplaceAllString(line, "")
+				}
+			}
+
+			output := strings.Join(lines, "\n")
+			err = os.WriteFile(path, []byte(output), info.Mode())
+			if err != nil {
+				return err
+			}
+		}
+
+		return nil
+	})
+
+	return err
 }
 
 func hasValidExtension(filename string, extensions []string) bool {

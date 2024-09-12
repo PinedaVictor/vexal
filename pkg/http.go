@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -47,13 +46,13 @@ func GetRequest(url string, headers map[string]string) (*http.Response, error) {
 	if err != nil {
 		return nil, err
 	}
+	// TODO: Delete this - likely won't be needed
 	// defer resp.Body.Close()
-	fmt.Println("RESP:", resp)
+	// fmt.Println("RESP:", resp)
 
 	return resp, nil
 }
 
-// TODO: Test PostRquest
 // PostRequest performs an HTTP POST request with the specified payload and returns the response and any error.
 func PostRequest(url string, headers map[string]string, payload interface{}) (*http.Response, error) {
 	var reqBody io.Reader

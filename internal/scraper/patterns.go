@@ -3,7 +3,6 @@ package scraper
 import (
 	"fmt"
 	"regexp"
-	"strings"
 )
 
 func ScrapeTodos() {
@@ -15,10 +14,26 @@ func ScrapeFixMe() {
 }
 
 func findPattern(pattern *regexp.Regexp, outputFile string) {
-	todos := scrape(currentDirectory, fileExtensions, ignoredDirectories, pattern, outputFile)
-	if len(todos) > 0 {
-		generateReadme(todos, outputFile)
+	results := scrape(currentDirectory, fileExtensions, ignoredDirectories, pattern, outputFile)
+	if len(results) > 0 {
+		generateReadme(results, outputFile)
 	} else {
-		fmt.Printf("No comments found in %s files.\n", strings.Join(fileExtensions, ", "))
+		fmt.Printf("No comments found. \n")
 	}
+}
+
+func FindTodos() []Findings {
+	return scrape(currentDirectory, fileExtensions, ignoredDirectories, todoPattern, "todos.md")
+}
+
+func FindFixme() []Findings {
+	return scrape(currentDirectory, fileExtensions, ignoredDirectories, fixMePattern, "fixme.md")
+}
+
+func ClearTodos() {
+	deletePattern(currentDirectory, fileExtensions, ignoredDirectories, todoPattern)
+}
+
+func ClearFixme() {
+	deletePattern(currentDirectory, fileExtensions, ignoredDirectories, fixMePattern)
 }

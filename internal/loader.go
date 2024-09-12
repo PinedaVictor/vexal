@@ -34,3 +34,13 @@ func PostFeedback(msg string) {
 	c := color.New(color.FgGreen).Add(color.Bold)
 	c.Println(msg)
 }
+
+func UserFeedback(msg string) {
+	c := color.New(color.FgHiMagenta).Add(color.Bold)
+	c.Println(msg)
+}
+
+func UserErrFeedback(msg string) {
+	c := color.New(color.FgRed).Add(color.Bold)
+	c.Println(msg)
+}

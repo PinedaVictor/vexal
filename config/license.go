@@ -11,8 +11,8 @@ var license = `
 BSD 3-Clause License
 
 Copyright (c) 2024, Victor Pineda
-website: https://pinedavictor.com/
-Github: https://github.com/PinedaVictor
+website: https://www.vexal.io/
+Github: https://github.com/PinedaVictor/vexal
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
