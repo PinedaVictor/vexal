@@ -3,6 +3,7 @@ package scraper
 import (
 	"fmt"
 	"regexp"
+	"vx/internal"
 )
 
 func ScrapeTodos() {
@@ -16,6 +17,8 @@ func ScrapeFixMe() {
 func findPattern(pattern *regexp.Regexp, outputFile string) {
 	results := scrape(currentDirectory, fileExtensions, ignoredDirectories, pattern, outputFile)
 	if len(results) > 0 {
+		msg := fmt.Sprintf("Found: %d", len(results))
+		internal.UserFeedback(msg)
 		generateReadme(results, outputFile)
 	} else {
 		fmt.Printf("No comments found. \n")
