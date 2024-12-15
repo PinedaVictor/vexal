@@ -25,6 +25,7 @@ func RunAuthServer(configType string) {
 
 	err := server.ListenAndServe()
 	if err != nil {
+		// NOTE: Theres not an issue when authenticating into jira but this will print an error
 		fmt.Println("", err)
 	}
 }

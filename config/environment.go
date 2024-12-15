@@ -48,7 +48,7 @@ var (
 func LoadEnvironment() (config EnvironmentConfig, err error) {
 	if ENVIRONMENT != "production" {
 		viper.AddConfigPath(".")
-		viper.SetConfigName(".env")
+		viper.SetConfigName(".env.development")
 		viper.SetConfigType("env")
 		viper.AutomaticEnv()
 

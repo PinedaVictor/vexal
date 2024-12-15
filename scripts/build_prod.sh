@@ -2,7 +2,7 @@
 
 cd ..
 
-# Source environment variables from .env.development
+# Source environment variables from .env.production
 source .env.production
 
 # Build application with injected environment variables using ldflags

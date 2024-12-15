@@ -8,6 +8,7 @@ source .env.development
 # Build application with injected environment variables using ldflags
 echo "Building Development"
 go build -ldflags "\
+  -X 'vx/config.ENVIRONMENT=$ENVIRONMENT' \
   -X 'vx/config.APP_URL=$APP_URL' \
   -X 'vx/config.SERVER_REDIRECT_ADDR=$SERVER_REDIRECT_ADDR' \
   -X 'vx/config.GCP_PROJECT_ID=$GCP_PROJECT_ID' \
@@ -16,4 +17,6 @@ go build -ldflags "\
   -X 'vx/config.FB_ADMIN_CLIENT_EMAIL=$FB_ADMIN_CLIENT_EMAIL' \
   -X 'vx/config.SECRETS_MAN_ACCOUNT_TYPE=$SECRETS_MAN_ACCOUNT_TYPE' \
   -X 'vx/config.SECRETS_MAN_PRIVATE_KEY=$SECRETS_MAN_PRIVATE_KEY' \
+  -X 'vx/config.JIRA_OAUTH_CLIENT_ID=$JIRA_OAUTH_CLIENT_ID' \
+  -X 'vx/config.JIRA_STATE=$JIRA_STATE' \
   -X 'vx/config.SECRETS_MAN_EMAIL=$SECRETS_MAN_EMAIL'" -o vx
