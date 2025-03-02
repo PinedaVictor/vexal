@@ -11,6 +11,8 @@ import (
 	"vx/internal/authenticate"
 	"vx/internal/secrets"
 
+	// TODO: Refactor config cmd
+
 	"github.com/spf13/cobra"
 )
 
@@ -20,6 +22,11 @@ var configCmd = &cobra.Command{
 	Short: "Edit vx configuartion",
 	Long: `You can use config to access and edit vx configuration.
 	Configuration located at $HOME/.vx`,
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("Running config")
+		// TODO: Setup a test for this integration in prod
+
+	},
 }
 
 var (
