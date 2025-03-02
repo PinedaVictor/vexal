@@ -4,29 +4,26 @@ Copyright © 2025 Victor Pineda pinedavictor095@gmail.com
 package cmd
 
 import (
-	pluto "github.com/PinedaVictor/pluto"
 	"github.com/spf13/cobra"
 )
 
-// betaCmd represents the beta command
-var betaCmd = &cobra.Command{
-	Use:   "beta",
-	Short: "",
-	Run: func(cmd *cobra.Command, args []string) {
-		pluto.TestPlutoPkg()
-	},
+// surgeCmd represents the surge command
+var surgeCmd = &cobra.Command{
+	Use:   "surge",
+	Short: "Server generation",
+	Long:  `Server generation for different libraries and frameworks.`,
 }
 
 func init() {
-	rootCmd.AddCommand(betaCmd)
+	rootCmd.AddCommand(surgeCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// betaCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// surgeCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// betaCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// surgeCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
