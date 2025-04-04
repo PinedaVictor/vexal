@@ -9,6 +9,7 @@ import (
 	"github.com/fatih/color"
 )
 
+var DftlDoneMsg = "All done ✅"
 var s = spinner.New(spinner.CharSets[33], 100*time.Millisecond)
 var c = color.New(color.FgCyan, color.Bold)
 

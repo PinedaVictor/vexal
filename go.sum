@@ -22,6 +22,14 @@ firebase.google.com/go v3.13.0+incompatible/go.mod h1:xlah6XbEyW6tbfSklcfe5FHJIw
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/PinedaVictor/pluto v0.0.0-20250222224203-288b4ff63d3f h1:OOA7tjJuCFw9Hj/i4J9HzVXMlIrhp1VOtCQ7Sxo5rOY=
 github.com/PinedaVictor/pluto v0.0.0-20250222224203-288b4ff63d3f/go.mod h1:/CcB+w6cPyuBZ9FHt7ykxWzYYNa7LJ14ayS3eslob1M=
+github.com/PinedaVictor/pluto v0.0.0-20250402104257-bd9a809abb13 h1:qsmwSopoia+pl0LYxB7oueL5B9L9jViKWzUcLKXGL8I=
+github.com/PinedaVictor/pluto v0.0.0-20250402104257-bd9a809abb13/go.mod h1:3bFAtDpo9GiXHmux5jzPwa2VbKGRkZlUjIsnxds442w=
+github.com/PinedaVictor/pluto v0.0.0-20250402114657-06be035f948d h1:S4vSMmNCDsIfFcszmesoqU5XSa3f+7XPfWUAARxqoKM=
+github.com/PinedaVictor/pluto v0.0.0-20250402114657-06be035f948d/go.mod h1:3bFAtDpo9GiXHmux5jzPwa2VbKGRkZlUjIsnxds442w=
+github.com/PinedaVictor/pluto v0.0.0-20250402121326-d04fa0f26fb0 h1:KK28+LNjRCk6dMXmuI0N7DPC3S16aZKTmgfoqIYmg0Y=
+github.com/PinedaVictor/pluto v0.0.0-20250402121326-d04fa0f26fb0/go.mod h1:3bFAtDpo9GiXHmux5jzPwa2VbKGRkZlUjIsnxds442w=
+github.com/PinedaVictor/pluto v0.0.0-20250403130635-fe2d1df22463 h1:ujhGKFHLN6fWokyZqc3yPTPrdBR4Djc5IXh+gdRRUds=
+github.com/PinedaVictor/pluto v0.0.0-20250403130635-fe2d1df22463/go.mod h1:3bFAtDpo9GiXHmux5jzPwa2VbKGRkZlUjIsnxds442w=
 github.com/briandowns/spinner v1.23.0 h1:alDF2guRWqa/FOZZYWjlMIx2L6H0wyewPxo/CH4Pt2A=
 github.com/briandowns/spinner v1.23.0/go.mod h1:rPG4gmXeN3wQV/TsAY4w8lPdIM6RX3yqeBQJSrbXjuE=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=

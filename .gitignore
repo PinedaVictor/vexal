@@ -37,3 +37,7 @@ vx*
 
 # vexal.io vx config 
 .vx*
+
+
+server
+test_bin.sh
