@@ -5,7 +5,7 @@ go 1.23.4
 require (
 	cloud.google.com/go/secretmanager v1.12.0
 	firebase.google.com/go v3.13.0+incompatible
-	github.com/PinedaVictor/pluto v0.0.0-20250403130635-fe2d1df22463
+	github.com/PinedaVictor/pluto v0.0.0-20250505031939-2c4fb1176122
 	github.com/briandowns/spinner v1.23.0
 	github.com/fatih/color v1.16.0
 	github.com/google/go-github/v62 v62.0.0
