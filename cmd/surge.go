@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"vx/internal"
 
-	pluto "github.com/PinedaVictor/pluto/surge/ejs"
+	pluto "github.com/PinedaVictor/pluto"
 	"github.com/spf13/cobra"
 )
 
@@ -21,17 +21,39 @@ var surgeCmd = &cobra.Command{
 var name = ""
 var exjs = &cobra.Command{
 	Use:   "ejs",
-	Short: "Generate an ExpressJS server",
+	Short: "Generate ExpressJS server",
 	Long: `
-	This command generates an ExpressJS server with the dependencies express, ts-node,and nodemon,
-	along with configurations for Docker, Prettier, ESLint, and both development and build scripts.
+	This command generates an ExpressJS server with: 
+	Dependencies: express, ts-node, and nodemon
+	Dev Dependencies: typescript, @types/express, prettier, gts
+	Configurations: Docker, Prettier, ESLint, and both development and build scripts.
 	`,
 	PreRun: func(cmd *cobra.Command, args []string) {
 		var msg = fmt.Sprintf("Spawning server: %s", name)
 		internal.StartSpinner(msg)
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		pluto.SpawnServer(name)
+		pluto.Ejs(name)
+
+	},
+	PostRun: func(cmd *cobra.Command, args []string) {
+		internal.StopSpinner(internal.DftlDoneMsg)
+	},
+}
+
+var basal = &cobra.Command{
+	Use:   "basal",
+	Short: "Generate Python FastAPI server",
+	Long: `
+	This command generates a Python FastAPI server with:
+	Dependencies: fastapi, uvicorn, python-dotenv, gunicorn, flake8
+	`,
+	PreRun: func(cmd *cobra.Command, args []string) {
+		var msg = fmt.Sprintf("Spawning server: %s", name)
+		internal.StartSpinner(msg)
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		pluto.Basal(name)
 
 	},
 	PostRun: func(cmd *cobra.Command, args []string) {
@@ -41,8 +63,10 @@ var exjs = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(surgeCmd)
-	surgeCmd.AddCommand((exjs))
+	surgeCmd.AddCommand(exjs)
 	exjs.Flags().StringVarP(&name, "name", "n", "server", "Name of server you want to generate")
+	surgeCmd.AddCommand(basal)
+	basal.Flags().StringVarP(&name, "name", "n", "server", "Name of server you want to generate")
 
 	// Here you will define your flags and configuration settings.
 
