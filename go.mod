@@ -5,6 +5,7 @@ go 1.23.4
 require (
 	cloud.google.com/go/secretmanager v1.12.0
 	firebase.google.com/go v3.13.0+incompatible
+	github.com/PinedaVictor/nyx v0.0.0-20250723002124-1e78deebb096
 	github.com/PinedaVictor/pluto v0.0.0-20250505031939-2c4fb1176122
 	github.com/briandowns/spinner v1.23.0
 	github.com/fatih/color v1.16.0
@@ -62,10 +63,10 @@ require (
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
 	golang.org/x/net v0.25.0 // indirect
 	golang.org/x/oauth2 v0.20.0 // indirect
-	golang.org/x/sync v0.7.0 // indirect
+	golang.org/x/sync v0.14.0 // indirect
 	golang.org/x/sys v0.20.0 // indirect
 	golang.org/x/term v0.20.0 // indirect
-	golang.org/x/text v0.15.0 // indirect
+	golang.org/x/text v0.25.0 // indirect
 	golang.org/x/time v0.5.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/genproto v0.0.0-20240401170217-c3f982113cda // indirect
