@@ -4,7 +4,7 @@ Copyright © 2025 Victor Pineda pinedavictor095@gmail.com
 package cmd
 
 import (
-	pluto "github.com/PinedaVictor/pluto"
+	nyx "github.com/PinedaVictor/nyx"
 	"github.com/spf13/cobra"
 )
 
@@ -13,7 +13,9 @@ var betaCmd = &cobra.Command{
 	Use:   "beta",
 	Short: "",
 	Run: func(cmd *cobra.Command, args []string) {
-		pluto.TestPlutoPkg()
+		nyx.Test()
+		nyx.RunTESTDiagnostics()
+
 	},
 }
 

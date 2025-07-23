@@ -45,16 +45,28 @@ var (
 		"node_modules",
 		"dist",
 		"env",
+		"venv",
 		"instance",
 		"__pycache__",
 		".next",
 		".ruff_cache",
 		"scripts",
 		"todos.md",
+		".git",
+		".DS_Store",
+		"build",
+		"coverage",
+		"logs",
+		"tmp",
+		"out",
+		"build",
+		"bin",
+		"temp",
+		"target",
 	}
 
-	todoPattern  = regexp.MustCompile(`(?i)\s*//\s*TODO\b.*$`)
-	fixMePattern = regexp.MustCompile(`(?i)\s*//\s*FIXME\b.*$`)
+	todoPattern  = regexp.MustCompile(`(?i)\bTODO\b.*`)
+	fixMePattern = regexp.MustCompile(`(?i)\bFIXME\b.*`)
 )
 
 type Findings struct {
