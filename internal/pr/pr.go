@@ -17,8 +17,25 @@ import (
 func AutoPr(branch string) {
 	initGithubClient()
 	workingBranch := gutils.GetWorkingBranch()
+	// Check if user is on the same branch
+	if branch == workingBranch {
+		fmt.Printf("\nYou are already on '%s'.\n", branch)
+		fmt.Println("Create a new branch before opening a pull request.")
+		fmt.Println("Example:")
+		fmt.Println("	git checkout -b your-branch-name")
+		os.Exit(0)
+		return
+	}
+	// Check total commits made
 	commitTotals := gutils.CalcNumCommit(branch, workingBranch)
 	ct := strconv.Itoa(commitTotals)
+	if commitTotals == 0 {
+		fmt.Println("No commits detected in this branch.")
+		fmt.Println("Make sure changes are pushed to your remote branch before running this command.")
+		os.Exit(0)
+		return
+	}
+	fmt.Printf("You're killing it! 🔥 Calculated %s total changes.\n", ct)
 	owner, repo, _ := gutils.GetRepo()
 	logs := gutils.GetGitLogs(workingBranch, ct)
 	hasTpl, tpl := hasPRTemplate()
