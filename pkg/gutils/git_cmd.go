@@ -54,11 +54,25 @@ func GetWorkingBranch() string {
 	return branch
 }
 
+// TODO: This will take a more bold approach to complete
+func PushWorkingBranch() string {
+	workingBranch := GetWorkingBranch()
+	fmt.Println("Pushing changes")
+	fmt.Println(workingBranch)
+	execmd := exec.Command(GitCMD, "push", "origin", workingBranch)
+	// TODO: Testing out this combined output
+	output, err := execmd.CombinedOutput()
+	fmt.Println(output)
+	if err != nil {
+		return "There were no changes detected or vx was unable to push up changes."
+	}
+	return "Pushed up changes successfully."
+}
+
 // Number of commits
 // git rev-list BRANCH
 func CalcNumCommit(base string, feature string) int {
 	totalCommits := getNumCommits(feature) - getNumCommits(base)
-	fmt.Printf("You're killing it! 🔥 Calculated %d total changes.\n", totalCommits)
 	return totalCommits
 }
 
