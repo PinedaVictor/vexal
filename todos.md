@@ -18,9 +18,7 @@
 
 **cmd/jira.go:68** - todo")
 
-**cmd/pr.go:23** - TODO: Add long description
-
-**cmd/pr.go:26** - TODO: We need a control scructure on where to get our keys
+**cmd/pr.go:40** - TODO: Marker the use case for GCP secrets manager
 
 **cmd/root.go:39** - TODO: Whats the vision for UI/UX
 
@@ -55,6 +53,10 @@
 **internal/secrets/secrets.go:136** - TODO: Use or don't use defer statement
 
 **pkg/gutils/git_cmd.go:17** - TODO: Implement working directory switching if needed
+
+**pkg/gutils/git_cmd.go:57** - TODO: This will take a more bold approach to complete
+
+**pkg/gutils/git_cmd.go:63** - TODO: Testing out this combined output
 
 **pkg/http.go:49** - TODO: Delete this - likely won't be needed
 
