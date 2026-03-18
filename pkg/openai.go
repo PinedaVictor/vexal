@@ -16,7 +16,7 @@ var (
 )
 
 func initOpenAI() {
-	rCfg, _ := keys.KeySrc()
+	rCfg := keys.KeySrc()
 	openAiClient = openai.NewClient(rCfg.Openai_key)
 }
 

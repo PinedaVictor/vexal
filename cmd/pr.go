@@ -6,9 +6,7 @@ package cmd
 import (
 	"fmt"
 	"os"
-	"vx/config"
 	"vx/internal"
-	"vx/internal/authenticate"
 	"vx/internal/pr"
 
 	"github.com/spf13/cobra"
@@ -26,20 +24,11 @@ var prCmd = &cobra.Command{
 	ready-to-review PR. It does not inspect, interpret, or modify your source code in any way.
 	`,
 	PreRun: func(cmd *cobra.Command, args []string) {
-		if !config.RepoModeActive() {
-			fmt.Println("Repository not initialized. Please run 'vx init' in your project root directory to create a ./vx.yaml configuration.")
-			authenticate.RequireAuth()
-		}
 		user := pr.GetGitUser()
 		if user == nil {
 			fmt.Println("Unable to retrieve your GitHub user.")
-			fmt.Println("Please ensure your GitHub access token is set in your .vx.yaml configuration file.")
-			fmt.Println("Learn more about GitHub access tokens:")
-			fmt.Printf("https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens\n")
+			fmt.Println("Run 'vx init' to configure this repo, or 'vx context add <name>' to set up a global context.")
 			os.Exit(0)
-			// TODO: Marker the use case for GCP secrets manager
-			// fmt.Printf("Make sure you enable the github api and supply vexal with a github token.\n")
-			// fmt.Printf("command: vx config set -k github -v [ACCESS-TOKEN]\n")
 		}
 	},
 	Run: func(cmd *cobra.Command, args []string) {

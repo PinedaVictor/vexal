@@ -54,6 +54,15 @@ func GetWorkingBranch() string {
 	return branch
 }
 
+func BranchExistsOnRemote(branch string) bool {
+	execmd := exec.Command(GitCMD, "ls-remote", "--heads", "origin", branch)
+	output, err := execmd.Output()
+	if err != nil {
+		return false
+	}
+	return len(strings.TrimSpace(string(output))) > 0
+}
+
 // TODO: This will take a more bold approach to complete
 func PushWorkingBranch() string {
 	workingBranch := GetWorkingBranch()
