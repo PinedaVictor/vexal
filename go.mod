@@ -10,7 +10,7 @@ require (
 	github.com/briandowns/spinner v1.23.0
 	github.com/fatih/color v1.16.0
 	github.com/google/go-github/v62 v62.0.0
-	github.com/sashabaranov/go-openai v1.24.1
+	github.com/sashabaranov/go-openai v1.41.2
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/viper v1.18.2
 	google.golang.org/api v0.180.0
