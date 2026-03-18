@@ -14,7 +14,7 @@ import (
 
 // github package: "github.com/google/go-github/v62/github"
 
-func AutoPr(branch string) {
+func AutoPr(branch string, verbatimNotes string) {
 	initGithubClient()
 	workingBranch := gutils.GetWorkingBranch()
 	// Check if user is on the same branch
@@ -51,6 +51,9 @@ func AutoPr(branch string) {
 		prBody = pkg.GenerateReponse(fmt.Sprintf("Use the following commit messages and PR template %s to summaraize development, use bullet points as well. Each commit log is sperated by a | %s", tpl, logs))
 	} else {
 		prBody = pkg.GenerateReponse(fmt.Sprintf("Use the following commit messages to summaraize development, use bullet points as well. Each commit log is sperated by a | %s", logs))
+	}
+	if verbatimNotes != "" {
+		prBody = verbatimNotes + "\n\n" + prBody
 	}
 
 	maintainerCanModify := false

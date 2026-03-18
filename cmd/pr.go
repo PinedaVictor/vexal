@@ -4,8 +4,10 @@ Copyright © 2024 Victor Pineda pinedavictor095@gmail.com
 package cmd
 
 import (
+	"bufio"
 	"fmt"
 	"os"
+	"strings"
 	"vx/internal"
 	"vx/internal/pr"
 
@@ -13,6 +15,7 @@ import (
 )
 
 var branch = ""
+var verbatimNotes bool
 
 // prCmd represents the pr command
 var prCmd = &cobra.Command{
@@ -32,8 +35,22 @@ var prCmd = &cobra.Command{
 		}
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		notes := ""
+		if verbatimNotes {
+			fmt.Println("Enter verbatim notes (leave a blank line when done):")
+			scanner := bufio.NewScanner(os.Stdin)
+			var lines []string
+			for scanner.Scan() {
+				line := scanner.Text()
+				if line == "" {
+					break
+				}
+				lines = append(lines, line)
+			}
+			notes = strings.Join(lines, "\n")
+		}
 		internal.StartSpinner("Checking repository status and preparing pull request... ")
-		pr.AutoPr(branch)
+		pr.AutoPr(branch, notes)
 	},
 	PostRun: func(cmd *cobra.Command, args []string) {
 		internal.StopSpinner("PR complete!")
@@ -43,6 +60,7 @@ var prCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(prCmd)
 	prCmd.Flags().StringVarP(&branch, "branch", "b", "main", "PR to an existing remote branch. Default is main")
+	prCmd.Flags().BoolVarP(&verbatimNotes, "verbatim-notes", "n", false, "Prompt for verbatim notes to prepend to the PR body")
 
 	// Here you will define your flags and configuration settings.
 
