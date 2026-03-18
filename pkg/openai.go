@@ -16,7 +16,7 @@ var (
 )
 
 func initOpenAI() {
-	rCfg, _ := keys.KeySrc()
+	rCfg := keys.KeySrc()
 	openAiClient = openai.NewClient(rCfg.Openai_key)
 }
 
@@ -32,7 +32,7 @@ func GenerateReponse(prompt string) string {
 	resp, err := openAiClient.CreateChatCompletion(
 		openAiCtx,
 		openai.ChatCompletionRequest{
-			Model: openai.GPT3Dot5Turbo,
+			Model: openai.GPT4oMini,
 			Messages: []openai.ChatCompletionMessage{
 				{
 					Role:    openai.ChatMessageRoleUser,

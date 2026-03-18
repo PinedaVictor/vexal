@@ -18,7 +18,7 @@ var (
 
 func initGithubClient() {
 	// TODO: We need a control scructure on where to get our keys
-	rCfg, _ := keys.KeySrc()
+	rCfg := keys.KeySrc()
 	gitCtx = context.Background()
 	gitClient = github.NewClient(nil).WithAuthToken(rCfg.Github_key)
 }

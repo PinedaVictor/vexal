@@ -14,7 +14,7 @@ import (
 
 // github package: "github.com/google/go-github/v62/github"
 
-func AutoPr(branch string) {
+func AutoPr(branch string, verbatimNotes string) {
 	initGithubClient()
 	workingBranch := gutils.GetWorkingBranch()
 	// Check if user is on the same branch
@@ -36,6 +36,12 @@ func AutoPr(branch string) {
 		return
 	}
 	fmt.Printf("You're killing it! 🔥 Calculated %s total changes.\n", ct)
+	if !gutils.BranchExistsOnRemote(workingBranch) {
+		fmt.Printf("\nBranch '%s' has not been pushed to remote.\n", workingBranch)
+		fmt.Println("Please push your branch before opening a pull request:")
+		fmt.Printf("  git push -u origin %s\n", workingBranch)
+		os.Exit(0)
+	}
 	owner, repo, _ := gutils.GetRepo()
 	logs := gutils.GetGitLogs(workingBranch, ct)
 	hasTpl, tpl := hasPRTemplate()
@@ -46,6 +52,9 @@ func AutoPr(branch string) {
 	} else {
 		prBody = pkg.GenerateReponse(fmt.Sprintf("Use the following commit messages to summaraize development, use bullet points as well. Each commit log is sperated by a | %s", logs))
 	}
+	if verbatimNotes != "" {
+		prBody = verbatimNotes + "\n\n" + prBody
+	}
 
 	maintainerCanModify := false
 	// draft := false
@@ -53,7 +62,6 @@ func AutoPr(branch string) {
 	pullReq := &github.NewPullRequest{
 		Title:               &workingBranch,
 		Head:                github.String(workingBranch),
-		HeadRepo:            github.String(workingBranch),
 		Base:                github.String(branch),
 		Body:                &prBody,
 		MaintainerCanModify: &maintainerCanModify,
