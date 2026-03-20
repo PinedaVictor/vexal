@@ -16,6 +16,7 @@ Vexal is a CLI tool written in [Go](https://go.dev/) helping developers automate
 - Keep track of all "TODO" comments in your codebase ✅
 - Document and track "FIXME" comments ✅
 - Configure repositories independently ✅
+- Configure your GitHub and OpenAI credentials once and vexal resolves the right config automatically ✅
 
 Follow the [Quick Start Guide](https://www.vexal.io/quickstart) to get started configuring your repository!
 
@@ -54,13 +55,15 @@ Usage:
 Commands:
   completion  Generate the autocompletion script for the specified shell
   config      Edit vx configuartion
+  context     Manage Vexal contexts for external service configuration
   enable      Enable supported API integrations by vx
   fixme       Find all "FIXME:" comments in your codebase.
   help        Help about any command
   init        Initialize repository utilities. (Only needed if you plan on using github and OpenAI)
   jira        Jira utils
   login       Use login to authenticate into the vexal platform
-  pr          AI generated PRs based on your commit history
+  pr          AI-assisted generated PRs based on your commit history
+  surge       Server generation
   todos       Find all "TODO:" comments in your codebase.
 
 Flags:
