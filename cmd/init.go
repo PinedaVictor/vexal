@@ -19,7 +19,10 @@ var initCmd = &cobra.Command{
 		config.InitRepoMode()
 	},
 	PostRun: func(cmd *cobra.Command, args []string) {
-		internal.PostFeedback("Configuration initialized successfully. ./vx.yaml ✅")
+		// TODO: Revisit at end of workflow
+		internal.PostFeedback("Directory .vexal success")
+		internal.PostFeedback("File ./vx.yaml succesa")
+		internal.PostFeedback("NOTE: You can safely delete the ./vx.yaml file if vx context is configured.")
 	},
 }
 
