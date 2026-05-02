@@ -17,15 +17,13 @@ const claudeMDSection = `
 This repo uses vexal for dependency tracking. Before editing files,
 use these commands to get accurate context:
 
-- ` + "`vx deps <file>`" + ` — get imports and callers for a file
-- ` + "`vx impact <file>`" + ` — check what a change will affect
-- ` + "`vx map <feature>`" + ` — find all files related to a feature
-- ` + "`vx contracts <file>`" + ` — see env vars, config, API contracts
-- ` + "`vx snapshot`" + ` — restore session context
-- ` + "`vx query \"<sql>\"`" + ` — run SQL queries over dependency data
+- ` + "`vx deps <file>`" + ` — show what a file imports and what depends on it
+- ` + "`vx impact <file>`" + ` — show what files would be affected by changing this file
 
 Always run ` + "`vx impact`" + ` before refactoring and ` + "`vx deps`" + ` before
 editing a file you haven't read yet.
+
+If the snapshot is stale, run ` + "`vx init`" + ` to rebuild it.
 `
 
 const claudeMD = "CLAUDE.md"
