@@ -4,9 +4,13 @@ Copyright © 2024 Victor Pineda pinedavictor095@gmail.com
 package cmd
 
 import (
+	"fmt"
+	"os"
+	"path/filepath"
 	"vx/config"
 	"vx/internal"
 
+	"github.com/PinedaVictor/nyx/pkg/depgraph"
 	"github.com/spf13/cobra"
 )
 
@@ -17,22 +21,30 @@ var initCmd = &cobra.Command{
 	Long:  `Run vx init in the root of your project to initialize repository utilities.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		config.InitRepoMode()
+		buildDepGraph()
 	},
 	PostRun: func(cmd *cobra.Command, args []string) {
-		internal.PostFeedback("Configuration initialized successfully. ./vx.yaml ✅")
+		// TODO: Revisit at end of workflow
+		internal.PostFeedback("Directory .vexal success")
+		internal.PostFeedback("File ./vx.yaml succesa")
+		internal.PostFeedback("NOTE: You can safely delete the ./vx.yaml file if vx context is configured.")
 	},
+}
+
+func buildDepGraph() {
+	curDir, _ := os.Getwd()
+	snapshotPath := filepath.Join(curDir, ".vexal", "snapshot.arrow")
+
+	internal.StartSpinner("Building dependency graph ")
+	n, err := depgraph.Snapshot(curDir, snapshotPath)
+	if err != nil {
+		internal.StopSpinner("")
+		internal.UserErrFeedback(fmt.Sprintf("dependency graph: %v", err))
+		return
+	}
+	internal.StopSpinner(fmt.Sprintf("Dependency graph ready — %d edges indexed", n))
 }
 
 func init() {
 	rootCmd.AddCommand(initCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// initCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// initCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
