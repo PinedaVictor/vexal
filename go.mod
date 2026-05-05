@@ -5,7 +5,7 @@ go 1.24
 require (
 	cloud.google.com/go/secretmanager v1.12.0
 	firebase.google.com/go v3.13.0+incompatible
-	github.com/PinedaVictor/nyx v0.0.0-20260502170517-937742eb864f
+	github.com/PinedaVictor/nyx v0.0.0-20260505121741-cd1796d351d6
 	github.com/PinedaVictor/pluto v0.0.0-20250505031939-2c4fb1176122
 	github.com/briandowns/spinner v1.23.0
 	github.com/fatih/color v1.16.0

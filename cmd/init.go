@@ -21,7 +21,12 @@ var initCmd = &cobra.Command{
 	Long:  `Run vx init in the root of your project to initialize repository utilities.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		config.InitRepoMode()
-		buildDepGraph()
+		n := buildDepGraph()
+		if n > 0 {
+			if err := config.InitClaudeMD(n); err != nil {
+				internal.UserErrFeedback(fmt.Sprintf("claude.md: %v", err))
+			}
+		}
 	},
 	PostRun: func(cmd *cobra.Command, args []string) {
 		// TODO: Revisit at end of workflow
@@ -31,7 +36,7 @@ var initCmd = &cobra.Command{
 	},
 }
 
-func buildDepGraph() {
+func buildDepGraph() int {
 	curDir, _ := os.Getwd()
 	snapshotPath := filepath.Join(curDir, ".vexal", "snapshot.arrow")
 
@@ -40,9 +45,10 @@ func buildDepGraph() {
 	if err != nil {
 		internal.StopSpinner("")
 		internal.UserErrFeedback(fmt.Sprintf("dependency graph: %v", err))
-		return
+		return 0
 	}
 	internal.StopSpinner(fmt.Sprintf("Dependency graph ready — %d edges indexed", n))
+	return n
 }
 
 func init() {
