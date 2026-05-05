@@ -68,7 +68,7 @@ vx
 You will see the following prompt
 
 ```
-vexal.io - Developer Tooling and Automation
+vexal.io - Dependency graph, AI tooling, and repo automation for developers and AI agents
 
 Usage:
   vx [command]
