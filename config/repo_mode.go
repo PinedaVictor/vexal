@@ -88,8 +88,8 @@ func InitRepoMode() {
 		log.Println("error creating .vexal directory:", err)
 	}
 
-	if err := InitClaudeMD(); err != nil {
-		log.Println("error initializing CLAUDE.md:", err)
+	if err := InjectRootClaudeMD(); err != nil {
+		log.Println("error injecting root CLAUDE.md import:", err)
 	}
 }
 

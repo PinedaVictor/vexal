@@ -5,20 +5,41 @@
 <div align="center">
   <a href="https://www.vexal.io/" target="_blank" rel="noopener noreferrer">website</a> | 
   <a href="https://www.vexal.io/init" target="_blank" rel="noopener noreferrer">Init</a> | 
-  <a href="https://www.vexal.io/quickstart" target="_blank" rel="noopener noreferrer">Quickstart</a>
+  <a href="https://www.vexal.io/quickstart" target="_blank" rel="noopener noreferrer">Quickstart</a> |
+  <a href="https://www.vexal.io/deps" target="_blank" rel="noopener noreferrer">deps</a> |
+  <a href="https://www.vexal.io/impact" target="_blank" rel="noopener noreferrer">impact</a>
 </div>
 
 ## Overview
 
-Vexal is a CLI tool written in [Go](https://go.dev/) helping developers automate tasks and improve the quality of their codebase.
+Vexal is a developer workflow CLI with a built-in dependency graph, AI tooling, and repo automation. `vx` gives you and your AI agents accurate codebase context so you can move faster with fewer surprises.
 
+Before touching a shared file, `vx impact` tells you exactly what breaks. Before exploring an unfamiliar module, `vx deps` shows what it imports and what depends on it. Before starting a refactor, `vx overview` ranks the highest-risk files in the repo.
+
+**grep vs. vexal — the gap is real:**
+
+```
+$ grep -r "app_constants" excalidraw-app/
+# 10 results
+
+$ vx impact excalidraw-app/app_constants.ts
+# 15 files affected — including packages/excalidraw/tests/test-utils.ts
+```
+
+The 5 files grep missed were outside the search directory. A dev relying on grep would have shipped something that broke a test file they didn't know existed.
+
+**Core dependency commands:**
+- `vx overview` — repo structure at a glance: top dependents, file count, edge count
+- `vx deps <file>` — what a file imports and what depends on it
+- `vx impact <file>` — blast radius: all files affected if this file changes
+
+**Workflow automation:**
 - Leverage AI combined with your commit history to create PRs ✅
 - Keep track of all "TODO" comments in your codebase ✅
 - Document and track "FIXME" comments ✅
 - Configure repositories independently ✅
-- Configure your GitHub and OpenAI credentials once and vexal resolves the right config automatically ✅
 
-Follow the [Quick Start Guide](https://www.vexal.io/quickstart) to get started configuring your repository!
+Follow the [Quick Start Guide](https://www.vexal.io/quickstart) to get started!
 
 ## Installation
 
@@ -53,18 +74,19 @@ Usage:
   vx [command]
 
 Commands:
-  completion  Generate the autocompletion script for the specified shell
-  config      Edit vx configuartion
+  overview    Repo structure at a glance: top dependents, file count, edge count
+  deps        Show what a file imports and what depends on it
+  impact      Show what files would be affected by changing the given file
+  init        Initialize vexal and build the dependency graph
+  pr          AI-assisted generated PRs based on your commit history
+  todos       Find all "TODO:" comments in your codebase.
+  fixme       Find all "FIXME:" comments in your codebase.
+  config      Edit vx configuration
   context     Manage Vexal contexts for external service configuration
   enable      Enable supported API integrations by vx
-  fixme       Find all "FIXME:" comments in your codebase.
-  help        Help about any command
-  init        Initialize repository utilities. (Only needed if you plan on using github and OpenAI)
   jira        Jira utils
   login       Use login to authenticate into the vexal platform
-  pr          AI-assisted generated PRs based on your commit history
-  surge       Server generation
-  todos       Find all "TODO:" comments in your codebase.
+  completion  Generate the autocompletion script for the specified shell
 
 Flags:
   -h, --help      help for vx

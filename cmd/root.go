@@ -16,8 +16,8 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:     "vx",
-	Short:   `vexal.io - Developer Tooling and Automation`,
-	Version: "v1.4.0",
+	Short:   `vexal.io - Dependency graph, AI tooling, and repo automation for developers and AI agents`,
+	Version: "v1.5.0",
 	// Long:    ``,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
