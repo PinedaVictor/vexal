@@ -102,10 +102,118 @@ jobs:
           path: dist
           merge-multiple: true
 
-      - uses: goreleaser/goreleaser-action@v6
-        with:
-          version: latest
-          args: release --config .goreleaser.release.yml
+      - name: Package binaries
+        run: |
+          mkdir -p release
+
+          DARWIN_AMD64=$(find dist -name "vx" -path "*darwin*amd64*" | head -1)
+          DARWIN_ARM64=$(find dist -name "vx" -path "*darwin*arm64*" | head -1)
+          LINUX_AMD64=$(find dist -name "vx" -path "*linux*amd64*" | head -1)
+
+          tar -czf release/vexal_darwin_amd64.tar.gz -C "$(dirname "$DARWIN_AMD64")" vx
+          tar -czf release/vexal_darwin_arm64.tar.gz -C "$(dirname "$DARWIN_ARM64")" vx
+          tar -czf release/vexal_linux_amd64.tar.gz  -C "$(dirname "$LINUX_AMD64")"  vx
+
+          cd release && sha256sum *.tar.gz > checksums.txt
+
+      - name: Create GitHub release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ github.ref_name }}" \
+            release/vexal_darwin_amd64.tar.gz \
+            release/vexal_darwin_arm64.tar.gz \
+            release/vexal_linux_amd64.tar.gz \
+            release/checksums.txt \
+            --title "${{ github.ref_name }}" \
+            --generate-notes
+
+      - name: Update Homebrew formula
+        env:
           HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+          VERSION: ${{ github.ref_name }}
+        run: |
+          export BASE_URL="https://github.com/PinedaVictor/vexal/releases/download/${VERSION}"
+          export DARWIN_AMD64_SHA=$(sha256sum release/vexal_darwin_amd64.tar.gz | awk '{print $1}')
+          export DARWIN_ARM64_SHA=$(sha256sum release/vexal_darwin_arm64.tar.gz | awk '{print $1}')
+          export LINUX_AMD64_SHA=$(sha256sum release/vexal_linux_amd64.tar.gz  | awk '{print $1}')
+
+          git clone "https://x-access-token:${HOMEBREW_TAP_TOKEN}@github.com/PinedaVictor/homebrew-vx.git" tap
+
+          python3 << 'EOF'
+import os
+
+version        = os.environ['VERSION'].lstrip('v')
+base_url       = os.environ['BASE_URL']
+amd64_sha      = os.environ['DARWIN_AMD64_SHA']
+arm64_sha      = os.environ['DARWIN_ARM64_SHA']
+linux_amd64_sha = os.environ['LINUX_AMD64_SHA']
+
+formula = f"""class Vexal < Formula
+  desc "Developer workflow CLI with dependency graph, AI tooling, and repo automation."
+  homepage "https://www.vexal.io/"
+  version "{version}"
+  license "BSD-3-Clause"
+
+  on_macos do
+    if Hardware::CPU.arm?
+      url "{base_url}/vexal_darwin_arm64.tar.gz"
+      sha256 "{arm64_sha}"
+    else
+      url "{base_url}/vexal_darwin_amd64.tar.gz"
+      sha256 "{amd64_sha}"
+    end
+  end
+
+  on_linux do
+    if Hardware::CPU.intel?
+      url "{base_url}/vexal_linux_amd64.tar.gz"
+      sha256 "{linux_amd64_sha}"
+    end
+  end
+
+  def install
+    bin.install "vx"
+  end
+
+  def caveats
+    <<~EOS
+      _______________________________
+      /                               \\
+      |   ___________________________   |
+      |  |                           |  |
+      |  |   C:\\> vx -v              |  |
+      |  |                           |  |
+      |  |   VEXAL CLI INSTALLED!    |  |
+      |  |                           |  |
+      |  |   [ READY TO LAUNCH ]     |  |
+      |  |___________________________|  |
+      |                                 |
+      \\_______________________________/
+             \\_______________/
+
+      Thank you for installing Vexal!
+
+      Contact Information:
+      - Docs: https://www.vexal.io/
+      - GitHub: https://github.com/PinedaVictor/vexal
+      - Email: pinedavictor095@gmail.com
+    EOS
+  end
+
+  test do
+    assert_match "vx version", shell_output("#{{bin}}/vx --version")
+  end
+end
+"""
+
+with open('tap/vexal.rb', 'w') as f:
+    f.write(formula)
+EOF
+
+          cd tap
+          git config user.email "github-actions@github.com"
+          git config user.name "GitHub Actions"
+          git add vexal.rb
+          git diff --staged --quiet || git commit -m "Update vexal to ${VERSION}"
+          git push
