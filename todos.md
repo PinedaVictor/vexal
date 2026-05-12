@@ -1,12 +1,22 @@
 # TODOS 
 
-**.github/README.md:16** - TODO" comments in your codebase ✅
+**.claude/review.md:7** - TODO:` and `FIXME:` comments, output a markdown report
 
-**.github/README.md:64** - TODO:" comments in your codebase.
+**.claude/review.md:9** - TODO/FIXME comments as Jira issues via OAuth2
+
+**.claude/review.md:18** - TODO/FIXME scraper + Jira push is a genuinely useful workflow.
+
+**.claude/review.md:56** - TODO/Jira bridge. The main work needed:
+
+**.github/README.md:38** - TODO" comments in your codebase ✅
+
+**.github/README.md:82** - TODO:" comments in your codebase.
 
 **.github/workflows/generate_todos.yml:33** - TODO: Delete & update binary to support architecture x86_64
 
 **cmd/config.go:14** - TODO: Refactor config cmd
+
+**cmd/init.go:32** - TODO: Revisit at end of workflow
 
 **cmd/jira.go:44** - TODO: Error Handling: 2024/08/15 23:53:49 Error reading repo config: Config File ".vx.yaml" Not Found in "[/Users/victorpineda/repos/vexal-technologies/vexal]"
 
@@ -18,11 +28,9 @@
 
 **cmd/jira.go:68** - todo")
 
-**cmd/pr.go:40** - TODO: Marker the use case for GCP secrets manager
+**cmd/root.go:44** - TODO: Whats the vision for UI/UX
 
-**cmd/root.go:39** - TODO: Whats the vision for UI/UX
-
-**cmd/root.go:55** - TODO: Whats the vision for UI/UX
+**cmd/root.go:60** - TODO: Whats the vision for UI/UX
 
 **cmd/todos.go:15** - TODO:" comments in your codebase.`,
 
@@ -54,9 +62,9 @@
 
 **pkg/gutils/git_cmd.go:17** - TODO: Implement working directory switching if needed
 
-**pkg/gutils/git_cmd.go:57** - TODO: This will take a more bold approach to complete
+**pkg/gutils/git_cmd.go:66** - TODO: This will take a more bold approach to complete
 
-**pkg/gutils/git_cmd.go:63** - TODO: Testing out this combined output
+**pkg/gutils/git_cmd.go:72** - TODO: Testing out this combined output
 
 **pkg/http.go:49** - TODO: Delete this - likely won't be needed
 

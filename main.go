@@ -5,6 +5,7 @@ package main
 
 import "vx/cmd"
 
+// Change to this file
 func main() {
 	cmd.Execute()
 }
