@@ -18,7 +18,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:     "vx",
 	Short:   `vexal.io - Dependency graph, AI tooling, and repo automation for developers and AI agents`,
-	Version: "v1.5.2",
+	Version: "v1.5.3",
 	// Long:    ``,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
