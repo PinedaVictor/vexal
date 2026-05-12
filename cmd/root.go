@@ -9,6 +9,7 @@ import (
 	"strings"
 	"vx/config"
 
+	"github.com/DreamlikeDigital/orbit"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
@@ -17,7 +18,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:     "vx",
 	Short:   `vexal.io - Dependency graph, AI tooling, and repo automation for developers and AI agents`,
-	Version: "v1.5.1",
+	Version: "v1.5.2",
 	// Long:    ``,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
@@ -27,6 +28,7 @@ var rootCmd = &cobra.Command{
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
+	defer orbit.Close()
 	err := rootCmd.Execute()
 	if err != nil {
 		os.Exit(1)
@@ -34,6 +36,9 @@ func Execute() {
 }
 
 func init() {
+	rootCmd.PersistentPreRun = func(cmd *cobra.Command, args []string) {
+		orbit.Beam(cmd.Name(), rootCmd.Version)
+	}
 	config.InitConfig()
 	config.WriteLicense()
 	// TODO: Whats the vision for UI/UX
