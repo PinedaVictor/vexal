@@ -59,7 +59,7 @@ formula = f"""class Vexal < Formula
   end
 
   test do
-    assert_match "vx version", shell_output("\#{bin}/vx --version")
+    assert_match "vx version", shell_output("#{{bin}}/vx --version")
   end
 end
 """
