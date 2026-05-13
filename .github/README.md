@@ -43,18 +43,24 @@ Follow the [Quick Start Guide](https://www.vexal.io/quickstart) to get started!
 
 ## Installation
 
-Currently, Vexal is only supported on macOS via Homebrew tap. Support for other package managers and operating systems is in the backlog.
+**macOS / Linux**
 
-1. Run Homebrew tap
-
-```
+```bash
 brew tap PinedaVictor/vx
-```
-
-2. Install vx
-
-```
 brew install pinedavictor/vx/vexal
+```
+
+**Windows**
+
+```powershell
+scoop bucket add vexal https://github.com/PinedaVictor/scoop-vexal
+scoop install vexal
+```
+
+**npm**
+
+```bash
+npm install -g vexal
 ```
 
 ## Once Installed
