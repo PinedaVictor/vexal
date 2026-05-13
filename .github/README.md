@@ -18,15 +18,17 @@ Before touching a shared file, `vx impact` tells you exactly what breaks. Before
 
 **grep vs. vexal — the gap is real:**
 
-```
-$ grep -r "app_constants" excalidraw-app/
-# 10 results
+Tested on Excalidraw, a real well-maintained open-source monorepo:
 
-$ vx impact excalidraw-app/app_constants.ts
-# 15 files affected — including packages/excalidraw/tests/test-utils.ts
+```
+$ grep -r "@excalidraw/common" .
+# 6 callers
+
+$ vx impact packages/excalidraw/common/index.ts
+# 290 files affected
 ```
 
-The 5 files grep missed were outside the search directory. A dev relying on grep would have shipped something that broke a test file they didn't know existed.
+284 files completely missed — they import via `@excalidraw/common`, a path alias grep can't follow. A dev relying on grep would have shipped a breaking change across 284 files they didn't know existed.
 
 **Core dependency commands:**
 - `vx overview` — repo structure at a glance: top dependents, file count, edge count
