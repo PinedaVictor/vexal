@@ -1,0 +1,11 @@
+{
+  "name": "@dreamlikedigital/vexal-darwin-x64",
+  "version": "0.0.0",
+  "description": "macOS x64 binary for vexal",
+  "license": "BSD-3-Clause",
+  "os": ["darwin"],
+  "cpu": ["x64"],
+  "files": [
+    "bin/"
+  ]
+}
