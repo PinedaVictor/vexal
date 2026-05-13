@@ -50,6 +50,29 @@ builds:
       - -X 'vx/config.JIRA_OAUTH_CLIENT_ID={{ .Env.JIRA_OAUTH_CLIENT_ID }}'
       - -X 'vx/config.JIRA_STATE={{ .Env.JIRA_STATE }}'
 
+  - id: windows
+    binary: vx
+    env:
+      - CGO_ENABLED=1
+    goos:
+      - windows
+    goarch:
+      - amd64
+    ldflags:
+      - -s -w
+      - -X 'vx/config.ENVIRONMENT={{ .Env.ENVIRONMENT }}'
+      - -X 'vx/config.APP_URL={{ .Env.APP_URL }}'
+      - -X 'vx/config.SERVER_REDIRECT_ADDR={{ .Env.SERVER_REDIRECT_ADDR }}'
+      - -X 'vx/config.GCP_PROJECT_ID={{ .Env.GCP_PROJECT_ID }}'
+      - -X 'vx/config.GCP_ACCOUNT_TYPE={{ .Env.GCP_ACCOUNT_TYPE }}'
+      - -X 'vx/config.FB_ADMIN_PRIVATE_KEY={{ .Env.FB_ADMIN_PRIVATE_KEY }}'
+      - -X 'vx/config.FB_ADMIN_CLIENT_EMAIL={{ .Env.FB_ADMIN_CLIENT_EMAIL }}'
+      - -X 'vx/config.SECRETS_MAN_ACCOUNT_TYPE={{ .Env.SECRETS_MAN_ACCOUNT_TYPE }}'
+      - -X 'vx/config.SECRETS_MAN_PRIVATE_KEY={{ .Env.SECRETS_MAN_PRIVATE_KEY }}'
+      - -X 'vx/config.SECRETS_MAN_EMAIL={{ .Env.SECRETS_MAN_EMAIL }}'
+      - -X 'vx/config.JIRA_OAUTH_CLIENT_ID={{ .Env.JIRA_OAUTH_CLIENT_ID }}'
+      - -X 'vx/config.JIRA_STATE={{ .Env.JIRA_STATE }}'
+
 archives:
   - id: default
     name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"

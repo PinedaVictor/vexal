@@ -88,8 +88,55 @@ jobs:
           path: dist/
           retention-days: 1
 
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Configure MinGW
+        shell: bash
+        run: echo "C:\msys64\mingw64\bin" >> $GITHUB_PATH
+
+      - name: Configure git for private modules
+        shell: bash
+        run: git config --global url."https://${{ secrets.GH_PAT }}@github.com/".insteadOf "https://github.com/"
+
+      - uses: goreleaser/goreleaser-action@v6
+        with:
+          version: latest
+          args: build --id windows
+        env:
+          CGO_ENABLED: 1
+          CC: gcc
+          GOPRIVATE: github.com/DreamlikeDigital/*,github.com/PinedaVictor/*
+          ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+          APP_URL: ${{ secrets.APP_URL }}
+          SERVER_REDIRECT_ADDR: ${{ secrets.SERVER_REDIRECT_ADDR }}
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GCP_ACCOUNT_TYPE: ${{ secrets.GCP_ACCOUNT_TYPE }}
+          FB_ADMIN_PRIVATE_KEY: ${{ secrets.FB_ADMIN_PRIVATE_KEY }}
+          FB_ADMIN_CLIENT_EMAIL: ${{ secrets.FB_ADMIN_CLIENT_EMAIL }}
+          SECRETS_MAN_ACCOUNT_TYPE: ${{ secrets.SECRETS_MAN_ACCOUNT_TYPE }}
+          SECRETS_MAN_PRIVATE_KEY: ${{ secrets.SECRETS_MAN_PRIVATE_KEY }}
+          SECRETS_MAN_EMAIL: ${{ secrets.SECRETS_MAN_EMAIL }}
+          JIRA_OAUTH_CLIENT_ID: ${{ secrets.JIRA_OAUTH_CLIENT_ID }}
+          JIRA_STATE: ${{ secrets.JIRA_STATE }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-windows
+          path: dist/
+          retention-days: 1
+
   release:
-    needs: [build-darwin, build-linux]
+    needs: [build-darwin, build-linux, build-windows]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -111,12 +158,14 @@ jobs:
           DARWIN_AMD64=$(find dist -name "vx" -path "*darwin*amd64*" | head -1)
           DARWIN_ARM64=$(find dist -name "vx" -path "*darwin*arm64*" | head -1)
           LINUX_AMD64=$(find dist -name "vx" -path "*linux*amd64*" | head -1)
+          WINDOWS_AMD64=$(find dist -name "vx.exe" -path "*windows*amd64*" | head -1)
 
           tar -czf release/vexal_darwin_amd64.tar.gz -C "$(dirname "$DARWIN_AMD64")" vx
           tar -czf release/vexal_darwin_arm64.tar.gz -C "$(dirname "$DARWIN_ARM64")" vx
           tar -czf release/vexal_linux_amd64.tar.gz  -C "$(dirname "$LINUX_AMD64")"  vx
+          zip -j   release/vexal_windows_amd64.zip       "$WINDOWS_AMD64"
 
-          cd release && sha256sum *.tar.gz > checksums.txt
+          cd release && sha256sum *.tar.gz *.zip > checksums.txt
 
       - name: Create GitHub release
         env:
@@ -126,6 +175,7 @@ jobs:
             release/vexal_darwin_amd64.tar.gz \
             release/vexal_darwin_arm64.tar.gz \
             release/vexal_linux_amd64.tar.gz \
+            release/vexal_windows_amd64.zip \
             release/checksums.txt \
             --title "${{ github.ref_name }}" \
             --generate-notes
@@ -148,5 +198,24 @@ jobs:
           git config user.email "github-actions@github.com"
           git config user.name "GitHub Actions"
           git add vexal.rb
+          git diff --staged --quiet || git commit -m "Update vexal to ${VERSION}"
+          git push
+
+      - name: Update Scoop manifest
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+          VERSION: ${{ github.ref_name }}
+        run: |
+          export BASE_URL="https://github.com/PinedaVictor/vexal/releases/download/${VERSION}"
+          export WINDOWS_AMD64_SHA=$(sha256sum release/vexal_windows_amd64.zip | awk '{print $1}')
+
+          git clone "https://${GH_PAT}@github.com/PinedaVictor/scoop-vexal.git" scoop
+
+          python3 scripts/update_scoop_manifest.py
+
+          cd scoop
+          git config user.email "github-actions@github.com"
+          git config user.name "GitHub Actions"
+          git add bucket/vexal.json
           git diff --staged --quiet || git commit -m "Update vexal to ${VERSION}"
           git push
