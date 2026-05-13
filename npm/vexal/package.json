@@ -1,0 +1,26 @@
+{
+  "name": "vexal",
+  "version": "0.0.0",
+  "description": "Developer workflow CLI with dependency graph, AI tooling, and repo automation.",
+  "homepage": "https://www.vexal.io/",
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PinedaVictor/vexal.git"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "bin": {
+    "vx": "./bin/vexal.js"
+  },
+  "files": [
+    "bin/"
+  ],
+  "optionalDependencies": {
+    "@dreamlikedigital/vexal-darwin-arm64": "0.0.0",
+    "@dreamlikedigital/vexal-darwin-x64": "0.0.0",
+    "@dreamlikedigital/vexal-linux-x64": "0.0.0",
+    "@dreamlikedigital/vexal-win32-x64": "0.0.0"
+  }
+}

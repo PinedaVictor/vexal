@@ -219,3 +219,26 @@ jobs:
           git add bucket/vexal.json
           git diff --staged --quiet || git commit -m "Update vexal to ${VERSION}"
           git push
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Publish npm packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          VERSION: ${{ github.ref_name }}
+        run: |
+          export DARWIN_ARM64_BIN=$(find dist -name "vx" -path "*darwin*arm64*" | head -1)
+          export DARWIN_AMD64_BIN=$(find dist -name "vx" -path "*darwin*amd64*" | head -1)
+          export LINUX_AMD64_BIN=$(find dist -name "vx" -path "*linux*amd64*" | head -1)
+          export WINDOWS_AMD64_BIN=$(find dist -name "vx.exe" -path "*windows*amd64*" | head -1)
+
+          python3 scripts/prepare_npm.py
+
+          for dir in npm/platforms/*/; do
+            (cd "$dir" && npm publish --access public)
+          done
+
+          (cd npm/vexal && npm publish --access public)

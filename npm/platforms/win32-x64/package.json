@@ -1,0 +1,11 @@
+{
+  "name": "@dreamlikedigital/vexal-win32-x64",
+  "version": "0.0.0",
+  "description": "Windows x64 binary for vexal",
+  "license": "BSD-3-Clause",
+  "os": ["win32"],
+  "cpu": ["x64"],
+  "files": [
+    "bin/"
+  ]
+}
