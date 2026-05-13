@@ -15,7 +15,8 @@
     "vx": "./bin/vexal.js"
   },
   "files": [
-    "bin/"
+    "bin/",
+    "README.md"
   ],
   "optionalDependencies": {
     "@dreamlikedigital/vexal-darwin-arm64": "0.0.0",

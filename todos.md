@@ -8,9 +8,9 @@
 
 **.claude/review.md:56** - TODO/Jira bridge. The main work needed:
 
-**.github/README.md:38** - TODO" comments in your codebase ✅
+**.github/README.md:40** - TODO" comments in your codebase ✅
 
-**.github/README.md:82** - TODO:" comments in your codebase.
+**.github/README.md:90** - TODO:" comments in your codebase.
 
 **.github/workflows/generate_todos.yml:33** - TODO: Delete & update binary to support architecture x86_64
 
@@ -34,9 +34,13 @@
 
 **cmd/todos.go:15** - TODO:" comments in your codebase.`,
 
-**cmd/todos.go:17** - TODO:" comments`)
+**cmd/todos.go:17** - TODO comments ")
 
-**cmd/todos.go:31** - TODO comments`)
+**cmd/todos.go:25** - TODO comments from your codebase.",
+
+**cmd/todos.go:27** - TODO comments ")
+
+**cmd/todos.go:29** - TODO comments removed")
 
 **config/jira.go:20** - TODO: Theres a pattern forming here - explore abstraction
 
@@ -59,6 +63,8 @@
 **internal/pr/git-client.go:26** - TODO: implement control logic
 
 **internal/secrets/secrets.go:136** - TODO: Use or don't use defer statement
+
+**npm/vexal/README.md:24** - TODO comments in your codebase
 
 **pkg/gutils/git_cmd.go:17** - TODO: Implement working directory switching if needed
 

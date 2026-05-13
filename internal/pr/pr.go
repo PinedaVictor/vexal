@@ -55,6 +55,7 @@ func AutoPr(branch string, verbatimNotes string) {
 	if verbatimNotes != "" {
 		prBody = verbatimNotes + "\n\n" + prBody
 	}
+	prBody = prBody + "\n\n---\n*Generated with [vexal](https://www.vexal.io)*"
 
 	maintainerCanModify := false
 	// draft := false
