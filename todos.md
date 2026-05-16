@@ -44,6 +44,12 @@
 
 **config/jira.go:20** - TODO: Theres a pattern forming here - explore abstraction
 
+**fixme.md:3** - TODO:` and `FIXME:` comments, output a markdown report
+
+**fixme.md:65** - TODO:` and `FIXME:` comments, output a markdown report
+
+**fixme.md:67** - TODO:` and `FIXME:` comments, output a markdown report
+
 **internal/authenticate/firebase.go:66** - TODO: Implement refresh token flow
 
 **internal/jira-client/issues.go:77** - todo" {

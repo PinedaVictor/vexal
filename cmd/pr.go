@@ -49,7 +49,7 @@ var prCmd = &cobra.Command{
 			}
 			notes = strings.Join(lines, "\n")
 		}
-		internal.StartSpinner("Checking repository status and preparing pull request... ")
+		internal.StartSpinner("Generating PR ")
 		pr.AutoPr(branch, notes)
 	},
 	PostRun: func(cmd *cobra.Command, args []string) {

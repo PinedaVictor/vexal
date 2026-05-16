@@ -57,7 +57,6 @@ var (
 	spinnerStop  chan struct{}
 	spinnerStart time.Time
 	spinnerLabel string
-	spinnerQuote string
 )
 
 func StartSpinner(prefix string) {
@@ -67,7 +66,6 @@ func StartSpinner(prefix string) {
 	spinnerStop = make(chan struct{})
 	spinnerStart = time.Now()
 	spinnerLabel = prefix
-	spinnerQuote = quote
 	spinnerMu.Unlock()
 
 	updatePrefix(prefix, quote, 0)
@@ -85,9 +83,8 @@ func StartSpinner(prefix string) {
 				spinnerMu.Lock()
 				elapsed := int(time.Since(spinnerStart).Seconds())
 				lbl := spinnerLabel
-				q := spinnerQuote
 				spinnerMu.Unlock()
-				updatePrefix(lbl, q, elapsed)
+				updatePrefix(lbl, "", elapsed)
 			}
 		}
 	}()
@@ -101,7 +98,7 @@ func StopSpinner(msg string) {
 	}
 	spinnerMu.Unlock()
 
-	if msg == "" {
+		if msg == "" {
 		s.FinalMSG = ""
 	} else {
 		s.FinalMSG = successStyle.Render("✓") + " " + dimStyle.Render(msg) + "\n"
@@ -110,11 +107,11 @@ func StopSpinner(msg string) {
 }
 
 func updatePrefix(label, quote string, elapsed int) {
-	timer := fmt.Sprintf("(%ds)", elapsed)
-	prefix := dimStyle.Render("❯ "+label) +
-		" " + quoteStyle.Render("\""+quote+"\"") +
-		" " + timerStyle.Render(timer) +
-		" "
+	prefix := dimStyle.Render("❯ "+label)
+	if quote != "" {
+		prefix += " " + quoteStyle.Render("\""+quote+"\"")
+	}
+	prefix += " " + timerStyle.Render(fmt.Sprintf("(%ds)", elapsed)) + " "
 	s.Prefix = prefix
 }
 

@@ -62,3 +62,9 @@
 
 **todos.md:23** - FIXME comments",
 
+**todos.md:47** - fixme.md:3** - TODO:` and `FIXME:` comments, output a markdown report
+
+**todos.md:49** - fixme.md:65** - TODO:` and `FIXME:` comments, output a markdown report
+
+**todos.md:51** - fixme.md:67** - TODO:` and `FIXME:` comments, output a markdown report
+
