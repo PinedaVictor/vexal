@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"vx/internal"
 	"vx/internal/pr"
 
 	"github.com/spf13/cobra"
@@ -49,11 +48,7 @@ var prCmd = &cobra.Command{
 			}
 			notes = strings.Join(lines, "\n")
 		}
-		internal.StartSpinner("Generating PR ")
 		pr.AutoPr(branch, notes)
-	},
-	PostRun: func(cmd *cobra.Command, args []string) {
-		internal.StopSpinner("PR complete!")
 	},
 }
 

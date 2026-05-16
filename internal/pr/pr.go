@@ -2,8 +2,10 @@ package pr
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 	"strconv"
+	"vx/internal"
 	"vx/pkg"
 	"vx/pkg/exe"
 	"vx/pkg/gutils"
@@ -12,12 +14,21 @@ import (
 	"github.com/google/go-github/v62/github"
 )
 
-// github package: "github.com/google/go-github/v62/github"
+var hypeMessages = []string{
+	"You're killin it!",
+	"Is that Spider-Man?!",
+	"Look at you go!",
+	"Sheesh!",
+	"Absolute unit!",
+	"Built different!",
+	"Main character energy!",
+	"We love to see it!",
+	"Different breed!",
+}
 
 func AutoPr(branch string, verbatimNotes string) {
 	initGithubClient()
 	workingBranch := gutils.GetWorkingBranch()
-	// Check if user is on the same branch
 	if branch == workingBranch {
 		fmt.Printf("\nYou are already on '%s'.\n", branch)
 		fmt.Println("Create a new branch before opening a pull request.")
@@ -26,7 +37,6 @@ func AutoPr(branch string, verbatimNotes string) {
 		os.Exit(0)
 		return
 	}
-	// Check total commits made
 	commitTotals := gutils.CalcNumCommit(branch, workingBranch)
 	ct := strconv.Itoa(commitTotals)
 	if commitTotals == 0 {
@@ -35,7 +45,8 @@ func AutoPr(branch string, verbatimNotes string) {
 		os.Exit(0)
 		return
 	}
-	fmt.Printf("You're killing it! 🔥 Calculated %s total changes.\n", ct)
+	hype := hypeMessages[rand.Intn(len(hypeMessages))]
+	fmt.Printf("%s %s total changes.\n", hype, ct)
 	if !gutils.BranchExistsOnRemote(workingBranch) {
 		fmt.Printf("\nBranch '%s' has not been pushed to remote.\n", workingBranch)
 		fmt.Println("Please push your branch before opening a pull request:")
@@ -47,27 +58,26 @@ func AutoPr(branch string, verbatimNotes string) {
 	hasTpl, tpl := hasPRTemplate()
 	var prBody string
 
+	internal.StartSpinner("Generating PR ")
 	if hasTpl {
 		prBody = pkg.GenerateReponse(fmt.Sprintf("Use the following commit messages and PR template %s to summaraize development, use bullet points as well. Each commit log is sperated by a | %s", tpl, logs))
 	} else {
 		prBody = pkg.GenerateReponse(fmt.Sprintf("Use the following commit messages to summaraize development, use bullet points as well. Each commit log is sperated by a | %s", logs))
 	}
+	internal.StopSpinner("PR complete!")
+
 	if verbatimNotes != "" {
 		prBody = verbatimNotes + "\n\n" + prBody
 	}
 	prBody = prBody + "\n\n---\n*Generated with [vexal](https://www.vexal.io)*"
 
 	maintainerCanModify := false
-	// draft := false
-	// issue := 0
 	pullReq := &github.NewPullRequest{
 		Title:               &workingBranch,
 		Head:                github.String(workingBranch),
 		Base:                github.String(branch),
 		Body:                &prBody,
 		MaintainerCanModify: &maintainerCanModify,
-		// Draft:               &draft,
-		// Issue: &issue,
 	}
 	pullRequest, resp, err := gitClient.PullRequests.Create(gitCtx, owner, repo, pullReq)
 	defer resp.Body.Close()
