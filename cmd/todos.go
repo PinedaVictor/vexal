@@ -13,28 +13,20 @@ import (
 var todosCmd = &cobra.Command{
 	Use:   "todos",
 	Short: `Find all "TODO:" comments in your codebase.`,
-	PreRun: func(cmd *cobra.Command, args []string) {
-		internal.PreFeedback(`Finding all "TODO:" comments`)
-	},
 	Run: func(cmd *cobra.Command, args []string) {
+		internal.StartSpinner("Scanning for TODO comments ")
 		scraper.ScrapeTodos()
-	},
-	PostRun: func(cmd *cobra.Command, args []string) {
-		internal.PostFeedback("All done. ✅")
+		internal.StopSpinner("Results saved to todos.md")
 	},
 }
 
 var clearTodos = &cobra.Command{
 	Use:   "clear",
-	Short: "",
-	PreRun: func(cmd *cobra.Command, args []string) {
-		internal.PreFeedback(`Clearing all TODO comments`)
-	},
+	Short: "Remove all TODO comments from your codebase.",
 	Run: func(cmd *cobra.Command, args []string) {
+		internal.StartSpinner("Clearing TODO comments ")
 		scraper.ClearTodos()
-	},
-	PostRun: func(cmd *cobra.Command, args []string) {
-		internal.PostFeedback("All done. ✅")
+		internal.StopSpinner("All TODO comments removed")
 	},
 }
 
