@@ -18,7 +18,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:     "vx",
 	Short:   `vexal.io - Dependency graph, AI tooling, and repo automation for developers and AI agents`,
-	Version: "v1.5.6",
+	Version: "v1.5.7",
 	// Long:    ``,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
@@ -28,7 +28,6 @@ var rootCmd = &cobra.Command{
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
-	defer orbit.Close()
 	err := rootCmd.Execute()
 	if err != nil {
 		os.Exit(1)
