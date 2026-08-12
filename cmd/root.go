@@ -7,12 +7,19 @@ import (
 	"os"
 	"regexp"
 	"strings"
+	"time"
 	"vx/config"
 
 	"github.com/DreamlikeDigital/orbit"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
+
+// telemetryFlushTimeout bounds how long Execute waits for orbit to flush
+// queued analytics before returning. orbit.Close() has no context/deadline
+// of its own and can block indefinitely (this previously hung `vx` commands
+// entirely), so the wait is bounded from the caller side instead.
+const telemetryFlushTimeout = 2 * time.Second
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -29,8 +36,24 @@ var rootCmd = &cobra.Command{
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	err := rootCmd.Execute()
+	flushTelemetry()
 	if err != nil {
 		os.Exit(1)
+	}
+}
+
+// flushTelemetry gives orbit a bounded window to flush queued analytics
+// before the process exits, without risking the terminal hang that an
+// unbounded orbit.Close() caused.
+func flushTelemetry() {
+	done := make(chan struct{})
+	go func() {
+		orbit.Close()
+		close(done)
+	}()
+	select {
+	case <-done:
+	case <-time.After(telemetryFlushTimeout):
 	}
 }
 
