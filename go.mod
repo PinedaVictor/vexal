@@ -6,7 +6,7 @@ require (
 	cloud.google.com/go/secretmanager v1.12.0
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/DreamlikeDigital/orbit v0.0.0-20260512123607-713e30326fdf
-	github.com/PinedaVictor/nyx v0.0.0-20260506141912-acdb24160587
+	github.com/PinedaVictor/nyx v0.0.0-20260817161017-f98f06673a2f
 	github.com/PinedaVictor/pluto v0.0.0-20250505031939-2c4fb1176122
 	github.com/briandowns/spinner v1.23.0
 	github.com/charmbracelet/lipgloss v1.1.0
