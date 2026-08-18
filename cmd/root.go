@@ -25,7 +25,7 @@ const telemetryFlushTimeout = 2 * time.Second
 var rootCmd = &cobra.Command{
 	Use:     "vx",
 	Short:   `vexal.io - Dependency graph, AI tooling, and repo automation for developers and AI agents`,
-	Version: "v1.5.8",
+	Version: "v1.5.9",
 	// Long:    ``,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:

@@ -26,8 +26,8 @@ github.com/DreamlikeDigital/orbit v0.0.0-20260512123607-713e30326fdf h1:BGq+RYj5
 github.com/DreamlikeDigital/orbit v0.0.0-20260512123607-713e30326fdf/go.mod h1:qxqFBcZslFxgEVGzhEKItvMVCHOq8CK9ZoA1syJs0b0=
 github.com/JohnCGriffin/overflow v0.0.0-20211019200055-46fa312c352c h1:RGWPOewvKIROun94nF7v2cua9qP+thov/7M50KEoeSU=
 github.com/JohnCGriffin/overflow v0.0.0-20211019200055-46fa312c352c/go.mod h1:X0CRv0ky0k6m906ixxpzmDRLvX58TFUKS2eePweuyxk=
-github.com/PinedaVictor/nyx v0.0.0-20260506141912-acdb24160587 h1:VRejX9Ly8w7LXjCs4OmpWhKL79SJ2bLvwhZvlYneLKI=
-github.com/PinedaVictor/nyx v0.0.0-20260506141912-acdb24160587/go.mod h1:Cb+2ZdzsVD+3eT6GiyR75a3CUNV0EOwyJbv/9qvS/kM=
+github.com/PinedaVictor/nyx v0.0.0-20260817161017-f98f06673a2f h1:dNpgvtQ/N4k7qtKCfDYufhxLj/H+pwULnxgsJ3id/yo=
+github.com/PinedaVictor/nyx v0.0.0-20260817161017-f98f06673a2f/go.mod h1:CXvv1YbNj0s7DHhUgNDrGx0nFo1mupi90YoWaJjkDs0=
 github.com/PinedaVictor/pluto v0.0.0-20250505031939-2c4fb1176122 h1:tChZ1GT1fbpUyTG3PSGi7XBl56sWXT7MWWUDDjHQyqU=
 github.com/PinedaVictor/pluto v0.0.0-20250505031939-2c4fb1176122/go.mod h1:3bFAtDpo9GiXHmux5jzPwa2VbKGRkZlUjIsnxds442w=
 github.com/andybalholm/brotli v1.1.1 h1:PR2pgnyFznKEugtsUo0xLdDop5SKXd5Qf5ysW+7XdTA=
