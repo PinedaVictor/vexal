@@ -61,7 +61,9 @@ func loadGraph() (*depgraph.Graph, func(), bool) {
 		return nil, nil, false
 	}
 
-	if stale, err := g.Stale(curDir); err == nil && stale.IsStale {
+	if stale, err := g.Stale(curDir); err == nil && stale.SchemaOutdated {
+		internal.UserFeedback("warning: snapshot was built by an older vx and may be inaccurate — run 'vx init' to rebuild")
+	} else if err == nil && stale.IsStale {
 		internal.UserFeedback(fmt.Sprintf("warning: snapshot is stale (%d file(s) changed) — run 'vx init' to rebuild", len(stale.Files)))
 	}
 
