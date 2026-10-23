@@ -3,8 +3,16 @@
   "version": "0.0.0",
   "description": "Linux x64 binary for vexal",
   "license": "BSD-3-Clause",
-  "os": ["linux"],
-  "cpu": ["x64"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PinedaVictor/vexal.git"
+  },
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "x64"
+  ],
   "files": [
     "bin/"
   ]

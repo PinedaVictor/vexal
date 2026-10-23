@@ -140,6 +140,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      id-token: write  # npm trusted publishing (OIDC)
     steps:
       - uses: actions/checkout@v4
         with:
@@ -222,12 +223,11 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'  # npm >= 11.5.1 needed for trusted publishing
           registry-url: 'https://registry.npmjs.org'
 
       - name: Publish npm packages
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           VERSION: ${{ github.ref_name }}
         run: |
           export DARWIN_ARM64_BIN=$(find dist -name "vx" -path "*darwin*arm64*" | head -1)
